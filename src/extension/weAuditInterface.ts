@@ -4,10 +4,20 @@ import { Entry, EntryType, FindingDifficulty, FindingSeverity, FindingType, Loca
 
 const weAuditExtensionId = "trailofbits.weAudit";
 
-class WeAuditNotInstalledError extends Error {
+export class WeAuditNotInstalledError extends Error {
     constructor() {
-        super("Please install the `weAudit` extension to use this feature");
+        super("Please install the `weAudit` VSCode extension to use this feature");
         this.name = "WeAuditNotInstalledError";
+    }
+
+    public showInstallWeAuditVSCodeError(errorMsg: string) {
+        vscode.window.showErrorMessage(`${errorMsg}: ${this.message}.`, "Install weAudit").then((selection) => {
+            if (selection === "Install weAudit") {
+                vscode.commands.executeCommand("workbench.extensions.action.showExtensionsWithIds", [
+                    weAuditExtensionId,
+                ]);
+            }
+        });
     }
 }
 

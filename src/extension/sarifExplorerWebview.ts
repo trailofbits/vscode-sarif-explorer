@@ -21,7 +21,12 @@ import {
 import { SarifFileMetadata, SarifFileWorkspaceData } from "./operations/handleSarifNotes";
 import { getPathLeaf } from "../shared/file";
 import { FilterData } from "../shared/filterData";
-import { getGitHubPermalink, openGithubIssueFromResults, sendBugsToWeAudit } from "./weAuditInterface";
+import {
+    WeAuditNotInstalledError,
+    getGitHubPermalink,
+    openGithubIssueFromResults,
+    sendBugsToWeAudit,
+} from "./weAuditInterface";
 import { ExportedResult, ResultLocation, defaultVSCodeConfig } from "../shared/resultTypes";
 
 export class SarifExplorerWebview {
@@ -423,7 +428,7 @@ export class SarifExplorerWebview {
                         }
                         await this.updateResultPathsToAbsolute(sarifFileMetadata, bug);
                     }
-                    sendBugsToWeAudit(msg.bugs);
+                    await sendBugsToWeAudit(msg.bugs);
                 } catch (err) {
                     const errorMsg = "Failed to send bugs to weAudit";
                     if (err instanceof BaseFolderIsIncorrectError) {
@@ -435,6 +440,8 @@ export class SarifExplorerWebview {
                             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                             bug!.locations.at(0)?.path || "",
                         );
+                    } else if (err instanceof WeAuditNotInstalledError) {
+                        err.showInstallWeAuditVSCodeError(errorMsg);
                     } else {
                         vscode.window.showErrorMessage(`${errorMsg}: ${err}.`);
                     }
@@ -473,6 +480,8 @@ export class SarifExplorerWebview {
                     const errorMsg = "Failed to copy the GitHub permalink with weAudit";
                     if (err instanceof BaseFolderIsIncorrectError) {
                         this.handleBaseFolderIsIncorrectError(err, errorMsg, msg.sarifFilePath, msg.location.path);
+                    } else if (err instanceof WeAuditNotInstalledError) {
+                        err.showInstallWeAuditVSCodeError(errorMsg);
                     } else {
                         vscode.window.showErrorMessage(`${errorMsg}: ${err}.`);
                     }
@@ -504,7 +513,7 @@ export class SarifExplorerWebview {
                         await this.updateResultPathsToAbsolute(sarifFileMetadata, bug);
                     }
 
-                    openGithubIssueFromResults(msg.bugs);
+                    await openGithubIssueFromResults(msg.bugs);
                 } catch (err) {
                     const errorMsg = "Failed to Open Github Issue with weAudit";
                     if (err instanceof BaseFolderIsIncorrectError) {
@@ -516,6 +525,8 @@ export class SarifExplorerWebview {
                             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                             bug!.locations.at(0)?.path || "",
                         );
+                    } else if (err instanceof WeAuditNotInstalledError) {
+                        err.showInstallWeAuditVSCodeError(errorMsg);
                     } else {
                         vscode.window.showErrorMessage(`${errorMsg}: ${err}.`);
                     }
