@@ -9,10 +9,13 @@ concurrency:
     group: ${{ github.head_ref || github.run_id }}
     cancel-in-progress: true
 
+permissions: read-all
+
 jobs:
     lint:
         uses: trailofbits/.github/.github/workflows/lint.yml@v0.1.0
-        # trunk-ignore(checkov/CKV2_GHA_1): Not sure why this was triggering
+        with:
+            type: just
         permissions:
             contents: read
             pull-requests: read
