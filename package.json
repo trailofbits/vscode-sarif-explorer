@@ -1,0 +1,115 @@
+{
+    "name": "sarif-explorer",
+    "displayName": "SARIF Explorer",
+    "description": "SARIF Explorer: Explore static analysis results effectively and enjoyably.",
+    "version": "1.0.0",
+    "publisher": "trailofbits",
+    "author": {
+        "name": "Trail of Bits"
+    },
+    "license": "AGPL-3.0",
+    "homepage": "https://www.trailofbits.com/",
+    "icon": "media/icon.png",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/trailofbits/vscode-sarif-explorer"
+    },
+    "bugs": {
+        "url": "https://github.com/trailofbits/vscode-sarif-explorer/issues"
+    },
+    "categories": [
+        "Visualization",
+        "Other"
+    ],
+    "keywords": [
+        "sarif",
+        "static analysis",
+        "auditing"
+    ],
+    "engines": {
+        "vscode": "^1.78.0"
+    },
+    "activationEvents": [
+        "onLanguage:json",
+        "onStartupFinished"
+    ],
+    "main": "./dist/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "sarif-explorer.showSarifExplorer",
+                "title": "SARIF Explorer: Show SARIF Explorer"
+            },
+            {
+                "command": "sarif-explorer.openSarifFile",
+                "title": "SARIF Explorer: Open SARIF File"
+            },
+            {
+                "command": "sarif-explorer.resetWorkspaceData",
+                "title": "SARIF Explorer: Reset Workspace Data"
+            }
+        ],
+        "configuration": [
+            {
+                "id": "general",
+                "title": "General Settings",
+                "order": 1,
+                "properties": {
+                    "sarif-explorer.showFullPathInResultsTable": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Show the full path of a result in SARIF Explorer's result table."
+                    }
+                }
+            }
+        ],
+        "languages": [
+            {
+                "id": "json",
+                "extensions": [
+                    ".sarif"
+                ]
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run package",
+        "vscode:package": "vsce package",
+        "compile": "webpack --mode development",
+        "watch": "webpack --mode development --watch",
+        "package": "webpack --mode production --devtool hidden-source-map",
+        "compile-tests": "tsc -p . --outDir out",
+        "watch-tests": "tsc -p . -w --outDir out",
+        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "lint": "eslint --ext ts ./src",
+        "prettify": "prettier . --write",
+        "test": "node ./out/test/runTest.js"
+    },
+    "devDependencies": {
+        "@types/glob": "^8.0.0",
+        "@types/mocha": "^10.0.1",
+        "@types/node": "^18.11.18",
+        "@types/vscode": "^1.74.0",
+        "@types/webpack": "^5.28.0",
+        "@typescript-eslint/eslint-plugin": "^5.47.1",
+        "@typescript-eslint/parser": "^5.47.1",
+        "@vscode/test-electron": "^2.2.1",
+        "@vscode/vsce": "^2.20.1",
+        "css-loader": "^6.8.1",
+        "eslint": "^8.30.0",
+        "glob": "^8.0.3",
+        "mocha": "^10.2.0",
+        "prettier": "^2.8.1",
+        "sass": "^1.57.1",
+        "sass-loader": "^13.2.0",
+        "style-loader": "^3.3.1",
+        "ts-loader": "^9.4.2",
+        "ts-node": "^10.9.1",
+        "typescript": "^4.9.4",
+        "webpack": "^5.75.0",
+        "webpack-cli": "^5.0.1"
+    },
+    "dependencies": {
+        "@vscode/codicons": "0.0.32"
+    }
+}

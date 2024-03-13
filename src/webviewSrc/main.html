@@ -1,0 +1,195 @@
+<div
+    id="loadOverlay"
+    style="
+        background-color: var(--vscode-editor-background);
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 2000;
+    "
+></div>
+
+<div class="topBar">
+    <div class="tabBar">
+        <button id="resultsTabButton" class="tabLink">Results</button>
+        <button id="sarifFilesTabButton" class="tabLink">SARIF files</button>
+    </div>
+
+    <div class="filterBar">
+        <div class="filterBarContainer">
+            <div class="keywordFilterAndMenuButtonContainer">
+                <input id="keywordFilter" class="inputArea" type="text" placeholder="Filter by Keyword" />
+                <div id="filterMenuButton" class="smallButton codicon codicon-filter" title="Open filter menu"></div>
+                <div
+                    id="refreshFilterMenuButton"
+                    class="smallButton codicon codicon-refresh"
+                    title="Re-apply filters and sorting"
+                ></div>
+            </div>
+            <div id="filterMenu" class="hidden">
+                <label class="filterTopLabel">Include Paths Containing:</label>
+                <input id="includePathsFilter" class="inputArea" type="text" placeholder="e.g., lib1, lib2" />
+
+                <label class="filterLabel">Exclude Paths Containing:</label>
+                <input id="excludePathsFilter" class="inputArea" type="text" placeholder="e.g., lib3, lib4" />
+
+                <!-- Hidden because we just use the eye button and this is a better method than this list -->
+                <label class="hidden filterLabel">Exclude Rules:</label>
+                <input
+                    id="excludeRulesFilter"
+                    class="hidden inputArea"
+                    type="text"
+                    placeholder="e.g., ruleid_1, ruleid_2"
+                />
+
+                <!-- Hidden because we just use the eye button and this is a better method than this list -->
+                <label class="hidden filterLabel">Exclude SARIF Files:</label>
+                <input
+                    id="excludeSarifFilesFilter"
+                    class="hidden inputArea"
+                    type="text"
+                    placeholder="e.g., sarif_path_1, sarif_path_2"
+                />
+
+                <label class="filterLabel">Level:</label>
+                <input type="checkbox" id="filterLevelError" value="error" checked />error<br />
+                <input type="checkbox" id="filterLevelWarning" value="warning" checked />warning<br />
+                <input type="checkbox" id="filterLevelNote" value="note" checked />note<br />
+                <input type="checkbox" id="filterLevelNone" value="none" checked />none<br />
+
+                <label class="filterLabel">Status:</label>
+                <input type="checkbox" id="filterStatusTodo" value="todo" checked />Todo<br />
+                <input type="checkbox" id="filterStatusBug" value="bug" checked />Bug<br />
+                <input type="checkbox" id="filterStatusFalsePositive" value="falsePositive" checked />False Positive<br />
+            </div>
+        </div>
+        <div id="openNewSarifFileButton" class="smallButton codicon codicon-folder" title="Open SARIF files"></div>
+        <div id="closeAllRowsButton" class="smallButton codicon codicon-collapse-all" title="Collapse all rules"></div>
+        <div
+            id="sendBugsToWeAuditButton"
+            class="smallButton codicon codicon-repo-push"
+            title="Send all results marked as BUG to weAudit"
+        ></div>
+    </div>
+</div>
+
+<!-- The button that allows the user to open SARIF files when no SARIF files have been opened yet -->
+<div id="noFilesOpenedContainer" class="">
+    <div id="noFilesOpenedButton">Open SARIF files</div>
+</div>
+
+<div id="resultsTab" class="tabContent hidden">
+    <div class="verticalResizableContainer">
+        <div id="resultsPanel" class="panel">
+            <!-- Results table -->
+            <table id="resultsTable" class="mainTable" rules="none">
+                <thead>
+                    <tr>
+                        <th class="iconCell">
+                            <div class="resultsTableStatusIcon"></div>
+                        </th>
+                        <th class="statusCell">
+                            <div class="resultsTableHeader">
+                                <div class="codicon codicon-checklist"></div>
+                                <div class="resultsTableStatusIcon"></div>
+                            </div>
+                        </th>
+                        <th class="resultPathCell">
+                            <div class="resultsTableHeader">
+                                <span>File</span>
+                                <div class="resultsTableStatusIcon"></div>
+                            </div>
+                        </th>
+                        <th class="resultMessageCell">
+                            <div class="resultsTableHeader">
+                                <span>Message</span>
+                                <div class="resultsTableStatusIcon"></div>
+                            </div>
+                        </th>
+                        <!-- Keeping this in case we want them in the future and because it makes it easier for sorting -->
+                        <th hidden>
+                            <div class="resultsTableHeader">
+                                <span>Line</span>
+                                <div class="resultsTableStatusIcon"></div>
+                            </div>
+                        </th>
+                        <th hidden>
+                            <div class="resultsTableHeader">
+                                <span>RuleID</span>
+                                <div class="resultsTableStatusIcon"></div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Where the results will be added -->
+                </tbody>
+
+                <!-- The context menu that is added each time a user right-clicks a result -->
+                <!-- <div id="resultContextMenu" class="invisible">
+                    <div id="resultContextMenuMarkRuleAsFalsePositive" class="resultContextMenuItem">
+                        Mark all 'X' as FALSE POSITIVE
+                    </div>
+                    <div id="resultContextMenuExportAsGitHubIssue" class="resultContextMenuItem">
+                        Export result as GitHub issue
+                    </div>
+                </div> -->
+            </table>
+        </div>
+
+        <div class="verticalResizableDivider">
+            <div class="verticalResizableDividerVisible"></div>
+        </div>
+
+        <div id="resultDetailsPanel" class="panel">
+            <div id="resultDetailsButtons">
+                <!-- Where the buttons will be added -->
+            </div>
+
+            <div id="resultDetailsSummary">
+                <!-- Where the result description will be added -->
+            </div>
+
+            <table class="detailsTable" rules="none">
+                <tbody id="resultDetailsTableBody">
+                    <!-- Where the result details will be added -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="sarifFilesTab" class="tabContent hidden">
+    <div class="verticalResizableContainer">
+        <div id="sarifFileListPanel" class="panel">
+            <!-- SARIF files table -->
+            <table id="sarifFileTable" class="mainTable" rules="none">
+                <tbody id="sarifFileTableBody">
+                    <!-- Where the SARIF file details will be added -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="verticalResizableDivider">
+            <div class="verticalResizableDividerVisible"></div>
+        </div>
+
+        <div id="sarifFileListDetailsPanel" class="panel">
+            <div id="sarifFileDetailsButtons">
+                <!-- Where the buttons will be added -->
+            </div>
+
+            <div id="sarifFileDetailsSummary">
+                <!-- Where the SARIF description will be added -->
+            </div>
+
+            <table class="detailsTable" rules="none">
+                <tbody id="sarifFileDetailsTableBody">
+                    <!-- Where the SARIF details will be added -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

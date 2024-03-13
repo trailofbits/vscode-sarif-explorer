@@ -1,0 +1,19 @@
+name: Lint
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+concurrency:
+    group: ${{ github.head_ref || github.run_id }}
+    cancel-in-progress: true
+
+jobs:
+    lint:
+        uses: trailofbits/.github/.github/workflows/lint.yml@v0.1.0
+        # trunk-ignore(checkov/CKV2_GHA_1): Not sure why this was triggering
+        permissions:
+            contents: read
+            pull-requests: read
+            checks: write

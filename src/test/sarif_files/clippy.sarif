@@ -1,0 +1,167 @@
+{
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/user/.rustup/toolchains/nightly-2022-11-21-aarch64-apple-darwin/lib/rustlib/src/rust/compiler/rustc_lint_defs/src/lib.rs"
+                },
+                "region": {
+                  "byteLength": 17,
+                  "byteOffset": 26445,
+                  "endColumn": 59,
+                  "endLine": 750,
+                  "startColumn": 42,
+                  "startLine": 750
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "the name `SideEffectOnVec` is defined multiple times"
+          },
+          "ruleId": "E0428",
+          "ruleIndex": 0
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/lib.rs"
+                },
+                "region": {
+                  "byteLength": 26,
+                  "byteOffset": 1556,
+                  "endColumn": 27,
+                  "endLine": 48,
+                  "startColumn": 1,
+                  "startLine": 48
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "the name `SideEffectOnVec` is defined multiple times"
+          },
+          "ruleId": "E0428",
+          "ruleIndex": 0
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/lib.rs"
+                },
+                "region": {
+                  "byteLength": 4,
+                  "byteOffset": 267,
+                  "endColumn": 37,
+                  "endLine": 11,
+                  "startColumn": 33,
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "unresolved import `clippy_utils::msrvs::Msrv`"
+          },
+          "ruleId": "E0432",
+          "ruleIndex": 1
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/user/.cargo/registry/src/github.com-1ecc6299db9ec823/dylint_linting-2.1.1/src/lib.rs"
+                },
+                "region": {
+                  "byteLength": 15,
+                  "byteOffset": 2206,
+                  "endColumn": 28,
+                  "endLine": 75,
+                  "startColumn": 13,
+                  "startLine": 75
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "the trait bound `SideEffectOnVec: rustc_lint::LateLintPass<'_>` is not satisfied"
+          },
+          "ruleId": "E0277",
+          "ruleIndex": 2
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/lib.rs"
+                },
+                "region": {
+                  "byteLength": 23,
+                  "byteOffset": 59,
+                  "endColumn": 24,
+                  "endLine": 4,
+                  "startColumn": 1,
+                  "startLine": 4
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "unused extern crate"
+          },
+          "ruleId": "unused_extern_crates",
+          "ruleIndex": 3
+        }
+      ],
+      "tool": {
+        "driver": {
+          "informationUri": "https://rust-lang.github.io/rust-clippy/",
+          "name": "clippy",
+          "rules": [
+            {
+              "fullDescription": {
+                "text": "`SideEffectOnVec` must be defined only once in the type namespace of this module\n"
+              },
+              "id": "E0428"
+            },
+            {
+              "fullDescription": {
+                "text": ""
+              },
+              "id": "E0432"
+            },
+            {
+              "fullDescription": {
+                "text": "the following other types implement trait `rustc_lint::LateLintPass<'tcx>`:\n  <SideEffectOnVec as rustc_lint::LateLintPass<'tcx>>\n  <rustc_lint::BuiltinCombinedLateLintPass as rustc_lint::LateLintPass<'tcx>>\n  <rustc_lint::array_into_iter::ArrayIntoIter as rustc_lint::LateLintPass<'tcx>>\n  <rustc_lint::builtin::BoxPointers as rustc_lint::LateLintPass<'tcx>>\n  <rustc_lint::builtin::ClashingExternDeclarations as rustc_lint::LateLintPass<'tcx>>\n  <rustc_lint::builtin::DerefNullPtr as rustc_lint::LateLintPass<'tcx>>\n  <rustc_lint::builtin::ExplicitOutlivesRequirements as rustc_lint::LateLintPass<'tcx>>\n  <rustc_lint::builtin::HardwiredLints as rustc_lint::LateLintPass<'_>>\nand 39 others\nrequired for the cast from `SideEffectOnVec` to the object type `dyn rustc_lint::LateLintPass<'_> + rustc_data_structures::sync::Send`\n"
+              },
+              "id": "E0277"
+            },
+            {
+              "fullDescription": {
+                "text": ""
+              },
+              "id": "unused_extern_crates"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

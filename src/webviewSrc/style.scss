@@ -1,0 +1,514 @@
+@import url("../../node_modules/@vscode/codicons/dist/codicon.css");
+
+// top | right | bottom | left
+$panel-padding: 5px 5px 10px 10px;
+
+html {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+}
+
+body {
+    padding: 0;
+    height: 100%;
+}
+
+textarea {
+    color: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+}
+
+.hidden {
+    display: none !important;
+}
+
+// Do not replace this with just ".hidden". It will fail to properly show the button when no files are opened
+.hidden_tab {
+    display: none !important;
+}
+
+.invisible {
+    visibility: hidden !important;
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.ellipsis-beginning {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    direction: rtl;
+}
+
+.wordBreakAll {
+    word-break: break-all;
+}
+
+.smallButton {
+    padding: 2px;
+}
+
+.smallButton:hover {
+    background-color: var(--vscode-toolbar-hoverBackground);
+    cursor: pointer;
+}
+
+.panel {
+    padding: $panel-padding;
+    overflow-y: scroll;
+}
+
+.secondaryText {
+    color: var(--vscode-descriptionForeground);
+}
+
+.countBadge {
+    padding: 3px 6px;
+    border-radius: 11px;
+    font-size: 11px;
+    // min-width: 18px;
+    // min-height: 18px;
+    line-height: 11px;
+    font-weight: 400;
+    text-align: center;
+    background-color: var(--vscode-badge-background);
+    color: var(--vscode-badge-foreground);
+    border: 1px solid var(--vscode-contrastBorder);
+}
+
+.rowButton {
+    padding: 2px;
+    border-radius: 1px;
+}
+
+.rowButton:hover {
+    background-color: var(--vscode-inputOption-hoverBackground);
+    cursor: pointer;
+}
+
+.rowButtonDivider {
+    border-left: 1px solid var(--vscode-foreground);
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.warningIcon {
+    color: var(--vscode-editorWarning-foreground);
+}
+
+.errorIcon {
+    color: var(--vscode-editorError-foreground);
+}
+
+.noteIcon {
+    color: var(--vscode-editorInfo-foreground);
+}
+
+.noneIcon {
+    color: var(--vscode-editor-foreground);
+}
+
+.todoStatusIcon {
+    color: var(--vscode-editor-foreground);
+}
+
+.falsePositiveStatusIcon {
+    color: var(--vscode-testing-iconPassed);
+}
+
+.bugStatusIcon {
+    color: var(--vscode-editorError-foreground);
+}
+
+.currentStatus {
+    text-decoration: underline !important;
+}
+
+.inputArea {
+    width: 95%;
+    box-sizing: border-box;
+    border: 1px;
+    border-radius: 2px;
+    background-color: var(--vscode-input-background);
+    color: var(--vscode-input-foreground);
+}
+
+.inputArea:focus {
+    outline: 1px solid var(--vscode-focusBorder);
+}
+
+.tabContent {
+    // This -50px is to account for the tabBar that might otherwise make the html element overflow and display a scrollbar
+    height: calc(100% - 50px);
+}
+
+.verticalResizableContainer {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+.verticalResizableDivider {
+    width: 100%;
+    cursor: row-resize;
+    // This padding increases the clickable area of the divider
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    .verticalResizableDividerVisible {
+        background-color: var(--vscode-menu-separatorBackground);
+        height: 1px;
+    }
+}
+
+$table_border: 0px solid red;
+table {
+    width: 100%;
+
+    text-align: left;
+
+    th,
+    td {
+        padding: 5px;
+        border: $table_border;
+    }
+
+    tbody {
+        margin-top: 40px;
+    }
+
+    border: $table_border;
+}
+
+.mainTable {
+    width: 100%;
+    table-layout: fixed;
+
+    thead th:not(.iconCell):hover,
+    tbody tr:hover {
+        background-color: var(--vscode-list-hoverBackground);
+        cursor: pointer;
+    }
+
+    tbody {
+        // A row that is selected
+        tr.selectedRow {
+            background-color: var(--vscode-list-activeSelectionBackground);
+            color: var(--vscode-list-activeSelectionForeground);
+        }
+
+        // Cells with button that disappear when the row is not hovered or selected
+        .cellWithButtons {
+            display: flex;
+            justify-content: space-between;
+
+            padding-top: 3px;
+            padding-bottom: 0px;
+        }
+
+        .cellWithButtonsContent {
+            @extend .ellipsis;
+            padding: 2px;
+        }
+
+        .rowButtons {
+            display: none;
+        }
+
+        tr:hover .rowButtons, // When the row is hovered
+        tr.selectedRow .rowButtons // When the row is selected
+        {
+            display: flex;
+        }
+
+        .filteredOutRow {
+            .iconCell,
+            .cellWithButtonsContent {
+                opacity: 0.4;
+            }
+        }
+
+        .filteredOutRowNoClick:hover {
+            cursor: default;
+        }
+    }
+}
+
+.mainTable:focus {
+    outline: 0;
+}
+
+// Style the top navigation and filtering bar
+.topBar {
+    display: flex;
+    flex-direction: row;
+
+    // This ensures that the filterBar is as far to the right as possible
+    justify-content: space-between;
+
+    .tabBar {
+        // Style the buttons that are used to open the tab content
+        .tabLink {
+            color: var(--vscode-editor-foreground);
+            background-color: var(--vscode-editor-background);
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 7px 8px;
+            transition: 0.1s;
+            border: 1px solid var(--vscode-tab-border);
+        }
+
+        // Change background color of buttons on hover
+        .tabLink:hover {
+            background-color: var(--vscode-list-hoverBackground);
+        }
+
+        // Create an active/current tabLink class
+        .tabLink.active {
+            border-bottom: 1px solid transparent;
+        }
+    }
+
+    $filter-bar-size: 200px;
+    $filter-menu-side-padding: 5px;
+    .filterBar {
+        align-self: center;
+        display: flex;
+
+        .filterBarContainer {
+            width: $filter-bar-size;
+            padding-right: 5px;
+
+            .keywordFilterAndMenuButtonContainer {
+                width: 100%;
+                display: flex;
+                background-color: var(--vscode-input-background);
+            }
+        }
+
+        #filterMenu {
+            width: $filter-bar-size - (2 * $filter-menu-side-padding);
+            position: absolute;
+            z-index: 1;
+
+            background: var(--vscode-menu-background);
+            box-shadow: var(--vscode-widget-shadow) 0px 0px 8px;
+            padding: $filter-menu-side-padding;
+            padding-top: 0px;
+            color: var(--vscode-foreground);
+
+            .filterTopLabel {
+                padding-top: 5px;
+                display: block;
+            }
+
+            .filterLabel {
+                padding-top: 10px;
+                display: block;
+            }
+        }
+    }
+}
+
+#resultsPanel {
+    #resultsTable {
+        .resultsTableStatusIcon {
+            margin-top: 2px;
+            margin-bottom: -2px;
+        }
+
+        .resultsTableHeader {
+            display: flex;
+        }
+
+        .cellContainer {
+            display: flex;
+            align-items: center;
+
+            div {
+                margin-right: 0.2em;
+            }
+        }
+
+        .statusCellContainer {
+            justify-content: right;
+        }
+
+        .iconCell {
+            width: 1.2em;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .statusCell {
+            width: 2.5em;
+            padding-right: 0;
+        }
+
+        .resultPathCell {
+            @extend .ellipsis-beginning;
+            width: 25%;
+        }
+
+        .ruleNameCell {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .resultMessageCell {
+            @extend .ellipsis;
+        }
+
+        .filteredResultsSummary {
+            @extend .secondaryText;
+            font-size: smaller;
+        }
+
+        tr.selectedRow {
+            outline: 1px solid var(--vscode-list-focusOutline);
+            outline-offset: -1px;
+        }
+    }
+
+    #resultContextMenu {
+        position: fixed;
+        z-index: 10000;
+        width: 350px;
+
+        // Color not quite right. #322a2a is better
+        background: var(--vscode-checkbox-background);
+
+        // Color not quite right. #6e6e6e is better
+        outline: 1px solid var(--vscode-checkbox-border); // #6e6e6e;
+        outline-offset: -1px;
+
+        box-shadow: 1px;
+
+        font-size: 13px;
+
+        padding: 5px;
+        border-radius: 5px;
+
+        .resultContextMenuItem {
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .resultContextMenuItem:hover {
+            // Color not quite right. #0176e0 is better
+            background: var(--vscode-button-background);
+        }
+    }
+}
+
+.detailsTable {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.detailValueContainer {
+    display: flex;
+
+    span {
+        margin-right: 0.2em;
+    }
+}
+
+.detailValue {
+    vertical-align: top;
+    text-align: left;
+    font-weight: normal;
+    padding-left: 5px;
+}
+
+.detailKey {
+    vertical-align: top;
+    text-align: right;
+    font-weight: lighter;
+    width: 75px;
+}
+
+.detailTableKey {
+    vertical-align: top;
+    text-align: right;
+    font-weight: normal;
+    width: 50px;
+}
+
+.detailTableRow:focus {
+    outline: 1px solid var(--vscode-list-focusOutline);
+    outline-offset: -1px;
+    background-color: var(--vscode-list-activeSelectionBackground) !important;
+    color: var(--vscode-list-activeSelectionForeground);
+}
+
+.detailEditableTextArea {
+    width: 100%;
+    resize: vertical;
+}
+
+#resultDetailsPanel {
+    .rowButtons {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    #resultDetailsButtons {
+        // top | right | bottom | left
+        padding: 5px 5px 10px 5px;
+    }
+}
+
+// style the log tab
+#sarifFileListPanel {
+    #sarifFileTableBody {
+        .fakeCell {
+            width: 0px;
+            overflow: hidden;
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+    }
+}
+
+#noFilesOpenedContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 20px;
+
+    #noFilesOpenedButton {
+        width: 100%;
+        max-width: 300px;
+        line-height: 18px;
+        padding: 4px;
+        border-radius: 2px;
+        border: 1px solid var(--vscode-button-border, transparent);
+        text-align: center;
+        cursor: pointer;
+        color: var(--vscode-button-foreground);
+        background-color: var(--vscode-button-background);
+    }
+
+    #noFilesOpenedButton:hover {
+        background-color: var(--vscode-button-hoverBackground);
+    }
+}
+
+// ====================
+// Remove the overlay once the CSS has loaded
+// Keep this at the bottom of the CSS file
+#loadOverlay {
+    display: none;
+}

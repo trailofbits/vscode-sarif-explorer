@@ -1,0 +1,97 @@
+{
+  "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/schemas/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "toolExecutionNotifications": []
+        }
+      ],
+      "results": [
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "d929c0da098caacf26b02271f6c9acff7641351e723956cce52c67928de450aa98c5fef0974f2a43e6d0bef936e90f1ccf89cc987f8d3ada4e0824b337024067_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/extension/sarifViewerWebview.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 119,
+                  "endLine": 137,
+                  "snippet": {
+                    "text": "        const newResultsBaseFolder = await openCodeRegion(msg.resultFilePath, msg.resultRegion, msg.resultsBaseFolder);"
+                  },
+                  "startColumn": 9,
+                  "startLine": 137
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "openCodeRegion is deprecated"
+          },
+          "ruleId": "src.test.open-code-region"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "ab473d16c2c95190e2b0cd1278d4406bcc2ebe27a46eecde33a1978c0b09e5f76771646aa46b966d9d2b5b8678428674ee7f424eba048a2c592395bbf9754c6d_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/webviewSrc/result/resultsTableWidget.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 61,
+                  "endLine": 143,
+                  "snippet": {
+                    "text": "        sarifFile.openCodeRegion(filePath, location.region);"
+                  },
+                  "startColumn": 9,
+                  "startLine": 143
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "openCodeRegion is deprecated"
+          },
+          "ruleId": "src.test.open-code-region"
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "semgrep",
+          "rules": [
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "openCodeRegion is deprecated"
+              },
+              "id": "src.test.open-code-region",
+              "name": "src.test.open-code-region",
+              "properties": {
+                "precision": "very-high",
+                "tags": []
+              },
+              "shortDescription": {
+                "text": "openCodeRegion is deprecated"
+              }
+            }
+          ],
+          "semanticVersion": "1.0.0"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

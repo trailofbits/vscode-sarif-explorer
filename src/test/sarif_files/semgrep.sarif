@@ -1,0 +1,2083 @@
+{
+  "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/schemas/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "toolExecutionNotifications": []
+        }
+      ],
+      "results": [
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "9d3ed5b7f73187c02564fe94eaaffdd86189ef655b3bd669f803823075a0f7414d6359e95040f150b3160b46ccee68d51ab212a18a8b202bfc61b4a35df9b709_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cmd/go/internal/web/http.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 4,
+                  "endLine": 40,
+                  "snippet": {
+                    "text": "\t\tTLSClientConfig: &tls.Config{\n\t\t\tInsecureSkipVerify: true,\n\t\t},"
+                  },
+                  "startColumn": 21,
+                  "startLine": 38
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "`MinVersion` is missing from this TLS configuration. The default value is TLS1.0 which is considered insecure. Explicitly set the `MinVersion` to a secure version of TLS, such as `VersionTLS13`."
+          },
+          "ruleId": "go.lang.security.audit.crypto.missing-ssl-minversion.missing-ssl-minversion"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "19f1b5cbdad4082bf8056a9ea1b35e1d9dd1c706c326379dc490863088e128924184e5001bd97fa66992901259b65f9a8088401a4e45c61371913eb0f5103edc_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cmd/pprof/pprof.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 4,
+                  "endLine": 71,
+                  "snippet": {
+                    "text": "\t\ttlsConfig = &tls.Config{\n\t\t\tInsecureSkipVerify: true,\n\t\t}"
+                  },
+                  "startColumn": 16,
+                  "startLine": 69
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "`MinVersion` is missing from this TLS configuration. The default value is TLS1.0 which is considered insecure. Explicitly set the `MinVersion` to a secure version of TLS, such as `VersionTLS13`."
+          },
+          "ruleId": "go.lang.security.audit.crypto.missing-ssl-minversion.missing-ssl-minversion"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "0927ce618d801a17dbd2353fcd465237bf86bf13d0de8588bb8d32711e8e148216bdce62039969227dd952656ad55eea860979fc1ab849c27259155c583c189c_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/net/http/httptest/server.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 4,
+                  "endLine": 179,
+                  "snippet": {
+                    "text": "\t\tTLSClientConfig: &tls.Config{\n\t\t\tRootCAs: certpool,\n\t\t},"
+                  },
+                  "startColumn": 21,
+                  "startLine": 177
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "`MinVersion` is missing from this TLS configuration. The default value is TLS1.0 which is considered insecure. Explicitly set the `MinVersion` to a secure version of TLS, such as `VersionTLS13`."
+          },
+          "ruleId": "go.lang.security.audit.crypto.missing-ssl-minversion.missing-ssl-minversion"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "64db7a3235c56af488e2167c41f49caaba7bd380ac97c3c3860094684ed5628dca63423c6ef753740c42050eb7b2e88487b892131a128fe819c903cdde9af8f4_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/net/http/transport.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 23,
+                  "endLine": 2863,
+                  "snippet": {
+                    "text": "\t\treturn &tls.Config{}"
+                  },
+                  "startColumn": 11,
+                  "startLine": 2863
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "`MinVersion` is missing from this TLS configuration. The default value is TLS1.0 which is considered insecure. Explicitly set the `MinVersion` to a secure version of TLS, such as `VersionTLS13`."
+          },
+          "ruleId": "go.lang.security.audit.crypto.missing-ssl-minversion.missing-ssl-minversion"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "79d69f648d7f51d18589d4ab62e229e649398c8f3018b7eaf02e0cffa2ca5d16824bfed34b1ee31c26c6d3fe29954640d3002717795ee18bb83594fb0960c4da_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/net/smtp/smtp.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 50,
+                  "endLine": 339,
+                  "snippet": {
+                    "text": "\t\tconfig := &tls.Config{ServerName: c.serverName}"
+                  },
+                  "startColumn": 14,
+                  "startLine": 339
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "`MinVersion` is missing from this TLS configuration. The default value is TLS1.0 which is considered insecure. Explicitly set the `MinVersion` to a secure version of TLS, such as `VersionTLS13`."
+          },
+          "ruleId": "go.lang.security.audit.crypto.missing-ssl-minversion.missing-ssl-minversion"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "d2d495e96744a0921c8ffcff82796145e5cc3edab71baee24212033e0a9e0e5b7a680c97dc98cb3432ef90f22a156157cb4996d0663f31788a041016617763c4_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/key_agreement.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 19,
+                  "endLine": 118,
+                  "snippet": {
+                    "text": "\thmd5 := md5.New()"
+                  },
+                  "startColumn": 10,
+                  "startLine": 118
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-md5"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "7cff488c05afe780f15bd1b43422bd31370f72493eedd1d493a9e78697a6bc5023566a3900198e4d4326897f4ed8663de5b50adde34b06ef28ff9110e0ddec8b_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/prf.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 55,
+                  "endLine": 154,
+                  "snippet": {
+                    "text": "\treturn finishedHash{sha1.New(), sha1.New(), md5.New(), md5.New(), buffer, version, prf}"
+                  },
+                  "startColumn": 46,
+                  "startLine": 154
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-md5"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "7cff488c05afe780f15bd1b43422bd31370f72493eedd1d493a9e78697a6bc5023566a3900198e4d4326897f4ed8663de5b50adde34b06ef28ff9110e0ddec8b_1"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/prf.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 66,
+                  "endLine": 154,
+                  "snippet": {
+                    "text": "\treturn finishedHash{sha1.New(), sha1.New(), md5.New(), md5.New(), buffer, version, prf}"
+                  },
+                  "startColumn": 57,
+                  "startLine": 154
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-md5"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "1ace11220328005590bc10082779cc56aeb9e4605f06804709f50ec1f76b3207548acd2b27b3f193bcfedb6a5c4a0658b2152031e0a3ecc814797a5a25c73ada_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/x509/pem_decrypt.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 19,
+                  "endLine": 83,
+                  "snippet": {
+                    "text": "\thash := md5.New()"
+                  },
+                  "startColumn": 10,
+                  "startLine": 83
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-md5"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "068295f4462cc541cab8bc399dec777adb1e1f7f6bbcf586ef74929c0d76467042ba29883406f5326be8c7c2204fcce7d17e35a332274685c8ae7efebaf720e0_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/internal/pkgbits/encoder.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 16,
+                  "endLine": 35,
+                  "snippet": {
+                    "text": "\th := md5.New()"
+                  },
+                  "startColumn": 7,
+                  "startLine": 35
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-md5"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "d6aa43e306a081a40b418b4a5aaa880820ca5addab56c11988a2bf1e67af2d72801df602474c0f24c551128184a6d1673defbc14f0c5df59e054a92fd931130d_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cmd/go/internal/work/gc.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 17,
+                  "endLine": 587,
+                  "snippet": {
+                    "text": "\th := sha1.New()"
+                  },
+                  "startColumn": 7,
+                  "startLine": 587
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-sha1"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "383fb8f188a1c44141a926e499520e8cda7e8ec71a34dd3fae202fe4e0211580692bfa4ef34aef714e46fe22ce09ad22104356088938ef7a6c255bc38c720fbf_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/key_agreement.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 21,
+                  "endLine": 107,
+                  "snippet": {
+                    "text": "\thsha1 := sha1.New()"
+                  },
+                  "startColumn": 11,
+                  "startLine": 107
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-sha1"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "7f108ac3209cc7217eba7b735b1b45fc78014e1ddd43552c78b890546d9a06855b19bf3e0e713be82332ff07f180e89c9d83945ab2b69db84cb37d3e109b1209_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/prf.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 32,
+                  "endLine": 154,
+                  "snippet": {
+                    "text": "\treturn finishedHash{sha1.New(), sha1.New(), md5.New(), md5.New(), buffer, version, prf}"
+                  },
+                  "startColumn": 22,
+                  "startLine": 154
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-sha1"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "7f108ac3209cc7217eba7b735b1b45fc78014e1ddd43552c78b890546d9a06855b19bf3e0e713be82332ff07f180e89c9d83945ab2b69db84cb37d3e109b1209_1"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/prf.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 44,
+                  "endLine": 154,
+                  "snippet": {
+                    "text": "\treturn finishedHash{sha1.New(), sha1.New(), md5.New(), md5.New(), buffer, version, prf}"
+                  },
+                  "startColumn": 34,
+                  "startLine": 154
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-sha1"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "2033a776be1a7a74dbc35f67e0d5e4e41f3d484864f2679fc63fe29f9eb089fbad9558f25e540c01f01a548d3863df0548004cc238982c774d9c0d6d13957da8_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/x509/x509.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 32,
+                  "endLine": 1525,
+                  "snippet": {
+                    "text": "\t\th := sha1.Sum(publicKeyBytes)"
+                  },
+                  "startColumn": 8,
+                  "startLine": 1525
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-sha1"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "6b2339af72a245d259c88a84a48877035884097b7c8603138001748f94c7d4b5dec90dc752e52f37c7fda940937ced5e88cdba0a85c193096030fafa500c9d2b_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/cipher_suites.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 41,
+                  "endLine": 409,
+                  "snippet": {
+                    "text": "\tblock, _ := des.NewTripleDESCipher(key)"
+                  },
+                  "startColumn": 14,
+                  "startLine": 409
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected DES cipher algorithm which is insecure. The algorithm is considered weak and has been deprecated. Use AES instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-DES"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "5c6ddd8b56a8e2b76d236d0229e9dd27c2492dbe3d33d22a2a1d9d49e3af03eacf04d45f1fabe1d0e5cd7bdfbd06c7aa8b558d326c447889d0b8fbefa56b1d50_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/cipher_suites.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 33,
+                  "endLine": 404,
+                  "snippet": {
+                    "text": "\tcipher, _ := rc4.NewCipher(key)"
+                  },
+                  "startColumn": 15,
+                  "startLine": 404
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected RC4 cipher algorithm which is insecure. The algorithm has many known vulnerabilities. Use AES instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-rc4"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "db77920e8f7c2e3c55f89c65392627387572844e0614917543c9dcdbbaf3e63de8c53ec6433bc4cd7b8c2f473230f41390a1c7b2103d27afbd0f7ecd4c34e38d_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/net/http/triv.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 46,
+                  "endLine": 137,
+                  "snippet": {
+                    "text": "\tlog.Fatal(http.ListenAndServe(\":12345\", nil))"
+                  },
+                  "startColumn": 12,
+                  "startLine": 137
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Found an HTTP server without TLS. Use 'http.ListenAndServeTLS' instead. See https://golang.org/pkg/net/http/#ListenAndServeTLS for more information."
+          },
+          "ruleId": "go.lang.security.audit.net.use-tls.use-tls"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "b0d380d599d47a449f7da2efc8428ff258b8a9f89a767894071de8629c0f79154abbd5501790f05f7ce352782dff37b185ca2329dbbb36b916b011a1ba0c1fd6_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cmd/trace/annotations.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 88,
+                  "endLine": 1180,
+                  "snippet": {
+                    "text": "\t\treturn template.HTML(fmt.Sprintf(\"(%.1f%%)\", float64(dividend)/float64(divisor)*100))"
+                  },
+                  "startColumn": 10,
+                  "startLine": 1180
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Found a formatted template string passed to 'template.HTML()'.  'template.HTML()' does not escape contents.  Be absolutely sure there is no user-controlled data in this template.  If user data can reach this template, you may have a XSS vulnerability."
+          },
+          "ruleId": "go.lang.security.audit.net.formatted-template-string.formatted-template-string"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "b0d380d599d47a449f7da2efc8428ff258b8a9f89a767894071de8629c0f79154abbd5501790f05f7ce352782dff37b185ca2329dbbb36b916b011a1ba0c1fd6_1"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cmd/trace/annotations.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 86,
+                  "endLine": 1186,
+                  "snippet": {
+                    "text": "\t\treturn template.HTML(fmt.Sprintf(\"%.2f%%\", float64(dividend)/float64(divisor)*100))"
+                  },
+                  "startColumn": 10,
+                  "startLine": 1186
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Found a formatted template string passed to 'template.HTML()'.  'template.HTML()' does not escape contents.  Be absolutely sure there is no user-controlled data in this template.  If user data can reach this template, you may have a XSS vulnerability."
+          },
+          "ruleId": "go.lang.security.audit.net.formatted-template-string.formatted-template-string"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "91ba758e2ad5d5287fc7d8109025778f204d78303325addee784876628468db5b6db5dc7f23ddd189dc09c5df29657abf668750f776c507e6b34bd722fa10f58_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cmd/trace/goroutines.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 88,
+                  "endLine": 173,
+                  "snippet": {
+                    "text": "\t\treturn template.HTML(fmt.Sprintf(\"(%.1f%%)\", float64(dividend)/float64(divisor)*100))"
+                  },
+                  "startColumn": 10,
+                  "startLine": 173
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Found a formatted template string passed to 'template.HTML()'.  'template.HTML()' does not escape contents.  Be absolutely sure there is no user-controlled data in this template.  If user data can reach this template, you may have a XSS vulnerability."
+          },
+          "ruleId": "go.lang.security.audit.net.formatted-template-string.formatted-template-string"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "91ba758e2ad5d5287fc7d8109025778f204d78303325addee784876628468db5b6db5dc7f23ddd189dc09c5df29657abf668750f776c507e6b34bd722fa10f58_1"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cmd/trace/goroutines.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 86,
+                  "endLine": 179,
+                  "snippet": {
+                    "text": "\t\treturn template.HTML(fmt.Sprintf(\"%.2f%%\", float64(dividend)/float64(divisor)*100))"
+                  },
+                  "startColumn": 10,
+                  "startLine": 179
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Found a formatted template string passed to 'template.HTML()'.  'template.HTML()' does not escape contents.  Be absolutely sure there is no user-controlled data in this template.  If user data can reach this template, you may have a XSS vulnerability."
+          },
+          "ruleId": "go.lang.security.audit.net.formatted-template-string.formatted-template-string"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "b68bdd4875ed6fc5300007cca5f022bc5802bb1af6a6314c37122c4ae5d2d68e3e39bf9aea0b9562d662a14c8ea1a58864183aadb04ac22ca2a8be9ec68f2174_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cmd/go/internal/tool/tool.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 3,
+                  "endLine": 88,
+                  "snippet": {
+                    "text": "\ttoolCmd := &exec.Cmd{\n\t\tPath:   toolPath,\n\t\tArgs:   args,\n\t\tStdin:  os.Stdin,\n\t\tStdout: os.Stdout,\n\t\tStderr: os.Stderr,\n\t}"
+                  },
+                  "startColumn": 14,
+                  "startLine": 82
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected non-static command inside exec.Cmd. Audit the input to 'exec.Cmd'. If unverified user data can reach this call site, this is a code injection vulnerability. A malicious actor can inject a malicious script to execute arbitrary code."
+          },
+          "ruleId": "go.lang.security.audit.dangerous-exec-cmd.dangerous-exec-cmd"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "40b4f454e9e532737b149d5ade7e1d946a77e182b7b539c96d33fee586594f38f41d8d7233d8f42a8e0aa25620af0d640416bd1bc6094686ec0a446ff89e42f8_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/net/http/cgi/host.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 3,
+                  "endLine": 231,
+                  "snippet": {
+                    "text": "\tcmd := &exec.Cmd{\n\t\tPath:   path,\n\t\tArgs:   append([]string{h.Path}, h.Args...),\n\t\tDir:    cwd,\n\t\tEnv:    env,\n\t\tStderr: h.stderr(),\n\t}"
+                  },
+                  "startColumn": 10,
+                  "startLine": 225
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected non-static command inside exec.Cmd. Audit the input to 'exec.Cmd'. If unverified user data can reach this call site, this is a code injection vulnerability. A malicious actor can inject a malicious script to execute arbitrary code."
+          },
+          "ruleId": "go.lang.security.audit.dangerous-exec-cmd.dangerous-exec-cmd"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "7ae2246deb69012c6657d8dd7ffc00ca2152ffae3a59a9690a5f78dd22656502369ba08b0f9e5731fbdd864f1a1607d2f1d4b8df9a221654aed657f5ce5c68f8_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/net/http/cookiejar/jar.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 71,
+                  "endLine": 221,
+                  "snippet": {
+                    "text": "\t\tcookies = append(cookies, &http.Cookie{Name: e.Name, Value: e.Value})"
+                  },
+                  "startColumn": 30,
+                  "startLine": 221
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A session cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies instructs the browser to forbid client-side scripts from reading the cookie which mitigates XSS attacks. Set the 'HttpOnly' flag by setting 'HttpOnly' to 'true' in the Cookie."
+          },
+          "ruleId": "go.lang.security.audit.net.cookie-missing-httponly.cookie-missing-httponly"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "1fc0e6bb2f465ecfcfd5cdb04aefc3fa9daa02dcdfac9c24af2e6b59b1ad81d122e511dbf574aee51beab926c648b373e7e349d689760c8c434c493b5091c09c_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/net/http/cookiejar/jar.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 71,
+                  "endLine": 221,
+                  "snippet": {
+                    "text": "\t\tcookies = append(cookies, &http.Cookie{Name: e.Name, Value: e.Value})"
+                  },
+                  "startColumn": 30,
+                  "startLine": 221
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A session cookie was detected without setting the 'Secure' flag. The 'secure' flag for cookies prevents the client from transmitting the cookie over insecure channels such as HTTP. Set the 'Secure' flag by setting 'Secure' to 'true' in the Options struct."
+          },
+          "ruleId": "go.lang.security.audit.net.cookie-missing-secure.cookie-missing-secure"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "fa14086808fb1ac0430c7916f2604728cfbda8acaf8c433bf2bb1dfe6b91505fd45a6a3af343a8f26f0a90aa85c4837839cc651e281d825f7a944510242e51ac_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cmd/go/internal/work/gc.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 17,
+                  "endLine": 587,
+                  "snippet": {
+                    "text": "\th := sha1.New()"
+                  },
+                  "startColumn": 7,
+                  "startLine": 587
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "b71b6844375534edbb94061fe148f3425ccd87974b16cde1c07188646b3b99219ccf4894364d45501025b70c0535638b3963e1dbbc3a476b491aa205d9eb356e_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/cipher_suites.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 33,
+                  "endLine": 404,
+                  "snippet": {
+                    "text": "\tcipher, _ := rc4.NewCipher(key)"
+                  },
+                  "startColumn": 15,
+                  "startLine": 404
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "c75113c33b668c999cd7186ac31cdc266bedbe732e8f6cb328f99a598018f5f06f2a1a2aea5ecc43569e89c7fccc764013d40fd71ddc3417eb4e67fed87cdd7f_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/cipher_suites.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 41,
+                  "endLine": 409,
+                  "snippet": {
+                    "text": "\tblock, _ := des.NewTripleDESCipher(key)"
+                  },
+                  "startColumn": 14,
+                  "startLine": 409
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "f0936011eccd7b563ccc2e071357882a49d3aff1ec0db3d0c14481ca18d076d80ca55fdd02110f2ce1cf55ca259fee09b98eb4932bf8fe4ab51f26bdf5e4f589_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/key_agreement.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 21,
+                  "endLine": 107,
+                  "snippet": {
+                    "text": "\thsha1 := sha1.New()"
+                  },
+                  "startColumn": 11,
+                  "startLine": 107
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "f0936011eccd7b563ccc2e071357882a49d3aff1ec0db3d0c14481ca18d076d80ca55fdd02110f2ce1cf55ca259fee09b98eb4932bf8fe4ab51f26bdf5e4f589_1"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/key_agreement.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 19,
+                  "endLine": 118,
+                  "snippet": {
+                    "text": "\thmd5 := md5.New()"
+                  },
+                  "startColumn": 10,
+                  "startLine": 118
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "03cfa3a4cafdc7892c5f774ec7574cd056fb771b004bae4c9cb372602e8c66dd0d02f88505f147eac78a1a190afe94b6c701a8119818ab4bb1ba5675551188ec_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/prf.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 32,
+                  "endLine": 154,
+                  "snippet": {
+                    "text": "\treturn finishedHash{sha1.New(), sha1.New(), md5.New(), md5.New(), buffer, version, prf}"
+                  },
+                  "startColumn": 22,
+                  "startLine": 154
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "03cfa3a4cafdc7892c5f774ec7574cd056fb771b004bae4c9cb372602e8c66dd0d02f88505f147eac78a1a190afe94b6c701a8119818ab4bb1ba5675551188ec_1"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/prf.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 44,
+                  "endLine": 154,
+                  "snippet": {
+                    "text": "\treturn finishedHash{sha1.New(), sha1.New(), md5.New(), md5.New(), buffer, version, prf}"
+                  },
+                  "startColumn": 34,
+                  "startLine": 154
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "03cfa3a4cafdc7892c5f774ec7574cd056fb771b004bae4c9cb372602e8c66dd0d02f88505f147eac78a1a190afe94b6c701a8119818ab4bb1ba5675551188ec_2"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/prf.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 55,
+                  "endLine": 154,
+                  "snippet": {
+                    "text": "\treturn finishedHash{sha1.New(), sha1.New(), md5.New(), md5.New(), buffer, version, prf}"
+                  },
+                  "startColumn": 46,
+                  "startLine": 154
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "03cfa3a4cafdc7892c5f774ec7574cd056fb771b004bae4c9cb372602e8c66dd0d02f88505f147eac78a1a190afe94b6c701a8119818ab4bb1ba5675551188ec_3"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/tls/prf.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 66,
+                  "endLine": 154,
+                  "snippet": {
+                    "text": "\treturn finishedHash{sha1.New(), sha1.New(), md5.New(), md5.New(), buffer, version, prf}"
+                  },
+                  "startColumn": 57,
+                  "startLine": 154
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "559ee5bf5007ad9c9654477c48fb11d43cc7307faf94fc7b8c9b9f2bfbb93d0c3cd0d6d3d1dcdbf0daf5e9ed7357a7d3803ac2aa725b282053b0e545cd7ee40d_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/x509/pem_decrypt.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 19,
+                  "endLine": 83,
+                  "snippet": {
+                    "text": "\thash := md5.New()"
+                  },
+                  "startColumn": 10,
+                  "startLine": 83
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "364de26e9800d34fa8a518e7062746f16c8117d89dd916344739412472508f55e3e770f72106e0e3550f569b6754a143b5fd25c6aa329f51a3a744ac53ba1902_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/x509/x509.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 32,
+                  "endLine": 1525,
+                  "snippet": {
+                    "text": "\t\th := sha1.Sum(publicKeyBytes)"
+                  },
+                  "startColumn": 8,
+                  "startLine": 1525
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "f9854e15259bf54fd290689dd78f36716a2e5d1a2a03e21e0a0ca75d368136a6c9717ef6238674dd44dc441128aee912cda986f6090599cd73cdcd898593eb4a_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/internal/pkgbits/encoder.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 16,
+                  "endLine": 35,
+                  "snippet": {
+                    "text": "\th := md5.New()"
+                  },
+                  "startColumn": 7,
+                  "startLine": 35
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "9d9e34ba38103b0030991b7c40fde98ed3b5ce023f68a125d7f15fd9a1e58e2d012c8f2d05b38bb11b69538bbb904725f716b18f2ca132cbac24f4124acffb2b_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/net/http/fcgi/child.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 48,
+                  "endLine": 292,
+                  "snippet": {
+                    "text": "\thttpReq, err := cgi.RequestFromMap(req.params)"
+                  },
+                  "startColumn": 18,
+                  "startLine": 292
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.bad_imports.insecure-module-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "f980d07545fd8032c1f1cbd3cefa9957bbcdaf31b0cbd7ed829e880b63407d2ff5315ba605b28f6c9f647c27def5737cb5a8f1b112b6b3afa348d01d3b9ecd17_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cmd/trace/trace.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 66,
+                  "endLine": 30,
+                  "snippet": {
+                    "text": "\thttp.Handle(\"/static/\", http.FileServer(http.FS(staticContent)))"
+                  },
+                  "startColumn": 2,
+                  "startLine": 30
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Detected usage of 'http.FileServer' as handler: this allows directory listing and an attacker could navigate through directories looking for sensitive files. Be sure to disable directory listing or restrict access to specific directories/files."
+          },
+          "ruleId": "go.lang.security.audit.net.fs-directory-listing.fs-directory-listing"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "e6ec20fe895a502bb30e8dff1cc6e30b54d70158ac7e6b3d932ef7b572fa4506e90e92264a8ba1b7c456d889c72cbf60f2863b9f053ef00f20297ce8835dc6f8_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/testing/quick/quick.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 15,
+                  "endLine": 32,
+                  "snippet": {
+                    "text": "\tif rand.Int()&1 == 1 {"
+                  },
+                  "startColumn": 5,
+                  "startLine": 32
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Do not use `math/rand`. Use `crypto/rand` instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.math_random.math-random-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "e6ec20fe895a502bb30e8dff1cc6e30b54d70158ac7e6b3d932ef7b572fa4506e90e92264a8ba1b7c456d889c72cbf60f2863b9f053ef00f20297ce8835dc6f8_1"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/testing/quick/quick.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 15,
+                  "endLine": 41,
+                  "snippet": {
+                    "text": "\tif rand.Int()&1 == 1 {"
+                  },
+                  "startColumn": 5,
+                  "startLine": 41
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Do not use `math/rand`. Use `crypto/rand` instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.math_random.math-random-used"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "e6ec20fe895a502bb30e8dff1cc6e30b54d70158ac7e6b3d932ef7b572fa4506e90e92264a8ba1b7c456d889c72cbf60f2863b9f053ef00f20297ce8835dc6f8_2"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/testing/quick/quick.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 23,
+                  "endLine": 74,
+                  "snippet": {
+                    "text": "\t\tv.SetBool(rand.Int()&1 == 0)"
+                  },
+                  "startColumn": 13,
+                  "startLine": 74
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Do not use `math/rand`. Use `crypto/rand` instead."
+          },
+          "ruleId": "go.lang.security.audit.crypto.math_random.math-random-used"
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "semgrep",
+          "rules": [
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as Sequelize which will protect your queries."
+              },
+              "helpUri": "https://semgrep.dev/r/go.aws-lambda.security.tainted-sql-string.tainted-sql-string",
+              "id": "go.aws-lambda.security.tainted-sql-string.tainted-sql-string",
+              "name": "go.aws-lambda.security.tainted-sql-string.tainted-sql-string",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')",
+                  "OWASP-A01:2017 - Injection",
+                  "OWASP-A03:2021 - Injection",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as Sequelize which will protect your queries."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "`Clean` is not intended to sanitize against path traversal attacks. This function is for finding the shortest path name equivalent to the given input. Using `Clean` to sanitize file reads may expose this application to path traversal attacks, where an attacker could access arbitrary files on the server. To fix this easily, write this: `filepath.FromSlash(path.Clean(\"/\"+strings.Trim(req.URL.Path, \"/\")))` However, a better solution is using the `SecureJoin` function in the package `filepath-securejoin`. See https://pkg.go.dev/github.com/cyphar/filepath-securejoin#section-readme."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.filepath-clean-misuse.filepath-clean-misuse",
+              "id": "go.lang.security.filepath-clean-misuse.filepath-clean-misuse",
+              "name": "go.lang.security.filepath-clean-misuse.filepath-clean-misuse",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+                  "OWASP-A01:2021 - Broken Access Control",
+                  "OWASP-A05:2017 - Broken Access Control",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "`Clean` is not intended to sanitize against path traversal attacks. This function is for finding the shortest path name equivalent to the given input. Using `Clean` to sanitize file reads may expose this application to path traversal attacks, where an attacker could access arbitrary files on the server. To fix this easily, write this: `filepath.FromSlash(path.Clean(\"/\"+strings.Trim(req.URL.Path, \"/\")))` However, a better solution is using the `SecureJoin` function in the package `filepath-securejoin`. See https://pkg.go.dev/github.com/cyphar/filepath-securejoin#section-readme."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "`MinVersion` is missing from this TLS configuration. The default value is TLS1.0 which is considered insecure. Explicitly set the `MinVersion` to a secure version of TLS, such as `VersionTLS13`."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.crypto.missing-ssl-minversion.missing-ssl-minversion",
+              "id": "go.lang.security.audit.crypto.missing-ssl-minversion.missing-ssl-minversion",
+              "name": "go.lang.security.audit.crypto.missing-ssl-minversion.missing-ssl-minversion",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "OWASP-A03:2017 - Sensitive Data Exposure",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "`MinVersion` is missing from this TLS configuration. The default value is TLS1.0 which is considered insecure. Explicitly set the `MinVersion` to a secure version of TLS, such as `VersionTLS13`."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "Found an insecure gRPC server without 'grpc.Creds()' or options with credentials. This allows for a connection without encryption to this server. A malicious attacker could tamper with the gRPC message, which could compromise the machine. Include credentials derived from an SSL certificate in order to create a secure gRPC connection. You can create credentials using 'credentials.NewServerTLSFromFile(\"cert.pem\", \"cert.key\")'."
+              },
+              "helpUri": "https://semgrep.dev/r/go.grpc.security.grpc-server-insecure-connection.grpc-server-insecure-connection",
+              "id": "go.grpc.security.grpc-server-insecure-connection.grpc-server-insecure-connection",
+              "name": "go.grpc.security.grpc-server-insecure-connection.grpc-server-insecure-connection",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-300: Channel Accessible by Non-Endpoint",
+                  "OWASP-A07:2021 - Identification and Authentication Failures",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Found an insecure gRPC server without 'grpc.Creds()' or options with credentials. This allows for a connection without encryption to this server. A malicious attacker could tamper with the gRPC message, which could compromise the machine. Include credentials derived from an SSL certificate in order to create a secure gRPC connection. You can create credentials using 'credentials.NewServerTLSFromFile(\"cert.pem\", \"cert.key\")'."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "It looks like MD5 is used as a password hash. MD5 is not considered a secure password hash because it can be cracked by an attacker in a short amount of time. Use a suitable password hashing function such as bcrypt. You can use the `golang.org/x/crypto/bcrypt` package."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.md5-used-as-password.md5-used-as-password",
+              "id": "go.lang.security.audit.md5-used-as-password.md5-used-as-password",
+              "name": "go.lang.security.audit.md5-used-as-password.md5-used-as-password",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "OWASP-A03:2017 - Sensitive Data Exposure",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "It looks like MD5 is used as a password hash. MD5 is not considered a secure password hash because it can be cracked by an attacker in a short amount of time. Use a suitable password hashing function such as bcrypt. You can use the `golang.org/x/crypto/bcrypt` package."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. Use the `html/template` package which will safely render HTML instead, or inspect that the HTML is rendered safely."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.injection.raw-html-format.raw-html-format",
+              "id": "go.lang.security.injection.raw-html-format.raw-html-format",
+              "name": "go.lang.security.injection.raw-html-format.raw-html-format",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')",
+                  "OWASP-A03:2021 - Injection",
+                  "OWASP-A07:2017 - Cross-Site Scripting (XSS)",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. Use the `html/template` package which will safely render HTML instead, or inspect that the HTML is rendered safely."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected usage of 'http.FileServer' as handler: this allows directory listing and an attacker could navigate through directories looking for sensitive files. Be sure to disable directory listing or restrict access to specific directories/files."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.net.fs-directory-listing.fs-directory-listing",
+              "id": "go.lang.security.audit.net.fs-directory-listing.fs-directory-listing",
+              "name": "go.lang.security.audit.net.fs-directory-listing.fs-directory-listing",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-548: Exposure of Information Through Directory Listing",
+                  "OWASP-A01:2021 - Broken Access Control",
+                  "OWASP-A06:2017 - Security Misconfiguration",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected usage of 'http.FileServer' as handler: this allows directory listing and an attacker could navigate through directories looking for sensitive files. Be sure to disable directory listing or restrict access to specific directories/files."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected the decoding of a JWT token without a verify step. Don't use `ParseUnverified` unless you know what you're doing This method parses the token but doesn't validate the signature. It's only ever useful in cases where you know the signature is valid (because it has been checked previously in the stack) and you want to extract values from it."
+              },
+              "helpUri": "https://semgrep.dev/r/go.jwt-go.security.audit.jwt-parse-unverified.jwt-go-parse-unverified",
+              "id": "go.jwt-go.security.audit.jwt-parse-unverified.jwt-go-parse-unverified",
+              "name": "go.jwt-go.security.audit.jwt-parse-unverified.jwt-go-parse-unverified",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-345: Insufficient Verification of Data Authenticity",
+                  "OWASP-A08:2021 - Software and Data Integrity Failures",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected the decoding of a JWT token without a verify step. Don't use `ParseUnverified` unless you know what you're doing This method parses the token but doesn't validate the signature. It's only ever useful in cases where you know the signature is valid (because it has been checked previously in the stack) and you want to extract values from it."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Found an HTTP server without TLS. Use 'http.ListenAndServeTLS' instead. See https://golang.org/pkg/net/http/#ListenAndServeTLS for more information."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.net.use-tls.use-tls",
+              "id": "go.lang.security.audit.net.use-tls.use-tls",
+              "name": "go.lang.security.audit.net.use-tls.use-tls",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-319: Cleartext Transmission of Sensitive Information",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "OWASP-A03:2017 - Sensitive Data Exposure",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Found an HTTP server without TLS. Use 'http.ListenAndServeTLS' instead. See https://golang.org/pkg/net/http/#ListenAndServeTLS for more information."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.crypto.use_of_weak_crypto.use-of-md5",
+              "id": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-md5",
+              "name": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-md5",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "OWASP-A03:2017 - Sensitive Data Exposure",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Found data going from url query parameters into formatted data written to ResponseWriter. This could be XSS and should not be done. If you must do this, ensure your data is sanitized or escaped."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.net.wip-xss-using-responsewriter-and-printf.wip-xss-using-responsewriter-and-printf",
+              "id": "go.lang.security.audit.net.wip-xss-using-responsewriter-and-printf.wip-xss-using-responsewriter-and-printf",
+              "name": "go.lang.security.audit.net.wip-xss-using-responsewriter-and-printf.wip-xss-using-responsewriter-and-printf",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')",
+                  "OWASP-A03:2021 - Injection",
+                  "OWASP-A07:2017 - Cross-Site Scripting (XSS)",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Found data going from url query parameters into formatted data written to ResponseWriter. This could be XSS and should not be done. If you must do this, ensure your data is sanitized or escaped."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "Detected use of the 'none' algorithm in a JWT token. The 'none' algorithm assumes the integrity of the token has already been verified. This would allow a malicious actor to forge a JWT token that will automatically be verified. Do not explicitly use the 'none' algorithm. Instead, use an algorithm such as 'HS256'."
+              },
+              "helpUri": "https://semgrep.dev/r/go.jwt-go.security.jwt-none-alg.jwt-go-none-algorithm",
+              "id": "go.jwt-go.security.jwt-none-alg.jwt-go-none-algorithm",
+              "name": "go.jwt-go.security.jwt-none-alg.jwt-go-none-algorithm",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "OWASP-A03:2017 - Sensitive Data Exposure",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected use of the 'none' algorithm in a JWT token. The 'none' algorithm assumes the integrity of the token has already been verified. This would allow a malicious actor to forge a JWT token that will automatically be verified. Do not explicitly use the 'none' algorithm. Instead, use an algorithm such as 'HS256'."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.crypto.use_of_weak_crypto.use-of-sha1",
+              "id": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-sha1",
+              "name": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-sha1",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "OWASP-A03:2017 - Sensitive Data Exposure",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "A server-side template injection occurs when an attacker is able to use native template syntax to inject a malicious payload into a template, which is then executed server-side. When using \"html/template\" always check that user inputs are validated and sanitized before included within the template."
+              },
+              "helpUri": "https://semgrep.dev/r/go.template.security.ssti.go-ssti",
+              "id": "go.template.security.ssti.go-ssti",
+              "name": "go.template.security.ssti.go-ssti",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "A server-side template injection occurs when an attacker is able to use native template syntax to inject a malicious payload into a template, which is then executed server-side. When using \"html/template\" always check that user inputs are validated and sanitized before included within the template."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected RC4 cipher algorithm which is insecure. The algorithm has many known vulnerabilities. Use AES instead."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.crypto.use_of_weak_crypto.use-of-rc4",
+              "id": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-rc4",
+              "name": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-rc4",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "OWASP-A03:2017 - Sensitive Data Exposure",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected RC4 cipher algorithm which is insecure. The algorithm has many known vulnerabilities. Use AES instead."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "Found an insecure gRPC connection using 'grpc.WithInsecure()'. This creates a connection without encryption to a gRPC server. A malicious attacker could tamper with the gRPC message, which could compromise the machine. Instead, establish a secure connection with an SSL certificate using the 'grpc.WithTransportCredentials()' function. You can create a create credentials using a 'tls.Config{}' struct with 'credentials.NewTLS()'. The final fix looks like this: 'grpc.WithTransportCredentials(credentials.NewTLS(<config>))'."
+              },
+              "helpUri": "https://semgrep.dev/r/go.grpc.security.grpc-client-insecure-connection.grpc-client-insecure-connection",
+              "id": "go.grpc.security.grpc-client-insecure-connection.grpc-client-insecure-connection",
+              "name": "go.grpc.security.grpc-client-insecure-connection.grpc-client-insecure-connection",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-300: Channel Accessible by Non-Endpoint",
+                  "OWASP-A07:2021 - Identification and Authentication Failures",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Found an insecure gRPC connection using 'grpc.WithInsecure()'. This creates a connection without encryption to a gRPC server. A malicious attacker could tamper with the gRPC message, which could compromise the machine. Instead, establish a secure connection with an SSL certificate using the 'grpc.WithTransportCredentials()' function. You can create a create credentials using a 'tls.Config{}' struct with 'credentials.NewTLS()'. The final fix looks like this: 'grpc.WithTransportCredentials(credentials.NewTLS(<config>))'."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "User data flows into the host portion of this manually-constructed URL. This could allow an attacker to send data to their own server, potentially exposing sensitive data such as cookies or authorization information sent with this request. They could also probe internal servers or other resources that the server runnig this code can access. (This is called server-side request forgery, or SSRF.) Do not allow arbitrary hosts. Instead, create an allowlist for approved hosts hardcode the correct host."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.injection.tainted-url-host.tainted-url-host",
+              "id": "go.lang.security.injection.tainted-url-host.tainted-url-host",
+              "name": "go.lang.security.injection.tainted-url-host.tainted-url-host",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-918: Server-Side Request Forgery (SSRF)",
+                  "OWASP-A10:2021 - Server-Side Request Forgery (SSRF)",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "User data flows into the host portion of this manually-constructed URL. This could allow an attacker to send data to their own server, potentially exposing sensitive data such as cookies or authorization information sent with this request. They could also probe internal servers or other resources that the server runnig this code can access. (This is called server-side request forgery, or SSRF.) Do not allow arbitrary hosts. Instead, create an allowlist for approved hosts hardcode the correct host."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected DES cipher algorithm which is insecure. The algorithm is considered weak and has been deprecated. Use AES instead."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.crypto.use_of_weak_crypto.use-of-DES",
+              "id": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-DES",
+              "name": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-DES",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "OWASP-A03:2017 - Sensitive Data Exposure",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected DES cipher algorithm which is insecure. The algorithm is considered weak and has been deprecated. Use AES instead."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "User data flows into this manually-constructed SQL string. User data can be safely inserted into SQL strings using prepared statements or an object-relational mapper (ORM). Manually-constructed SQL strings is a possible indicator of SQL injection, which could let an attacker steal or manipulate data from the database. Instead, use prepared statements (`db.Query(\"SELECT * FROM t WHERE id = ?\", id)`) or a safe library."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.injection.tainted-sql-string.tainted-sql-string",
+              "id": "go.lang.security.injection.tainted-sql-string.tainted-sql-string",
+              "name": "go.lang.security.injection.tainted-sql-string.tainted-sql-string",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')",
+                  "OWASP-A01:2017 - Injection",
+                  "OWASP-A03:2021 - Injection",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "User data flows into this manually-constructed SQL string. User data can be safely inserted into SQL strings using prepared statements or an object-relational mapper (ORM). Manually-constructed SQL strings is a possible indicator of SQL injection, which could let an attacker steal or manipulate data from the database. Instead, use prepared statements (`db.Query(\"SELECT * FROM t WHERE id = ?\", id)`) or a safe library."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.crypto.bad_imports.insecure-module-used",
+              "id": "go.lang.security.audit.crypto.bad_imports.insecure-module-used",
+              "name": "go.lang.security.audit.crypto.bad_imports.insecure-module-used",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "OWASP-A03:2017 - Sensitive Data Exposure",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected use of an insecure cryptographic hashing method. This method is known to be broken and easily compromised. Use SHA256 or SHA3 instead."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Do not use `math/rand`. Use `crypto/rand` instead."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.crypto.math_random.math-random-used",
+              "id": "go.lang.security.audit.crypto.math_random.math-random-used",
+              "name": "go.lang.security.audit.crypto.math_random.math-random-used",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Do not use `math/rand`. Use `crypto/rand` instead."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "A session cookie was detected without setting the 'Secure' flag. The 'secure' flag for cookies prevents the client from transmitting the cookie over insecure channels such as HTTP. Set the 'Secure' flag by setting 'Secure' to 'true' in the Options struct."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.net.cookie-missing-secure.cookie-missing-secure",
+              "id": "go.lang.security.audit.net.cookie-missing-secure.cookie-missing-secure",
+              "name": "go.lang.security.audit.net.cookie-missing-secure.cookie-missing-secure",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-614: Sensitive Cookie in HTTPS Session Without 'Secure' Attribute",
+                  "OWASP-A05:2021 - Security Misconfiguration",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "A session cookie was detected without setting the 'Secure' flag. The 'secure' flag for cookies prevents the client from transmitting the cookie over insecure channels such as HTTP. Set the 'Secure' flag by setting 'Secure' to 'true' in the Options struct."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Found a formatted template string passed to 'template.HTML()'.  'template.HTML()' does not escape contents.  Be absolutely sure there is no user-controlled data in this template.  If user data can reach this template, you may have a XSS vulnerability."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.net.formatted-template-string.formatted-template-string",
+              "id": "go.lang.security.audit.net.formatted-template-string.formatted-template-string",
+              "name": "go.lang.security.audit.net.formatted-template-string.formatted-template-string",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')",
+                  "OWASP-A03:2021 - Injection",
+                  "OWASP-A07:2017 - Cross-Site Scripting (XSS)",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Found a formatted template string passed to 'template.HTML()'.  'template.HTML()' does not escape contents.  Be absolutely sure there is no user-controlled data in this template.  If user data can reach this template, you may have a XSS vulnerability."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "Detected non-static command inside exec.Cmd. Audit the input to 'exec.Cmd'. If unverified user data can reach this call site, this is a code injection vulnerability. A malicious actor can inject a malicious script to execute arbitrary code."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.dangerous-exec-cmd.dangerous-exec-cmd",
+              "id": "go.lang.security.audit.dangerous-exec-cmd.dangerous-exec-cmd",
+              "name": "go.lang.security.audit.dangerous-exec-cmd.dangerous-exec-cmd",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-94: Improper Control of Generation of Code ('Code Injection')",
+                  "OWASP-A03:2021 - Injection",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected non-static command inside exec.Cmd. Audit the input to 'exec.Cmd'. If unverified user data can reach this call site, this is a code injection vulnerability. A malicious actor can inject a malicious script to execute arbitrary code."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected a potentially dynamic ClientTrace. This occurred because semgrep could not find a static definition for '$TRACE'. Dynamic ClientTraces are dangerous because they deserialize function code to run when certain Request events occur, which could lead to code being run without your knowledge. Ensure that your ClientTrace is statically defined."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.net.dynamic-httptrace-clienttrace.dynamic-httptrace-clienttrace",
+              "id": "go.lang.security.audit.net.dynamic-httptrace-clienttrace.dynamic-httptrace-clienttrace",
+              "name": "go.lang.security.audit.net.dynamic-httptrace-clienttrace.dynamic-httptrace-clienttrace",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-913: Improper Control of Dynamically-Managed Code Resources",
+                  "OWASP-A01:2021 - Broken Access Control",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected a potentially dynamic ClientTrace. This occurred because semgrep could not find a static definition for '$TRACE'. Dynamic ClientTraces are dangerous because they deserialize function code to run when certain Request events occur, which could lead to code being run without your knowledge. Ensure that your ClientTrace is statically defined."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "A session cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies instructs the browser to forbid client-side scripts from reading the cookie which mitigates XSS attacks. Set the 'HttpOnly' flag by setting 'HttpOnly' to 'true' in the Cookie."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.net.cookie-missing-httponly.cookie-missing-httponly",
+              "id": "go.lang.security.audit.net.cookie-missing-httponly.cookie-missing-httponly",
+              "name": "go.lang.security.audit.net.cookie-missing-httponly.cookie-missing-httponly",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-1004: Sensitive Cookie Without 'HttpOnly' Flag",
+                  "OWASP-A05:2021 - Security Misconfiguration",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "A session cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies instructs the browser to forbid client-side scripts from reading the cookie which mitigates XSS attacks. Set the 'HttpOnly' flag by setting 'HttpOnly' to 'true' in the Cookie."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "A session cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies instructs the browser to forbid client-side scripts from reading the cookie which mitigates XSS attacks. Set the 'HttpOnly' flag by setting 'HttpOnly' to 'true' in the Options struct."
+              },
+              "helpUri": "https://semgrep.dev/r/go.gorilla.security.audit.session-cookie-missing-httponly.session-cookie-missing-httponly",
+              "id": "go.gorilla.security.audit.session-cookie-missing-httponly.session-cookie-missing-httponly",
+              "name": "go.gorilla.security.audit.session-cookie-missing-httponly.session-cookie-missing-httponly",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-1004: Sensitive Cookie Without 'HttpOnly' Flag",
+                  "OWASP-A05:2021 - Security Misconfiguration",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "A session cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies instructs the browser to forbid client-side scripts from reading the cookie which mitigates XSS attacks. Set the 'HttpOnly' flag by setting 'HttpOnly' to 'true' in the Options struct."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Disabled host key verification detected. This allows man-in-the-middle attacks. Use the 'golang.org/x/crypto/ssh/knownhosts' package to do host key verification. See https://skarlso.github.io/2019/02/17/go-ssh-with-host-key-verification/ to learn more about the problem and how to fix it."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.crypto.insecure_ssh.avoid-ssh-insecure-ignore-host-key",
+              "id": "go.lang.security.audit.crypto.insecure_ssh.avoid-ssh-insecure-ignore-host-key",
+              "name": "go.lang.security.audit.crypto.insecure_ssh.avoid-ssh-insecure-ignore-host-key",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-322: Key Exchange without Entity Authentication",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Disabled host key verification detected. This allows man-in-the-middle attacks. Use the 'golang.org/x/crypto/ssh/knownhosts' package to do host key verification. See https://skarlso.github.io/2019/02/17/go-ssh-with-host-key-verification/ to learn more about the problem and how to fix it."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected SQL statement that is tainted by `$EVENT` object. This could lead to SQL injection if the variable is user-controlled and not properly sanitized. In order to prevent SQL injection, used parameterized queries or prepared statements instead. You can use prepared statements with the 'Prepare' and 'PrepareContext' calls."
+              },
+              "helpUri": "https://semgrep.dev/r/go.aws-lambda.security.database-sqli.database-sqli",
+              "id": "go.aws-lambda.security.database-sqli.database-sqli",
+              "name": "go.aws-lambda.security.database-sqli.database-sqli",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')",
+                  "OWASP-A01:2017 - Injection",
+                  "OWASP-A03:2021 - Injection",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected SQL statement that is tainted by `$EVENT` object. This could lead to SQL injection if the variable is user-controlled and not properly sanitized. In order to prevent SQL injection, used parameterized queries or prepared statements instead. You can use prepared statements with the 'Prepare' and 'PrepareContext' calls."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected usage of dangerous method $METHOD which does not escape inputs (see link in references). If the argument is user-controlled, this can lead to SQL injection. When using $METHOD function, do not trust user-submitted data and only allow approved list of input (possibly, use an allowlist approach)."
+              },
+              "helpUri": "https://semgrep.dev/r/go.gorm.security.audit.gorm-dangerous-methods-usage.gorm-dangerous-method-usage",
+              "id": "go.gorm.security.audit.gorm-dangerous-methods-usage.gorm-dangerous-method-usage",
+              "name": "go.gorm.security.audit.gorm-dangerous-methods-usage.gorm-dangerous-method-usage",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')",
+                  "OWASP-A01:2017 - Injection",
+                  "OWASP-A03:2021 - Injection",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected usage of dangerous method $METHOD which does not escape inputs (see link in references). If the argument is user-controlled, this can lead to SQL injection. When using $METHOD function, do not trust user-submitted data and only allow approved list of input (possibly, use an allowlist approach)."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "RSA keys should be at least 2048 bits"
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.crypto.use_of_weak_rsa_key.use-of-weak-rsa-key",
+              "id": "go.lang.security.audit.crypto.use_of_weak_rsa_key.use-of-weak-rsa-key",
+              "name": "go.lang.security.audit.crypto.use_of_weak_rsa_key.use-of-weak-rsa-key",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-326: Inadequate Encryption Strength",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "OWASP-A03:2017 - Sensitive Data Exposure",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "RSA keys should be at least 2048 bits"
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected a network listener listening on 0.0.0.0 or an empty string.  This could unexpectedly expose the server publicly as it binds to all available interfaces.  Instead, specify another IP address that is not 0.0.0.0 nor the empty string."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.net.bind_all.avoid-bind-to-all-interfaces",
+              "id": "go.lang.security.audit.net.bind_all.avoid-bind-to-all-interfaces",
+              "name": "go.lang.security.audit.net.bind_all.avoid-bind-to-all-interfaces",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor",
+                  "OWASP-A01:2021 - Broken Access Control",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected a network listener listening on 0.0.0.0 or an empty string.  This could unexpectedly expose the server publicly as it binds to all available interfaces.  Instead, specify another IP address that is not 0.0.0.0 nor the empty string."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "The Origin header in the HTTP WebSocket handshake is used to guarantee that the connection accepted by the WebSocket is from a trusted origin domain. Failure to enforce can lead to Cross Site Request Forgery (CSRF). As per \"gorilla/websocket\" documentation: \"A CheckOrigin  function should carefully validate the request origin to prevent cross-site request forgery.\""
+              },
+              "helpUri": "https://semgrep.dev/r/go.gorilla.security.audit.websocket-missing-origin-check.websocket-missing-origin-check",
+              "id": "go.gorilla.security.audit.websocket-missing-origin-check.websocket-missing-origin-check",
+              "name": "go.gorilla.security.audit.websocket-missing-origin-check.websocket-missing-origin-check",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-352: Cross-Site Request Forgery (CSRF)",
+                  "OWASP-A01:2021 - Broken Access Control",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "The Origin header in the HTTP WebSocket handshake is used to guarantee that the connection accepted by the WebSocket is from a trusted origin domain. Failure to enforce can lead to Cross Site Request Forgery (CSRF). As per \"gorilla/websocket\" documentation: \"A CheckOrigin  function should carefully validate the request origin to prevent cross-site request forgery.\""
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "A hard-coded credential was detected. It is not recommended  to store credentials in source-code, as this risks secrets being leaked and used by either an internal or external malicious adversary.  It is recommended to use environment variables to  securely provide credentials or retrieve credentials from  a secure vault or HSM (Hardware Security Module)."
+              },
+              "helpUri": "https://semgrep.dev/r/go.jwt-go.security.jwt.hardcoded-jwt-key",
+              "id": "go.jwt-go.security.jwt.hardcoded-jwt-key",
+              "name": "go.jwt-go.security.jwt.hardcoded-jwt-key",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-798: Use of Hard-coded Credentials",
+                  "OWASP-A07:2021 - Identification and Authentication Failures",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "A hard-coded credential was detected. It is not recommended  to store credentials in source-code, as this risks secrets being leaked and used by either an internal or external malicious adversary.  It is recommended to use environment variables to  securely provide credentials or retrieve credentials from  a secure vault or HSM (Hardware Security Module)."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "SSLv3 is insecure because it has known vulnerabilities. Starting with go1.14, SSLv3 will be removed. Instead, use 'tls.VersionTLS13'."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.crypto.ssl.ssl-v3-is-insecure",
+              "id": "go.lang.security.audit.crypto.ssl.ssl-v3-is-insecure",
+              "name": "go.lang.security.audit.crypto.ssl.ssl-v3-is-insecure",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "OWASP-A03:2017 - Sensitive Data Exposure",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "SSLv3 is insecure because it has known vulnerabilities. Starting with go1.14, SSLv3 will be removed. Instead, use 'tls.VersionTLS13'."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Detected an insecure CipherSuite via the 'tls' module. This suite is considered weak. Use the function 'tls.CipherSuites()' to get a list of good cipher suites. See https://golang.org/pkg/crypto/tls/#InsecureCipherSuites for why and what other cipher suites to use."
+              },
+              "helpUri": "https://semgrep.dev/r/go.lang.security.audit.crypto.tls.tls-with-insecure-cipher",
+              "id": "go.lang.security.audit.crypto.tls.tls-with-insecure-cipher",
+              "name": "go.lang.security.audit.crypto.tls.tls-with-insecure-cipher",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+                  "OWASP-A02:2021 - Cryptographic Failures",
+                  "OWASP-A03:2017 - Sensitive Data Exposure",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Detected an insecure CipherSuite via the 'tls' module. This suite is considered weak. Use the function 'tls.CipherSuites()' to get a list of good cipher suites. See https://golang.org/pkg/crypto/tls/#InsecureCipherSuites for why and what other cipher suites to use."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "A session cookie was detected without setting the 'Secure' flag. The 'secure' flag for cookies prevents the client from transmitting the cookie over insecure channels such as HTTP. Set the 'Secure' flag by setting 'Secure' to 'true' in the Options struct."
+              },
+              "helpUri": "https://semgrep.dev/r/go.gorilla.security.audit.session-cookie-missing-secure.session-cookie-missing-secure",
+              "id": "go.gorilla.security.audit.session-cookie-missing-secure.session-cookie-missing-secure",
+              "name": "go.gorilla.security.audit.session-cookie-missing-secure.session-cookie-missing-secure",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-614: Sensitive Cookie in HTTPS Session Without 'Secure' Attribute",
+                  "OWASP-A05:2021 - Security Misconfiguration",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "A session cookie was detected without setting the 'Secure' flag. The 'secure' flag for cookies prevents the client from transmitting the cookie over insecure channels such as HTTP. Set the 'Secure' flag by setting 'Secure' to 'true' in the Options struct."
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Variable $VAR is assigned from two different sources: '$Y' and '$R'. Make sure this is intended, as this could cause logic bugs if they are treated as they are the same object."
+              },
+              "helpUri": "https://semgrep.dev/r/go.gorilla.security.audit.handler-assignment-from-multiple-sources.handler-assignment-from-multiple-sources",
+              "id": "go.gorilla.security.audit.handler-assignment-from-multiple-sources.handler-assignment-from-multiple-sources",
+              "name": "go.gorilla.security.audit.handler-assignment-from-multiple-sources.handler-assignment-from-multiple-sources",
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "CWE-289: Authentication Bypass by Alternate Name",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Variable $VAR is assigned from two different sources: '$Y' and '$R'. Make sure this is intended, as this could cause logic bugs if they are treated as they are the same object."
+              }
+            }
+          ],
+          "semanticVersion": "1.0.0"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

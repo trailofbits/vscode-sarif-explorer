@@ -1,0 +1,9 @@
+# Ignore everything
+*
+*/**
+
+!dist/
+!LICENSE
+!README.md
+!package.json
+!media/icon.png

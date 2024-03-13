@@ -1,0 +1,1651 @@
+{
+  "$schema" : "https://json.schemastore.org/sarif-2.1.0.json",
+  "version" : "2.1.0",
+  "runs" : [ {
+    "tool" : {
+      "driver" : {
+        "name" : "CodeQL",
+        "organization" : "GitHub",
+        "semanticVersion" : "2.10.0",
+        "notifications" : [ {
+          "id" : "go/diagnostics/extraction-errors",
+          "name" : "go/diagnostics/extraction-errors",
+          "shortDescription" : {
+            "text" : "Extraction errors"
+          },
+          "fullDescription" : {
+            "text" : "List all extraction errors for files in the source code directory."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true
+          },
+          "properties" : {
+            "description" : "List all extraction errors for files in the source code directory.",
+            "id" : "go/diagnostics/extraction-errors",
+            "kind" : "diagnostic",
+            "name" : "Extraction errors"
+          }
+        }, {
+          "id" : "go/summary/successfully-extracted-files",
+          "name" : "go/summary/successfully-extracted-files",
+          "shortDescription" : {
+            "text" : "Successfully analyzed files"
+          },
+          "fullDescription" : {
+            "text" : "List all files that were successfully extracted."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true
+          },
+          "properties" : {
+            "description" : "List all files that were successfully extracted.",
+            "id" : "go/summary/successfully-extracted-files",
+            "kind" : "diagnostic",
+            "name" : "Successfully analyzed files"
+          }
+        } ],
+        "rules" : [ {
+          "id" : "go/incomplete-hostname-regexp",
+          "name" : "go/incomplete-hostname-regexp",
+          "shortDescription" : {
+            "text" : "Incomplete regular expression for hostnames"
+          },
+          "fullDescription" : {
+            "text" : "Matching a URL or hostname against a regular expression that contains an unescaped dot as part of the hostname might match more hostnames than expected."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "warning"
+          },
+          "properties" : {
+            "tags" : [ "correctness", "security", "external/cwe/cwe-20" ],
+            "description" : "Matching a URL or hostname against a regular expression that contains an unescaped\n              dot as part of the hostname might match more hostnames than expected.",
+            "id" : "go/incomplete-hostname-regexp",
+            "kind" : "path-problem",
+            "name" : "Incomplete regular expression for hostnames",
+            "precision" : "high",
+            "problem.severity" : "warning",
+            "security-severity" : "7.8"
+          }
+        }, {
+          "id" : "go/incomplete-url-scheme-check",
+          "name" : "go/incomplete-url-scheme-check",
+          "shortDescription" : {
+            "text" : "Incomplete URL scheme check"
+          },
+          "fullDescription" : {
+            "text" : "Checking for the \"javascript:\" URL scheme without also checking for \"vbscript:\" and \"data:\" suggests a logic error or even a security vulnerability."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "warning"
+          },
+          "properties" : {
+            "tags" : [ "security", "correctness", "external/cwe/cwe-020" ],
+            "description" : "Checking for the \"javascript:\" URL scheme without also checking for \"vbscript:\"\n              and \"data:\" suggests a logic error or even a security vulnerability.",
+            "id" : "go/incomplete-url-scheme-check",
+            "kind" : "problem",
+            "name" : "Incomplete URL scheme check",
+            "precision" : "high",
+            "problem.severity" : "warning",
+            "security-severity" : "7.8"
+          }
+        }, {
+          "id" : "go/regex/missing-regexp-anchor",
+          "name" : "go/regex/missing-regexp-anchor",
+          "shortDescription" : {
+            "text" : "Missing regular expression anchor"
+          },
+          "fullDescription" : {
+            "text" : "Regular expressions without anchors can be vulnerable to bypassing."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "warning"
+          },
+          "properties" : {
+            "tags" : [ "correctness", "security", "external/cwe/cwe-20" ],
+            "description" : "Regular expressions without anchors can be vulnerable to bypassing.",
+            "id" : "go/regex/missing-regexp-anchor",
+            "kind" : "problem",
+            "name" : "Missing regular expression anchor",
+            "precision" : "high",
+            "problem.severity" : "warning",
+            "security-severity" : "7.8"
+          }
+        }, {
+          "id" : "go/suspicious-character-in-regex",
+          "name" : "go/suspicious-character-in-regex",
+          "shortDescription" : {
+            "text" : "Suspicious characters in a regular expression"
+          },
+          "fullDescription" : {
+            "text" : "If a literal bell character or backspace appears in a regular expression, the start of text or word boundary may have been intended."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "warning"
+          },
+          "properties" : {
+            "tags" : [ "correctness", "security", "external/cwe/cwe-20" ],
+            "description" : "If a literal bell character or backspace appears in a regular expression, the start of text or word boundary may have been intended.",
+            "id" : "go/suspicious-character-in-regex",
+            "kind" : "path-problem",
+            "name" : "Suspicious characters in a regular expression",
+            "precision" : "high",
+            "problem.severity" : "warning",
+            "security-severity" : "7.8"
+          }
+        }, {
+          "id" : "go/path-injection",
+          "name" : "go/path-injection",
+          "shortDescription" : {
+            "text" : "Uncontrolled data used in path expression"
+          },
+          "fullDescription" : {
+            "text" : "Accessing paths influenced by users can allow an attacker to access unexpected resources."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-022", "external/cwe/cwe-023", "external/cwe/cwe-036", "external/cwe/cwe-073", "external/cwe/cwe-099" ],
+            "description" : "Accessing paths influenced by users can allow an attacker to access\n              unexpected resources.",
+            "id" : "go/path-injection",
+            "kind" : "path-problem",
+            "name" : "Uncontrolled data used in path expression",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "7.5"
+          }
+        }, {
+          "id" : "go/unsafe-unzip-symlink",
+          "name" : "go/unsafe-unzip-symlink",
+          "shortDescription" : {
+            "text" : "Arbitrary file write extracting an archive containing symbolic links"
+          },
+          "fullDescription" : {
+            "text" : "Extracting files from a malicious zip archive without validating that the destination file path is within the destination directory can cause files outside the destination directory to be overwritten. Extracting symbolic links in particular requires resolving previously extracted links to ensure the destination directory is not escaped."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-022" ],
+            "description" : "Extracting files from a malicious zip archive without validating that the\n              destination file path is within the destination directory can cause files outside\n              the destination directory to be overwritten. Extracting symbolic links in particular\n              requires resolving previously extracted links to ensure the destination directory\n              is not escaped.",
+            "id" : "go/unsafe-unzip-symlink",
+            "kind" : "path-problem",
+            "name" : "Arbitrary file write extracting an archive containing symbolic links",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "7.5"
+          }
+        }, {
+          "id" : "go/zipslip",
+          "name" : "go/zipslip",
+          "shortDescription" : {
+            "text" : "Arbitrary file write during zip extraction (\"zip slip\")"
+          },
+          "fullDescription" : {
+            "text" : "Extracting files from a malicious zip archive without validating that the destination file path is within the destination directory can cause files outside the destination directory to be overwritten."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-022" ],
+            "description" : "Extracting files from a malicious zip archive without validating that the\n              destination file path is within the destination directory can cause files outside\n              the destination directory to be overwritten.",
+            "id" : "go/zipslip",
+            "kind" : "path-problem",
+            "name" : "Arbitrary file write during zip extraction (\"zip slip\")",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "7.5"
+          }
+        }, {
+          "id" : "go/command-injection",
+          "name" : "go/command-injection",
+          "shortDescription" : {
+            "text" : "Command built from user-controlled sources"
+          },
+          "fullDescription" : {
+            "text" : "Building a system command from user-controlled sources is vulnerable to insertion of malicious code by the user."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-078" ],
+            "description" : "Building a system command from user-controlled sources is vulnerable to insertion of\n              malicious code by the user.",
+            "id" : "go/command-injection",
+            "kind" : "path-problem",
+            "name" : "Command built from user-controlled sources",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "9.8"
+          }
+        }, {
+          "id" : "go/reflected-xss",
+          "name" : "go/reflected-xss",
+          "shortDescription" : {
+            "text" : "Reflected cross-site scripting"
+          },
+          "fullDescription" : {
+            "text" : "Writing user input directly to an HTTP response allows for a cross-site scripting vulnerability."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-079", "external/cwe/cwe-116" ],
+            "description" : "Writing user input directly to an HTTP response allows for\n              a cross-site scripting vulnerability.",
+            "id" : "go/reflected-xss",
+            "kind" : "path-problem",
+            "name" : "Reflected cross-site scripting",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "6.1"
+          }
+        }, {
+          "id" : "go/sql-injection",
+          "name" : "go/sql-injection",
+          "shortDescription" : {
+            "text" : "Database query built from user-controlled sources"
+          },
+          "fullDescription" : {
+            "text" : "Building a database query from user-controlled sources is vulnerable to insertion of malicious code by the user."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-089" ],
+            "description" : "Building a database query from user-controlled sources is vulnerable to insertion of\n              malicious code by the user.",
+            "id" : "go/sql-injection",
+            "kind" : "path-problem",
+            "name" : "Database query built from user-controlled sources",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "8.8"
+          }
+        }, {
+          "id" : "go/unsafe-quoting",
+          "name" : "go/unsafe-quoting",
+          "shortDescription" : {
+            "text" : "Potentially unsafe quoting"
+          },
+          "fullDescription" : {
+            "text" : "If a quoted string literal is constructed from data that may itself contain quotes, the embedded data could (accidentally or intentionally) change the structure of the overall string."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "warning"
+          },
+          "properties" : {
+            "tags" : [ "correctness", "security", "external/cwe/cwe-078", "external/cwe/cwe-089", "external/cwe/cwe-094" ],
+            "description" : "If a quoted string literal is constructed from data that may itself contain quotes,\n              the embedded data could (accidentally or intentionally) change the structure of\n              the overall string.",
+            "id" : "go/unsafe-quoting",
+            "kind" : "path-problem",
+            "name" : "Potentially unsafe quoting",
+            "precision" : "high",
+            "problem.severity" : "warning",
+            "security-severity" : "9.3"
+          }
+        }, {
+          "id" : "go/log-injection",
+          "name" : "go/log-injection",
+          "shortDescription" : {
+            "text" : "Log entries created from user input"
+          },
+          "fullDescription" : {
+            "text" : "Building log entries from user-controlled sources is vulnerable to insertion of forged log entries by a malicious user."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-117" ],
+            "description" : "Building log entries from user-controlled sources is vulnerable to\n              insertion of forged log entries by a malicious user.",
+            "id" : "go/log-injection",
+            "kind" : "path-problem",
+            "name" : "Log entries created from user input",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "7.8"
+          }
+        }, {
+          "id" : "go/allocation-size-overflow",
+          "name" : "go/allocation-size-overflow",
+          "shortDescription" : {
+            "text" : "Size computation for allocation may overflow"
+          },
+          "fullDescription" : {
+            "text" : "When computing the size of an allocation based on the size of a large object, the result may overflow and cause a runtime panic."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "warning"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-190" ],
+            "description" : "When computing the size of an allocation based on the size of a large object,\n              the result may overflow and cause a runtime panic.",
+            "id" : "go/allocation-size-overflow",
+            "kind" : "path-problem",
+            "name" : "Size computation for allocation may overflow",
+            "precision" : "high",
+            "problem.severity" : "warning",
+            "security-severity" : "8.1"
+          }
+        }, {
+          "id" : "go/stack-trace-exposure",
+          "name" : "go/stack-trace-exposure",
+          "shortDescription" : {
+            "text" : "Information exposure through a stack trace"
+          },
+          "fullDescription" : {
+            "text" : "Information from a stack trace propagates to an external user. Stack traces can unintentionally reveal implementation details that are useful to an attacker for developing a subsequent exploit."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-209", "external/cwe/cwe-497" ],
+            "description" : "Information from a stack trace propagates to an external user.\n              Stack traces can unintentionally reveal implementation details\n              that are useful to an attacker for developing a subsequent exploit.",
+            "id" : "go/stack-trace-exposure",
+            "kind" : "path-problem",
+            "name" : "Information exposure through a stack trace",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "5.4"
+          }
+        }, {
+          "id" : "go/disabled-certificate-check",
+          "name" : "go/disabled-certificate-check",
+          "shortDescription" : {
+            "text" : "Disabled TLS certificate check"
+          },
+          "fullDescription" : {
+            "text" : "If an application disables TLS certificate checking, it may be vulnerable to man-in-the-middle attacks."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "warning"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-295" ],
+            "description" : "If an application disables TLS certificate checking, it may be vulnerable to\n              man-in-the-middle attacks.",
+            "id" : "go/disabled-certificate-check",
+            "kind" : "problem",
+            "name" : "Disabled TLS certificate check",
+            "precision" : "high",
+            "problem.severity" : "warning",
+            "security-severity" : "7.5"
+          }
+        }, {
+          "id" : "go/clear-text-logging",
+          "name" : "go/clear-text-logging",
+          "shortDescription" : {
+            "text" : "Clear-text logging of sensitive information"
+          },
+          "fullDescription" : {
+            "text" : "Logging sensitive information without encryption or hashing can expose it to an attacker."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-312", "external/cwe/cwe-315", "external/cwe/cwe-359" ],
+            "description" : "Logging sensitive information without encryption or hashing can\n              expose it to an attacker.",
+            "id" : "go/clear-text-logging",
+            "kind" : "path-problem",
+            "name" : "Clear-text logging of sensitive information",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "7.5"
+          }
+        }, {
+          "id" : "go/insecure-hostkeycallback",
+          "name" : "go/insecure-hostkeycallback",
+          "shortDescription" : {
+            "text" : "Use of insecure HostKeyCallback implementation"
+          },
+          "fullDescription" : {
+            "text" : "Detects insecure SSL client configurations with an implementation of the `HostKeyCallback` that accepts all host keys."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "warning"
+          },
+          "properties" : {
+            "tags" : [ "security" ],
+            "description" : "Detects insecure SSL client configurations with an implementation of the `HostKeyCallback` that accepts all host keys.",
+            "id" : "go/insecure-hostkeycallback",
+            "kind" : "path-problem",
+            "name" : "Use of insecure HostKeyCallback implementation",
+            "precision" : "high",
+            "problem.severity" : "warning"
+          }
+        }, {
+          "id" : "go/weak-crypto-key",
+          "name" : "go/weak-crypto-key",
+          "shortDescription" : {
+            "text" : "Use of a weak cryptographic key"
+          },
+          "fullDescription" : {
+            "text" : "Using a weak cryptographic key can allow an attacker to compromise security."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-326" ],
+            "description" : "Using a weak cryptographic key can allow an attacker to compromise security.",
+            "id" : "go/weak-crypto-key",
+            "kind" : "path-problem",
+            "name" : "Use of a weak cryptographic key",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "7.5"
+          }
+        }, {
+          "id" : "go/insecure-tls",
+          "name" : "go/insecure-tls",
+          "shortDescription" : {
+            "text" : "Insecure TLS configuration"
+          },
+          "fullDescription" : {
+            "text" : "If an application supports insecure TLS versions or ciphers, it may be vulnerable to machine-in-the-middle and other attacks."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "warning"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-327" ],
+            "description" : "If an application supports insecure TLS versions or ciphers, it may be vulnerable to\n              machine-in-the-middle and other attacks.",
+            "id" : "go/insecure-tls",
+            "kind" : "path-problem",
+            "name" : "Insecure TLS configuration",
+            "precision" : "very-high",
+            "problem.severity" : "warning",
+            "security-severity" : "7.5"
+          }
+        }, {
+          "id" : "go/insecure-randomness",
+          "name" : "go/insecure-randomness",
+          "shortDescription" : {
+            "text" : "Use of insufficient randomness as the key of a cryptographic algorithm"
+          },
+          "fullDescription" : {
+            "text" : "Using insufficient randomness as the key of a cryptographic algorithm can allow an attacker to compromise security."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-338" ],
+            "description" : "Using insufficient randomness as the key of a cryptographic algorithm can allow an attacker to compromise security.",
+            "id" : "go/insecure-randomness",
+            "kind" : "path-problem",
+            "name" : "Use of insufficient randomness as the key of a cryptographic algorithm",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "7.8"
+          }
+        }, {
+          "id" : "go/constant-oauth2-state",
+          "name" : "go/constant-oauth2-state",
+          "shortDescription" : {
+            "text" : "Use of constant `state` value in OAuth 2.0 URL"
+          },
+          "fullDescription" : {
+            "text" : "Using a constant value for the `state` in the OAuth 2.0 URL makes the application susceptible to CSRF attacks."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-352" ],
+            "description" : "Using a constant value for the `state` in the OAuth 2.0 URL makes the application\n              susceptible to CSRF attacks.",
+            "id" : "go/constant-oauth2-state",
+            "kind" : "path-problem",
+            "name" : "Use of constant `state` value in OAuth 2.0 URL",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "8.8"
+          }
+        }, {
+          "id" : "go/bad-redirect-check",
+          "name" : "go/bad-redirect-check",
+          "shortDescription" : {
+            "text" : "Bad redirect check"
+          },
+          "fullDescription" : {
+            "text" : "A redirect check that checks for a leading slash but not two leading slashes or a leading slash followed by a backslash is incomplete."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-601" ],
+            "description" : "A redirect check that checks for a leading slash but not two\n              leading slashes or a leading slash followed by a backslash is\n              incomplete.",
+            "id" : "go/bad-redirect-check",
+            "kind" : "path-problem",
+            "name" : "Bad redirect check",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "6.1"
+          }
+        }, {
+          "id" : "go/unvalidated-url-redirection",
+          "name" : "go/unvalidated-url-redirection",
+          "shortDescription" : {
+            "text" : "Open URL redirect"
+          },
+          "fullDescription" : {
+            "text" : "Open URL redirection based on unvalidated user input may cause redirection to malicious web sites."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "warning"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-601" ],
+            "description" : "Open URL redirection based on unvalidated user input\n              may cause redirection to malicious web sites.",
+            "id" : "go/unvalidated-url-redirection",
+            "kind" : "path-problem",
+            "name" : "Open URL redirect",
+            "precision" : "high",
+            "problem.severity" : "warning",
+            "security-severity" : "6.1"
+          }
+        }, {
+          "id" : "go/email-injection",
+          "name" : "go/email-injection",
+          "shortDescription" : {
+            "text" : "Email content injection"
+          },
+          "fullDescription" : {
+            "text" : "Incorporating untrusted input directly into an email message can enable content spoofing, which in turn may lead to information leaks and other security issues."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-640" ],
+            "description" : "Incorporating untrusted input directly into an email message can enable\n              content spoofing, which in turn may lead to information leaks and other\n              security issues.",
+            "id" : "go/email-injection",
+            "kind" : "path-problem",
+            "name" : "Email content injection",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "9.8"
+          }
+        }, {
+          "id" : "go/xml/xpath-injection",
+          "name" : "go/xml/xpath-injection",
+          "shortDescription" : {
+            "text" : "XPath injection"
+          },
+          "fullDescription" : {
+            "text" : "Building an XPath expression from user-controlled sources is vulnerable to insertion of malicious code by the user."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-643" ],
+            "description" : "Building an XPath expression from user-controlled sources is vulnerable to insertion of\n              malicious code by the user.",
+            "id" : "go/xml/xpath-injection",
+            "kind" : "path-problem",
+            "name" : "XPath injection",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "9.8"
+          }
+        }, {
+          "id" : "go/incorrect-integer-conversion",
+          "name" : "go/incorrect-integer-conversion",
+          "shortDescription" : {
+            "text" : "Incorrect conversion between integer types"
+          },
+          "fullDescription" : {
+            "text" : "Converting the result of `strconv.Atoi`, `strconv.ParseInt`, and `strconv.ParseUint` to integer types of smaller bit size can produce unexpected values."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "warning"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-190", "external/cwe/cwe-681" ],
+            "description" : "Converting the result of `strconv.Atoi`, `strconv.ParseInt`,\n              and `strconv.ParseUint` to integer types of smaller bit size\n              can produce unexpected values.",
+            "id" : "go/incorrect-integer-conversion",
+            "kind" : "path-problem",
+            "name" : "Incorrect conversion between integer types",
+            "precision" : "very-high",
+            "problem.severity" : "warning",
+            "security-severity" : "8.1"
+          }
+        }, {
+          "id" : "go/request-forgery",
+          "name" : "go/request-forgery",
+          "shortDescription" : {
+            "text" : "Uncontrolled data used in network request"
+          },
+          "fullDescription" : {
+            "text" : "Sending network requests with user-controlled data allows for request forgery attacks."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true,
+            "level" : "error"
+          },
+          "properties" : {
+            "tags" : [ "security", "external/cwe/cwe-918" ],
+            "description" : "Sending network requests with user-controlled data allows for request forgery attacks.",
+            "id" : "go/request-forgery",
+            "kind" : "path-problem",
+            "name" : "Uncontrolled data used in network request",
+            "precision" : "high",
+            "problem.severity" : "error",
+            "security-severity" : "9.1"
+          }
+        }, {
+          "id" : "go/summary/lines-of-code",
+          "name" : "go/summary/lines-of-code",
+          "shortDescription" : {
+            "text" : "Total lines of Go code in the database"
+          },
+          "fullDescription" : {
+            "text" : "The total number of lines of Go code across all extracted files, including auto-generated files. This is a useful metric of the size of a database. For all files that were seen during the build, this query counts the lines of code, excluding whitespace or comments."
+          },
+          "defaultConfiguration" : {
+            "enabled" : true
+          },
+          "properties" : {
+            "tags" : [ "summary", "lines-of-code" ],
+            "description" : "The total number of lines of Go code across all extracted files, including auto-generated files. This is a useful metric of the size of a database. For all files that were seen during the build, this query counts the lines of code, excluding whitespace or comments.",
+            "id" : "go/summary/lines-of-code",
+            "kind" : "metric",
+            "name" : "Total lines of Go code in the database"
+          }
+        } ]
+      },
+      "extensions" : [ {
+        "name" : "legacy-libraries-java",
+        "semanticVersion" : "0.0.0+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/misc/legacy-support/java/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/misc/legacy-support/java/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/python-consistency-queries",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/python/ql/consistency-queries/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/python/ql/consistency-queries/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/go-examples",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/go/ql/examples/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/go/ql/examples/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "tob-cpp-crypto",
+        "semanticVersion" : "0.1.0+eb81a58f2eb855b5dc5a424906213f4af6f0448d",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-queries/cpp/src/crypto/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-queries/cpp/src/crypto/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/go-queries",
+        "semanticVersion" : "0.2.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/go/ql/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/go/ql/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/csharp-examples",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/examples/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/examples/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql-java-consistency-queries",
+        "semanticVersion" : "0.0.0+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/java/ql/consistency-queries/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/java/ql/consistency-queries/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/cpp-queries",
+        "semanticVersion" : "0.2.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/cpp/ql/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/cpp/ql/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/ql-tests",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ql/ql/test/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ql/ql/test/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql-csharp-consistency-queries",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/consistency-queries/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/consistency-queries/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/java-tests",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/java/ql/test/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/java/ql/test/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/swift-all",
+        "semanticVersion" : "0.0.0+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/swift/ql/lib/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/swift/ql/lib/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/python-queries",
+        "semanticVersion" : "0.2.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/python/ql/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/python/ql/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/javascript-experimental-atm-lib",
+        "semanticVersion" : "0.3.1+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/experimental/adaptivethreatmodeling/lib/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/experimental/adaptivethreatmodeling/lib/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "tob-cpp-private",
+        "semanticVersion" : "0.0.0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/tob-private-queries/queries/cpp/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/tob-private-queries/queries/cpp/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "legacy-libraries-csharp",
+        "semanticVersion" : "0.0.0+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/misc/legacy-support/csharp/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/misc/legacy-support/csharp/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/go-tests",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/go/ql/test/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/go/ql/test/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/python-examples",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/python/ql/examples/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/python/ql/examples/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "legacy-libraries-javascript",
+        "semanticVersion" : "0.0.0+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/misc/legacy-support/javascript/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/misc/legacy-support/javascript/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql-swift-tests",
+        "semanticVersion" : "0.0.0+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/swift/ql/test/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/swift/ql/test/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/csharp-queries",
+        "semanticVersion" : "0.2.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "legacy-libraries-cpp",
+        "semanticVersion" : "0.0.0+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/misc/legacy-support/cpp/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/misc/legacy-support/cpp/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/ruby-examples",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ruby/ql/examples/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ruby/ql/examples/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/ruby-all",
+        "semanticVersion" : "0.3.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ruby/ql/lib/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ruby/ql/lib/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/javascript-examples",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/examples/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/examples/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/java-examples",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/java/ql/examples/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/java/ql/examples/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/csharp-solorigate-queries",
+        "semanticVersion" : "1.2.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/campaigns/Solorigate/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/campaigns/Solorigate/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/javascript-queries",
+        "semanticVersion" : "0.2.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/suite-helpers",
+        "semanticVersion" : "0.2.0+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/misc/suite-helpers/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/misc/suite-helpers/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql-csharp-tests",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/test/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/test/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/javascript-experimental-atm-model-building",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/experimental/adaptivethreatmodeling/modelbuilding/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/experimental/adaptivethreatmodeling/modelbuilding/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "legacy-libraries-python",
+        "semanticVersion" : "0.0.0+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/misc/legacy-support/python/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/misc/legacy-support/python/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/ql",
+        "semanticVersion" : "0.0.0+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ql/ql/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ql/ql/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/ruby-queries",
+        "semanticVersion" : "0.2.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ruby/ql/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ruby/ql/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/cpp-tests",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/cpp/ql/test/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/cpp/ql/test/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "tob-go-private",
+        "semanticVersion" : "0.0.1",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/tob-private-queries/queries/go/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/tob-private-queries/queries/go/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/javascript-tests",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/test/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/test/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "csharp-solorigate-tests",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/campaigns/Solorigate/test/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/campaigns/Solorigate/test/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/ruby-tests",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ruby/ql/test/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ruby/ql/test/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/go-all",
+        "semanticVersion" : "0.2.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/go/ql/lib/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/go/ql/lib/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/cpp-examples",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/cpp/ql/examples/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/cpp/ql/examples/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/swift-queries",
+        "semanticVersion" : "0.0.0+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/swift/ql/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/swift/ql/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "tob-cpp",
+        "semanticVersion" : "0.1.0+eb81a58f2eb855b5dc5a424906213f4af6f0448d",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-queries/cpp/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-queries/cpp/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/python-all",
+        "semanticVersion" : "0.5.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/python/ql/lib/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/python/ql/lib/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/ql-examples",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ql/ql/examples/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ql/ql/examples/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/java-queries",
+        "semanticVersion" : "0.2.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/java/ql/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/java/ql/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/cpp-all",
+        "semanticVersion" : "0.3.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/cpp/ql/lib/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/cpp/ql/lib/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/javascript-all",
+        "semanticVersion" : "0.2.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/lib/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/lib/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "tob-go",
+        "semanticVersion" : "0.0.1+eb81a58f2eb855b5dc5a424906213f4af6f0448d",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-queries/go/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-queries/go/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/javascript-experimental-atm-queries",
+        "semanticVersion" : "0.3.1+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/experimental/adaptivethreatmodeling/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/javascript/ql/experimental/adaptivethreatmodeling/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "legacy-upgrades",
+        "semanticVersion" : "0.0.0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql/legacy-upgrades/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql/legacy-upgrades/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/java-all",
+        "semanticVersion" : "0.3.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/java/ql/lib/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/java/ql/lib/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/ql-consistency-queries",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ql/ql/consistency-queries/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ql/ql/consistency-queries/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/python-tests",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/python/ql/test/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/python/ql/test/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "legacy-libraries-go",
+        "semanticVersion" : "0.0.0+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/go/ql/config/legacy-support/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/go/ql/config/legacy-support/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/ruby-consistency-queries",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ruby/ql/consistency-queries/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/ruby/ql/consistency-queries/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "tob-other-private",
+        "semanticVersion" : "0.0.0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/tob-private-queries/queries/other_languages/src/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/tob-private-queries/queries/other_languages/src/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/cpp-tests-cwe-190-tainted",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/cpp/ql/test/query-tests/Security/CWE/CWE-190/semmle/tainted/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/cpp/ql/test/query-tests/Security/CWE/CWE-190/semmle/tainted/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/csharp-all",
+        "semanticVersion" : "0.3.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/lib/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/lib/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      }, {
+        "name" : "codeql/csharp-solorigate-all",
+        "semanticVersion" : "1.2.1-dev+cc5f59f31323c1424f6ad383b386f57ac562b8a0",
+        "locations" : [ {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/campaigns/Solorigate/lib/",
+          "description" : {
+            "text" : "The QL pack root directory."
+          }
+        }, {
+          "uri" : "file:///Users/user/.codeql/codeql-repo/csharp/ql/campaigns/Solorigate/lib/qlpack.yml",
+          "description" : {
+            "text" : "The QL pack definition file."
+          }
+        } ]
+      } ]
+    },
+    "invocations" : [ {
+      "toolExecutionNotifications" : [ {
+        "message" : {
+          "text" : "gjson.go"
+        },
+        "level" : "none",
+        "descriptor" : {
+          "id" : "go/summary/successfully-extracted-files",
+          "index" : 1
+        },
+        "properties" : {
+          "formattedMessage" : {
+            "text" : "gjson.go"
+          },
+          "relatedLocations" : [ ]
+        }
+      }, {
+        "message" : {
+          "text" : "go.mod"
+        },
+        "level" : "none",
+        "descriptor" : {
+          "id" : "go/summary/successfully-extracted-files",
+          "index" : 1
+        },
+        "properties" : {
+          "formattedMessage" : {
+            "text" : "go.mod"
+          },
+          "relatedLocations" : [ ]
+        }
+      } ],
+      "executionSuccessful" : true
+    } ],
+    "artifacts" : [ {
+      "location" : {
+        "uri" : "gjson.go",
+        "uriBaseId" : "%SRCROOT%",
+        "index" : 0
+      }
+    } ],
+    "results" : [ {
+      "ruleId" : "go/incorrect-integer-conversion",
+      "ruleIndex" : 25,
+      "rule" : {
+        "id" : "go/incorrect-integer-conversion",
+        "index" : 25
+      },
+      "message" : {
+        "text" : "Incorrect conversion of a 64-bit integer from [strconv.ParseUint](1) to a lower bit size type int32 without an upper bound check."
+      },
+      "locations" : [ {
+        "physicalLocation" : {
+          "artifactLocation" : {
+            "uri" : "gjson.go",
+            "uriBaseId" : "%SRCROOT%",
+            "index" : 0
+          },
+          "region" : {
+            "startLine" : 1929,
+            "startColumn" : 9,
+            "endColumn" : 16
+          }
+        }
+      } ],
+      "partialFingerprints" : {
+        "primaryLocationLineHash" : "9457bd316e707989:1",
+        "primaryLocationStartColumnFingerprint" : "7"
+      },
+      "codeFlows" : [ {
+        "threadFlows" : [ {
+          "locations" : [ {
+            "location" : {
+              "physicalLocation" : {
+                "artifactLocation" : {
+                  "uri" : "gjson.go",
+                  "uriBaseId" : "%SRCROOT%",
+                  "index" : 0
+                },
+                "region" : {
+                  "startLine" : 1928,
+                  "startColumn" : 2,
+                  "endColumn" : 45
+                }
+              },
+              "message" : {
+                "text" : "... := ...[0] : uint64"
+              }
+            }
+          }, {
+            "location" : {
+              "physicalLocation" : {
+                "artifactLocation" : {
+                  "uri" : "gjson.go",
+                  "uriBaseId" : "%SRCROOT%",
+                  "index" : 0
+                },
+                "region" : {
+                  "startLine" : 1929,
+                  "startColumn" : 9,
+                  "endColumn" : 16
+                }
+              },
+              "message" : {
+                "text" : "type conversion"
+              }
+            }
+          } ]
+        } ]
+      } ],
+      "relatedLocations" : [ {
+        "id" : 1,
+        "physicalLocation" : {
+          "artifactLocation" : {
+            "uri" : "gjson.go",
+            "uriBaseId" : "%SRCROOT%",
+            "index" : 0
+          },
+          "region" : {
+            "startLine" : 1928,
+            "startColumn" : 2,
+            "endColumn" : 45
+          }
+        },
+        "message" : {
+          "text" : "strconv.ParseUint"
+        }
+      } ]
+    } ],
+    "columnKind" : "utf16CodeUnits",
+    "properties" : {
+      "metricResults" : [ {
+        "rule" : {
+          "id" : "go/summary/lines-of-code",
+          "index" : 27
+        },
+        "ruleId" : "go/summary/lines-of-code",
+        "ruleIndex" : 27,
+        "value" : 2518,
+        "baseline" : 4741
+      } ],
+      "semmle.formatSpecifier" : "sarif-latest"
+    }
+  } ]
+}

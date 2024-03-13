@@ -1,0 +1,9 @@
+# write a semgrep rule to find calls to openCodeRegion
+
+rules:
+    - id: open-code-region
+      patterns:
+          - pattern: ....openCodeRegion(...)
+      message: openCodeRegion is deprecated
+      languages: [typescript]
+      severity: ERROR

@@ -1,0 +1,222 @@
+{
+  "runs": [
+    {
+      "results": [
+        {
+          "level": "warning",
+          "locations": [],
+          "message": {
+            "text": "The file `/Users/user/docs/tob_repos/circomspect/test.circom` does not include a version pragma. Assuming version 2.0.8."
+          },
+          "relatedLocations": [],
+          "rule": {
+            "id": "P1004"
+          },
+          "ruleId": "P1004"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "id": 0,
+              "message": {
+                "text": "The assigned signal `out[k]` is not constrained here."
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///Users/user/docs/tob_repos/circomspect/test.circom"
+                },
+                "region": {
+                  "endColumn": 36,
+                  "endLine": 19,
+                  "startColumn": 11,
+                  "startLine": 19
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Using the signal assignment operator `<--` does not constrain the assigned signal."
+          },
+          "relatedLocations": [
+            {
+              "id": 0,
+              "message": {
+                "text": "The signal `out[k]` is constrained here."
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///Users/user/docs/tob_repos/circomspect/test.circom"
+                },
+                "region": {
+                  "endColumn": 39,
+                  "endLine": 20,
+                  "startColumn": 11,
+                  "startLine": 20
+                }
+              }
+            }
+          ],
+          "rule": {
+            "id": "CS0005"
+          },
+          "ruleId": "CS0005"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "id": 0,
+              "message": {
+                "text": "The value assigned to `e2` here does not influence witness or constraint generation."
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///Users/user/docs/tob_repos/circomspect/test.circom"
+                },
+                "region": {
+                  "endColumn": 13,
+                  "endLine": 17,
+                  "startColumn": 7,
+                  "startLine": 17
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "The value assigned to `e2` is not used in witness or constraint generation."
+          },
+          "relatedLocations": [],
+          "rule": {
+            "id": "CS0008"
+          },
+          "ruleId": "CS0008"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "id": 0,
+              "message": {
+                "text": "The value assigned to `lout` here does not influence witness or constraint generation."
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///Users/user/docs/tob_repos/circomspect/test.circom"
+                },
+                "region": {
+                  "endColumn": 30,
+                  "endLine": 22,
+                  "startColumn": 11,
+                  "startLine": 22
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "The value assigned to `lout` is not used in witness or constraint generation."
+          },
+          "relatedLocations": [],
+          "rule": {
+            "id": "CS0008"
+          },
+          "ruleId": "CS0008"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "id": 0,
+              "message": {
+                "text": "The value assigned to `lout` here does not influence witness or constraint generation."
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///Users/user/docs/tob_repos/circomspect/test.circom"
+                },
+                "region": {
+                  "endColumn": 19,
+                  "endLine": 4,
+                  "startColumn": 7,
+                  "startLine": 4
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "The value assigned to `lout` is not used in witness or constraint generation."
+          },
+          "relatedLocations": [],
+          "rule": {
+            "id": "CS0008"
+          },
+          "ruleId": "CS0008"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "id": 0,
+              "message": {
+                "text": "The value assigned to `e2` here does not influence witness or constraint generation."
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///Users/user/docs/tob_repos/circomspect/test.circom"
+                },
+                "region": {
+                  "endColumn": 23,
+                  "endLine": 23,
+                  "startColumn": 11,
+                  "startLine": 23
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "The value assigned to `e2` is not used in witness or constraint generation."
+          },
+          "relatedLocations": [],
+          "rule": {
+            "id": "CS0008"
+          },
+          "ruleId": "CS0008"
+        }
+      ],
+      "tool": {
+        "driver": {
+          "downloadUri": "https://github.com/trailofbits/circomspect",
+          "name": "Circomspect",
+          "organization": "Trail of Bits",
+          "rules": [
+            {
+              "id": "P1004",
+              "name": "no-compiler-version-warning"
+            },
+            {
+              "id": "CS0005",
+              "name": "signal-assignment-statement"
+            },
+            {
+              "id": "CS0008",
+              "name": "variable-without-side-effect"
+            },
+            {
+              "id": "CS0008",
+              "name": "variable-without-side-effect"
+            },
+            {
+              "id": "CS0008",
+              "name": "variable-without-side-effect"
+            },
+            {
+              "id": "CS0008",
+              "name": "variable-without-side-effect"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}
