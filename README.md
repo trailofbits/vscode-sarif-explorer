@@ -9,38 +9,7 @@ Whether you are a developer or a code auditor, SARIF Explorer allows you to clas
 
 ## Installation
 
-Install the extension via the VSCode Extensions browser. See the [Build and install](#development) section below for how to build and install from code.
-
-## Suggested Work Flow
-
-  1. Run all of your static analysis tools and store the resulting SARIF files in the folder where you ran them
-  2. Open SARIF Explorer and open all the SARIF files
-  3. Filter out the noisy results:
-    - Are there rules that you are not interested in seeing? Hide them!
-    - Are there folders for which you don't care about the results (e.g., the `./tests` folder)? Filter them out!
-  4. Triage the results:
-    - determine if each result is a false positive or a bug
-    - swipe left or right accordingly (i.e., click the left or right arrow)
-    - add additional context with a comment if necessary
-  5. Working with other team members? Share your progress by committing the [`.sarifexplorer` file](./docs/sarif_explorer_spec.md)
-  6. Send all results marked as bugs to [weAudit](https://github.com/trailofbits/vscode-weaudit) and proceed with the [weAudit](https://github.com/trailofbits/vscode-weaudit) workflow
-
-
-## Keybindings
-
-In the `Results` tab:
-  - `ArrowDown`: Select the result below
-  - `ArrowUp`: Select the result above
-  - `ArrowRight`: Classify the selected result as a `Bug` and select the result below
-  - `ArrowLeft`: Classify the selected result as a `False Positive` and select the result below
-  - `Backspace`: Classify the selected result as `Todo` and select the result below
-
-
-## Concepts
-
-  - **SARIF Files**: The SARIF files you've opened that can be viewed in the `SARIF Files` tab.
-  - **Results**: The results loaded from the SARIF Files that can be viewed in the `Results` tab.
-  - **Base Folder**: The absolute path of the folder against which you ran your static analysis tool. SARIF Explorer uses this path to know where to open a result's associated code. In most situations, SARIF Explorer's heuristics will automatically find this folder for you.
+Install the extension by searching for [SARIF Explorer](https://marketplace.visualstudio.com/items?itemName=trailofbits.sarif-explorer) in the VSCode Extensions browser. See the [Build and install](#development) section below for how to build and install from code.
 
 
 ## Features
@@ -53,6 +22,38 @@ In the `Results` tab:
   - [**Create GitHub Issues**](#create-github-issues): Create formatted GitHub issues for a specific result or for all the un-filtered results under a given rule. Requires having [weAudit](https://github.com/trailofbits/vscode-weaudit) installed.
   - [**Send Bugs to weAudit**](#send-bugs-to-weaudit): Send all results classified as `Bug` to [weAudit](https://github.com/trailofbits/vscode-weaudit) (results are automatically de-duplicated). Requires having [weAudit](https://github.com/trailofbits/vscode-weaudit) installed.
   - [**Collaborate**](#collaborate): Share the `.sarifexplorer` file with your colleagues (e.g., on GitHub) to share your comments and classified results.
+
+
+## Suggested Work Flow
+
+  1. Run all of your static analysis tools and store the resulting SARIF files in the folder where you ran them
+  2. Open SARIF Explorer and open all the SARIF files
+  3. Filter out the noisy results:
+     - Are there rules that you are not interested in seeing? Hide them!
+     - Are there folders for which you don't care about the results (e.g., the `./tests` folder)? Filter them out!
+  4. Triage the results:
+     - determine if each result is a false positive or a bug
+     - swipe left or right accordingly (i.e., click the left or right arrow)
+     - add additional context with a comment if necessary
+  5. Working with other team members? Share your progress by committing the [`.sarifexplorer` file](./docs/sarif_explorer_spec.md)
+  6. Send all results marked as bugs to [weAudit](https://github.com/trailofbits/vscode-weaudit) and proceed with the [weAudit](https://github.com/trailofbits/vscode-weaudit) workflow
+
+
+## Concepts
+
+  - **SARIF Files**: The SARIF files you've opened that can be viewed in the `SARIF Files` tab.
+  - **Results**: The results loaded from the SARIF Files that can be viewed in the `Results` tab.
+  - **Base Folder**: The absolute path of the folder against which you ran your static analysis tool. SARIF Explorer uses this path to know where to open a result's associated code. In most situations, SARIF Explorer's heuristics will automatically find this folder for you.
+
+
+## Keybindings
+
+In the `Results` tab:
+  - `ArrowDown`: Select the result below
+  - `ArrowUp`: Select the result above
+  - `ArrowRight`: Classify the selected result as a `Bug` and select the result below
+  - `ArrowLeft`: Classify the selected result as a `False Positive` and select the result below
+  - `Backspace`: Classify the selected result as `Todo` and select the result below
 
 
 ---
