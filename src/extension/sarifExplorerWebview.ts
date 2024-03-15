@@ -492,7 +492,7 @@ export class SarifExplorerWebview {
             case "openGitHubIssue": {
                 if (msg.bugs.length === 0) {
                     vscode.window.showErrorMessage(
-                        "Failed to Open GitHub Issue: Trying to open a GitHub issue with no bugs.",
+                        "Failed to Open GitHub Issue: Trying to open a GitHub issue but no results are visible.",
                     );
                     return;
                 }
