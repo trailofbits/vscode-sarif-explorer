@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { ExportedResult } from "../shared/resultTypes";
 import { Entry, EntryType, FindingDifficulty, FindingSeverity, FindingType, Location } from "./weAuditTypes";
 
-const weAuditExtensionId = "trailofbits.weAudit";
+const weAuditExtensionId = "trailofbits.weaudit";
 
 export class WeAuditNotInstalledError extends Error {
     constructor() {
@@ -121,8 +121,8 @@ async function exportedResultsToEntry(results: ExportedResult[]): Promise<Entry>
         author: rule.toolName,
         locations: locations,
         details: {
-            severity: FindingSeverity.Undetermined,
-            difficulty: FindingDifficulty.Undetermined,
+            severity: FindingSeverity.Undefined,
+            difficulty: FindingDifficulty.Undefined,
             type: FindingType.Undefined,
             description: rule.fullDescription.trim(),
             exploit: "",
