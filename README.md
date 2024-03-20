@@ -76,7 +76,7 @@ Browse all the opened results in the `Results` tab by opening a rule and clickin
 
 In the detailed view of the result, you have more detailed information, including data flow data which you can browse from source to sink.
 
-![GIF showing how to browswe results](./media/README/gif/browse_results.gif)
+![GIF showing how to browse results](./media/README/gif/browse_results.gif)
 
 
 ### Classify Results
