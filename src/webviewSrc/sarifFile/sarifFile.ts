@@ -52,6 +52,7 @@ export class SarifFile {
             this.results = this.parseResults(run.results, 0, resultNotes);
             this.tool = this.parseTool(run.tool, hiddenRules);
         } catch (e) {
+            console.error((e as Error).stack);
             throw new Error("Parsing failed: " + e);
         }
 
@@ -84,8 +85,21 @@ export class SarifFile {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private parseLocation(loc: any): ResultLocation {
+        let path: string;
+        if (loc.physicalLocation.artifactLocation !== undefined) {
+            path = loc.physicalLocation.artifactLocation?.uri || "";
+        } else if (loc.physicalLocation.address !== undefined) {
+            // Very basic support for address-based locations https://docs.oasis-open.org/sarif/sarif/v2.1.0/csprd01/sarif-v2.1.0-csprd01.html#_Toc10541143
+            // Since SARIF Explorer works mostly with source files, we just have very minimal support for this
+            const address: number =
+                loc.physicalLocation.address?.absoluteAddress || loc.physicalLocation.address?.relativeAddress || -1;
+            path = "0x" + address.toString(16);
+        } else {
+            path = "";
+        }
+
         return {
-            path: loc.physicalLocation.artifactLocation.uri,
+            path: path,
             region: {
                 startLine: loc.physicalLocation?.region?.startLine || 1,
                 startColumn: loc.physicalLocation?.region?.startColumn || 1,
