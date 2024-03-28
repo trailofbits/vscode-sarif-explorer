@@ -13,6 +13,7 @@ import {
 } from "../shared/webviewMessageTypes";
 import { openSarifFile, openSarifFileDialog } from "./operations/openSarifFile";
 import {
+    BaseFolderCouldNotBeDeterminedError,
     BaseFolderIsIncorrectError,
     getResultFileUri,
     openBaseFolderDialog,
@@ -592,7 +593,7 @@ export class SarifExplorerWebview {
             );
         } catch (err) {
             const errorMsg = "Failed to open code region";
-            if (err instanceof BaseFolderIsIncorrectError) {
+            if (err instanceof BaseFolderIsIncorrectError || err instanceof BaseFolderCouldNotBeDeterminedError) {
                 this.handleBaseFolderIsIncorrectError(err, errorMsg, msg.sarifFilePath, msg.resultFilePath);
             } else {
                 vscode.window.showErrorMessage(`${errorMsg}: ${err}.`);
@@ -612,7 +613,7 @@ export class SarifExplorerWebview {
     }
 
     public async handleBaseFolderIsIncorrectError(
-        err: BaseFolderIsIncorrectError,
+        err: BaseFolderIsIncorrectError | BaseFolderCouldNotBeDeterminedError,
         errorMsg: string,
         sarifFilePath: string,
         resultFilePath: string,

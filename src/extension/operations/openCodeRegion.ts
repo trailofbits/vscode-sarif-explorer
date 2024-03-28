@@ -23,6 +23,13 @@ export class BaseFolderIsIncorrectError extends Error {
     }
 }
 
+export class BaseFolderCouldNotBeDeterminedError extends Error {
+    constructor(filePath: string) {
+        super(`Could not determine the result's base folder based on several heuristics for the path '${filePath}'`);
+        this.name = "BaseFolderCouldNotBeDeterminedError";
+    }
+}
+
 export class BaseFolderSelectionError extends Error {
     constructor(message: string) {
         super(message);
@@ -95,8 +102,7 @@ export async function getResultFileUri(
     }
 
     // If nothing else worked, ask the user to provide base folder
-    const uriAndBaseFolder = await openBaseFolderDialog(filePath);
-    return uriAndBaseFolder;
+    throw new BaseFolderCouldNotBeDeterminedError(filePath);
 }
 
 function findBaseFolderWithHeuristics(filePath: string, potentialBaseFolders: string[]): UriAndBaseFolder | undefined {
