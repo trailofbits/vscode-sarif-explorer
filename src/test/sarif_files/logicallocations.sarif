@@ -1,0 +1,160 @@
+{
+    "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+      {
+        "tool": {
+          "driver": {
+            "name": "Slither",
+            "informationUri": "https://github.com/crytic/slither",
+            "version": "0.10.0",
+            "rules": []
+          }
+        },
+        "logicalLocations": [
+          {
+            "name": "MyContract",
+            "kind": "contract",
+            "parentIndex": -1
+          },
+          {
+            "name": "myFunction",
+            "kind": "function",
+            "parentIndex": 0
+          }
+        ],
+        "results": [
+          {
+            "ruleId": "Project",
+            "message": {
+              "text": "Check all dependencies for most recent version",
+              "markdown": "MARKDOWN Check all dependencies for most recent version"
+            },
+            "level": "note",
+            "locations": [
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol"
+                  }
+                },
+                "logicalLocations": [
+                  {
+                    "index": 1
+                  }]
+              },
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/b.sol"
+                  }
+                },
+                "logicalLocations": [
+                  {
+                    "index": 1
+                  }]
+              },
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/b.sol"
+                  },
+                  "logicalLocations": [
+                    {
+                      "index": 1
+                    }]
+                }
+              }
+            ],
+            "partialFingerprints": {
+              "id": "9b6c59ba8db955b843fd53b0e479463ef0abdc939ce0e83a194e8e556b9f2f29"
+            }
+          },
+          {
+            "ruleId": "hoagies",
+            "message": {
+              "text": "Pragma version0.8.19 (/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n",
+              "markdown": "Pragma version[0.8.19](/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#L1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n"
+            },
+            "level": "warning",
+            "locations": [
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol"
+                  },
+                  "region": {
+                    "startLine": 1,
+                    "endLine": 1
+                  }
+                },
+                "logicalLocations": [
+                  {
+                    "index": 1
+                  }]
+              }
+            ],
+            "partialFingerprints": {
+              "id": "9b6c59ba8db955b843fd53b0e479463ef0abdc939ce0e83a194e8e556b9f2f29"
+            }
+          },
+          {
+            "ruleId": "hoagies2",
+            "message": {
+              "text": "Pragma version0.8.19 (/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n",
+              "markdown": "Pragma version[0.8.19](/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#L1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n"
+            },
+            "level": "warning",
+            "locations": [
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol"
+                  },
+                  "region": {
+                    "startLine": 1,
+                    "endLine": 1
+                  }
+                },
+                "logicalLocations": [
+                  {
+                    "index": 1
+                  }]
+              }
+            ],
+            "partialFingerprints": {
+              "id": "9b6c59ba8db955b843fd53b0e479463ef0abdc939ce0e83a194e8e556b9f2f29"
+            }
+          },
+          {
+            "ruleId": "hoagies3",
+            "message": {
+              "text": "Pragma version0.8.19 (/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n",
+              "markdown": "Pragma version[0.8.19](/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#L1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n"
+            },
+            "level": "warning",
+            "locations": [
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol"
+                  },
+                  "region": {
+                    "startLine": 1,
+                    "endLine": 1
+                  }
+                },
+                "logicalLocations": [
+                  {
+                    "index": 1
+                  }]
+              }
+            ],
+            "partialFingerprints": {
+              "id": "9b6c59ba8db955b843fd53b0e479463ef0abdc939ce0e83a194e8e556b9f2f29"
+            }
+          }
+        ]
+      }
+    ]
+  }

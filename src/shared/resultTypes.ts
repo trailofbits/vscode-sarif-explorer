@@ -31,6 +31,7 @@ export type LabeledLocation = {
 export type ResultLocation = {
     path: string;
     region: ResultRegion;
+    logicalLocations?: any[];
 };
 
 export type ResultRegion = {
@@ -38,6 +39,13 @@ export type ResultRegion = {
     startColumn: number;
     endLine: number;
     endColumn: number;
+};
+
+export type LogicalLocationNode = {
+    [key: string]: any;
+    results?: any[];
+    name?: string;
+    index?: number; // Added index property
 };
 
 /* eslint-disable @typescript-eslint/naming-convention */

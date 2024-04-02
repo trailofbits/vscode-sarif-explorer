@@ -17,6 +17,12 @@ export type Tool = {
     rules: Map<string, Rule>;
 };
 
+export type LogicalLocation = {
+    name: string;
+    kind: string;
+    parentIndex: number;
+};
+
 export class SarifFile {
     // The path to the SARIF file
     private sarifFilePath: string;
@@ -25,6 +31,7 @@ export class SarifFile {
     // The parsed results from the SARIF file
     private results: Result[];
     private tool: Tool;
+    private logicalLocations: LogicalLocation[];
 
     constructor(
         sarifFilePath: string,
@@ -51,6 +58,7 @@ export class SarifFile {
 
             this.results = this.parseResults(run.results, 0, resultNotes);
             this.tool = this.parseTool(run.tool, hiddenRules);
+            this.logicalLocations = run.logicalLocations;
         } catch (e) {
             console.error((e as Error).stack);
             throw new Error("Parsing failed: " + e);
@@ -99,6 +107,7 @@ export class SarifFile {
         }
 
         return {
+            logicalLocations: loc.logicalLocations ?? [],
             path: path,
             region: {
                 startLine: loc.physicalLocation?.region?.startLine || 1,
@@ -323,6 +332,10 @@ export class SarifFile {
 
     public getTool(): Tool {
         return this.tool;
+    }
+
+    public getLogicalLocations(): LogicalLocation[] {
+        return this.logicalLocations;
     }
 
     public getRule(id: string): Rule | undefined {

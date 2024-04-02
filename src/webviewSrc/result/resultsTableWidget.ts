@@ -1,3 +1,4 @@
+import { log } from "console";
 import { getPathLeaf } from "../../shared/file";
 import {
     ResultLevel,
@@ -6,6 +7,7 @@ import {
     Rule,
     VSCodeConfig,
     defaultVSCodeConfig,
+    LogicalLocationNode,
 } from "../../shared/resultTypes";
 import {
     apiExportGitHubIssue,
@@ -13,7 +15,7 @@ import {
     apiSendBugsToWeAudit,
     apiSetHiddenRule,
 } from "../extensionApi";
-import { SarifFile } from "../sarifFile/sarifFile";
+import { SarifFile, LogicalLocation } from "../sarifFile/sarifFile";
 import { getElementByIdOrThrow, scrollToRow } from "../utils";
 import { Result, ResultAndRow } from "./result";
 import { ResultDetailsWidget } from "./resultDetailsWidget";
@@ -193,6 +195,8 @@ export class ResultsTableWidget {
     private tableElement: HTMLTableElement;
 
     private ruleIdToRuleStatus: Map<string, RuleStatus> = new Map();
+
+    private pathToRuleStatus: Map<string, RuleStatus> = new Map();
 
     private selectedResult: SelectedResult;
 
@@ -632,6 +636,153 @@ export class ResultsTableWidget {
 
         return row;
     }
+    private createRuleElementPATH(rule: Rule, path: string): HTMLTableRowElement {
+        // Create the table row
+        const row = document.createElement("tr");
+        row.classList.add(this.RULE_ROW_CLASS);
+        row.id = path;
+        row.title = path;
+
+        // Add the dropdown arrow
+        {
+            const cell = row.insertCell();
+            cell.classList.add("iconCell");
+
+            const cellDiv = document.createElement("div");
+            cellDiv.classList.add("cellContainer");
+
+            const div = document.createElement("div");
+            div.classList.add("codicon");
+            div.classList.add(this.RULE_ROW_CLOSED_CLASS);
+
+            cellDiv.appendChild(div);
+            cell.appendChild(cellDiv);
+        }
+
+        // Add the rule name
+        {
+            const cell = row.insertCell();
+            cell.classList.add("ruleNameCell");
+            cell.colSpan = 3; // Go over all 3 extra columns
+
+            const cellContainer = document.createElement("div");
+            cellContainer.classList.add("cellWithButtons");
+
+            const content = document.createElement("div");
+            content.classList.add("cellContainer");
+            content.classList.add("cellWithButtonsContent");
+
+            const div0 = this.createResultLevelIcon(rule.level);
+
+            const divSpace = document.createElement("span");
+            divSpace.innerHTML = "&nbsp;";
+
+            const div1 = document.createElement("div");
+            div1.classList.add("ellipsis-beginning");
+            div1.innerText = rule.name;
+
+            const div2 = document.createElement("div");
+            if (rule.name !== rule.id) {
+                div2.classList.add("secondaryText");
+                div2.classList.add("ellipsis");
+                div2.innerText = rule.id;
+            }
+
+            const div3 = document.createElement("div");
+            div3.classList.add("countBadge");
+            div3.innerText = "0"; // Updated on render
+
+            const div4 = document.createElement("div");
+            div4.classList.add(this.RULE_ROW_FILTERED_SUMMARY_CLASS);
+            div4.innerText = ""; // Updated on render
+
+            content.appendChild(div0);
+            content.appendChild(divSpace);
+            content.appendChild(div1);
+            content.appendChild(div2);
+            content.appendChild(div3);
+            content.appendChild(div4);
+
+            // The buttons that will be displayed on the right of the message
+            const rowButtons = document.createElement("div");
+            rowButtons.classList.add("rowButtons");
+
+            const exportAllBugsInRuleAsGHIssue = document.createElement("div");
+            exportAllBugsInRuleAsGHIssue.title = "Export every visible result as one GitHub issue";
+            exportAllBugsInRuleAsGHIssue.classList.add("rowButton");
+            exportAllBugsInRuleAsGHIssue.classList.add("codicon");
+            exportAllBugsInRuleAsGHIssue.classList.add("codicon-github-alt");
+            exportAllBugsInRuleAsGHIssue.onclick = (e) => {
+                e.stopPropagation();
+
+                const bugList: Result[] = [];
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                for (const resultAndRow of this.ruleIdToRuleStatus.get(rule.id)!.results.values()) {
+                    if (!this.resultsTable.isResultFiltered(resultAndRow.result)) {
+                        bugList.push(resultAndRow.result);
+                    }
+                }
+
+                apiExportGitHubIssue(bugList);
+            };
+
+            const toggleHideAllResultsFromRuleButton = document.createElement("div");
+            toggleHideAllResultsFromRuleButton.title = "Hide/show this rule's results";
+            toggleHideAllResultsFromRuleButton.classList.add("rowButton");
+            toggleHideAllResultsFromRuleButton.classList.add("codicon");
+            const filterRuleIdElement = getElementByIdOrThrow(this.FILTER_RULE_ID_ID) as HTMLTextAreaElement;
+            const updateRuleHideStatus = () => {
+                // Add this ruleID to the FILTER_RULE_ID filter
+                const ruleIds = splitStringInParts(filterRuleIdElement.value);
+                if (rule.isHidden) {
+                    ruleIds.add(rule.id);
+                    // Update the "hide" button with the correct icon
+                    toggleHideAllResultsFromRuleButton.classList.remove("codicon-eye");
+                    toggleHideAllResultsFromRuleButton.classList.add("codicon-eye-closed");
+                } else {
+                    ruleIds.delete(rule.id);
+                    // Update the "hide" button with the correct icon
+                    toggleHideAllResultsFromRuleButton.classList.remove("codicon-eye-closed");
+                    toggleHideAllResultsFromRuleButton.classList.add("codicon-eye");
+                }
+
+                filterRuleIdElement.value = setToStringInParts(ruleIds);
+            };
+
+            toggleHideAllResultsFromRuleButton.onclick = (e) => {
+                e.stopPropagation();
+
+                rule.isHidden = !rule.isHidden;
+                updateRuleHideStatus();
+                // trigger the input event to update the filter
+                filterRuleIdElement.dispatchEvent(new Event("input"));
+
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                const ruleStatus: RuleStatus = this.ruleIdToRuleStatus.get(rule.id)!;
+                for (const sarifFilePath of ruleStatus.sarifFilePaths) {
+                    apiSetHiddenRule(sarifFilePath, rule.id, rule.isHidden);
+                }
+            };
+
+            // Update the "hide" button with the correct icon, etc.
+            updateRuleHideStatus();
+
+            rowButtons.appendChild(exportAllBugsInRuleAsGHIssue);
+            rowButtons.appendChild(toggleHideAllResultsFromRuleButton);
+
+            cellContainer.appendChild(content);
+            cellContainer.appendChild(rowButtons);
+            cell.appendChild(cellContainer);
+        }
+
+        row.onclick = () => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const ruleStatus = this.ruleIdToRuleStatus.get(rule.id)!;
+            this.toggleRuleRowOpened(ruleStatus);
+        };
+
+        return row;
+    }
 
     // Get a result's path based on the VSCode configuration
     private getResultDisplayPathAndLine(result: Result): string {
@@ -659,7 +810,7 @@ export class ResultsTableWidget {
 
         // Create the table row
         const row = document.createElement("tr");
-        row.classList.add("hidden");
+        // row.classList.add("hidden");
         row.id = result.getResultIdWithSarifPath();
         row.title = fullPath + ":" + line.toString();
 
@@ -998,11 +1149,125 @@ export class ResultsTableWidget {
         pathCell.innerText = this.getResultDisplayPathAndLine(result);
     }
 
+    public logicalLocationsMap: Map<string, LogicalLocationNode> = new Map();
+
+
+    public parseLogicalLocations(logicalLocations: LogicalLocation[]): Map<string, LogicalLocationNode> {
+        const rootNode: LogicalLocationNode = {
+            ["Project"]: {
+                results: [],
+            },
+        };
+
+        logicalLocations.forEach((location, index) => {
+            let currentNode = rootNode["Project"];
+            const parentIndexes = this.getParentIndexes(location.parentIndex, logicalLocations);
+
+            parentIndexes.forEach((parentIndex) => {
+                const parentLocation = logicalLocations[parentIndex];
+                const parentKind = `${parentLocation.kind}s`;
+
+                if (!currentNode[parentKind]) {
+                    currentNode[parentKind] = {};
+                }
+
+                let parentNode = currentNode[parentKind][parentLocation.name];
+
+                if (!parentNode) {
+                    parentNode = {
+                        name: parentLocation.name,
+                        index: parentIndex, // Set the index of the parent node
+                    };
+                    currentNode[parentKind][parentLocation.name] = parentNode;
+                }
+
+                currentNode = parentNode;
+            });
+
+            const currentKind = `${location.kind}s`;
+
+            if (!currentNode[currentKind]) {
+                currentNode[currentKind] = {};
+            }
+
+            let currentLocationNode = currentNode[currentKind][location.name];
+
+            if (!currentLocationNode) {
+                currentLocationNode = {
+                    name: location.name,
+                    results: [],
+                    index: index, // Set the index of the current node
+                };
+                currentNode[currentKind][location.name] = currentLocationNode;
+            }
+        });
+
+        const logicalLocationsMapping = new Map<string, LogicalLocationNode>();
+        logicalLocationsMapping.set("Project", rootNode["Project"]);
+
+        return logicalLocationsMapping;
+    }
+
+    public getParentIndexes(parentIndex: number, logicalLocations: LogicalLocation[]): number[] {
+        const parentIndexes = [];
+
+        while (parentIndex !== -1) {
+            parentIndexes.unshift(parentIndex);
+            parentIndex = logicalLocations[parentIndex].parentIndex;
+        }
+
+        return parentIndexes;
+    }
+
+
     // Adds the results of a whole sarifFile to the table
     public addResults(sarifFile: SarifFile) {
         const results = sarifFile.getResults();
+        const logicalLocations = sarifFile.getLogicalLocations();
+        this.logicalLocationsMap = this.parseLogicalLocations(logicalLocations);
+
+        // Recursive function to find the node in the logicalLocationsMap based on the index
+        const findNode = (node: LogicalLocationNode, index: number): LogicalLocationNode | undefined => {
+            if (node.index === index) {
+                return node;
+            }
+
+            for (const key in node) {
+                if (key === "results") {
+                    continue;
+                }
+
+                if (typeof node[key] === "object") {
+                    const foundNode = findNode(node[key], index);
+                    if (foundNode) {
+                        return foundNode;
+                    }
+                }
+            }
+
+            return undefined;
+        };
+
+        // Populate the results for each logical location node
+        results.forEach((result) => {
+            result.getLocations().forEach((location) => {
+                if (location?.logicalLocations) {
+                    location.logicalLocations.forEach((logicalLocation) => {
+                        const node = findNode(this.logicalLocationsMap.get("Project")!, logicalLocation.index);
+                        if (node?.results) {
+                            node.results.push(result);
+                        }
+                    });
+                }
+            });
+        });
+        console.log("logicalLocationsMap", this.logicalLocationsMap.get("Project"));
+
+
         this.resultsTable.addResultsAndSort(results);
         this.amountOfSarifFilesLoaded++;
+
+
 
         // Create a row for each result and rule row
         for (let i = 0; i < results.length; i++) {
@@ -1029,13 +1294,36 @@ export class ResultsTableWidget {
                     filteredOut: false,
                 };
                 this.ruleIdToRuleStatus.set(ruleId, ruleStatus);
-            } else if (!ruleStatus.sarifFilePaths.includes(result.getAssociatedSarifPath())) {
-                // If we have an object for this rule, but it is from a different file, add the file to the list
-                ruleStatus.sarifFilePaths.push(result.getAssociatedSarifPath());
-            }
+                // iterate through result locations and add entry to pathToRuleStatus for each uri path
+                for (const location of result.getLocations()) {
+                    const path = location.path;
+                    let ruleStatus = this.pathToRuleStatus.get(path);
+                    if (ruleStatus === undefined) {
+                        // If we don't have an object for this rule, create one
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        const rule = sarifFile.getRule(ruleId)!;
+                        const ruleRow = this.createRuleElementPATH(rule, path);
+                        ruleStatus = {
+                            row: ruleRow,
+                            rule: rule,
+                            results: new Map(),
+                            sarifFilePaths: [result.getAssociatedSarifPath()],
+                            opened: false,
+                            filteredOut: false,
+                        };
+                        this.pathToRuleStatus.set(path, ruleStatus);
+                    }
 
-            // Add the result to the rule entry
-            ruleStatus.results.set(result.getResultIdWithSarifPath(), resultAndRow);
+                }
+
+            }
+            // else if (!ruleStatus.sarifFilePaths.includes(result.getAssociatedSarifPath())) {
+            //     // If we have an object for this rule, but it is from a different file, add the file to the list
+            //     ruleStatus.sarifFilePaths.push(result.getAssociatedSarifPath());
+            // }
+
+            // // Add the result to the rule entry
+            // ruleStatus.results.set(result.getResultIdWithSarifPath(), resultAndRow);
         }
 
         const filterRuleIdElement = getElementByIdOrThrow(this.FILTER_RULE_ID_ID) as HTMLTextAreaElement;
@@ -1098,127 +1386,93 @@ export class ResultsTableWidget {
         this.noFilesOpenedContainer.classList.add("hidden");
 
         // ====================
-        // Add the status icon to the header we are sorting by
-        const sortStatus = this.resultsTable.getSortConfig();
-        const tableHeaders = this.tableElement.getElementsByTagName("th");
-        for (let i = 0; i < tableHeaders.length; i++) {
-            const th = tableHeaders[i];
-            const statusIcon = th.getElementsByClassName("resultsTableStatusIcon")[0] as HTMLDivElement;
-            statusIcon.classList.add("codicon");
-
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const headerId = parseInt(th.getAttribute(this.TABLE_HEADER_INDEX)!) as TableHeaders;
-
-            if (headerId === sortStatus.mainHeader) {
-                // Set the status icon on the main header we are sorting by
-                if (sortStatus.mainDirection === SortDirection.Ascending) {
-                    statusIcon.classList.remove("codicon-arrow-small-down");
-                    statusIcon.classList.add("codicon-arrow-small-up");
-                } else {
-                    statusIcon.classList.remove("codicon-arrow-small-up");
-                    statusIcon.classList.add("codicon-arrow-small-down");
-                }
-                statusIcon.classList.remove("invisible");
-            } else {
-                // Ensure any other header icon is hidden
-                statusIcon.classList.add("invisible");
-            }
-        }
-
-        // ====================
         // Remove all rows from the table
         const tableBody = this.tableElement.tBodies[0];
         tableBody.innerText = "";
 
         // ====================
-        // Add each result to the table in the order they are in the this.resultTable object
-        const results = this.resultsTable.getFilteredResults();
+        // Recursively render the logical locations and results
+        const renderLogicalLocation = (location: LogicalLocationNode, level: number) => {
+            const indent = "&nbsp;".repeat(level * 4);
 
+            for (const key in location) {
+                if (key === "results") {
+                    if (location.results && location.results.length > 0) {
+                        location.results.forEach((result: Result) => {
+                            const row = this.createResultElement(result);
+                            row.style.display = ""; // Ensure the row is visible
+                            tableBody.appendChild(row);
+                        });
+                    }
+                } else if (typeof location[key] === "object") {
+                    // TODO: This needs to include an icon to collapse/expand
+                    const row = document.createElement("tr");
+                    const cell = document.createElement("td");
+                    cell.colSpan = 4;
+                    cell.innerHTML = `${indent}${key}`;
+                    row.appendChild(cell);
+                    tableBody.appendChild(row);
+
+                    renderLogicalLocation(location[key], level + 1);
+                }
+            }
+        };
+
+        this.logicalLocationsMap.forEach((locationNode, projectName) => {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+            cell.colSpan = 4;
+            cell.innerText = projectName;
+            row.appendChild(cell);
+            tableBody.appendChild(row);
+
+            renderLogicalLocation(locationNode, 1);
+        });
+
+        // ====================
         // Handle selecting/deselecting the selected result
         const selectedResultOrNull = this.selectedResult.getResultEvenIfNotBeingDisplayed();
         let isSelectedResultDisplayed = false;
 
-        // Pack each result into per rule separators
-        const visitedRules = new Set();
-        let lastSeenRuleId = "";
-        let lastRuleShownResultsCount = 0;
-
-        for (let i = 0; i < results.length; i++) {
-            const result = results[i];
-
-            // If we have a new rule, render it
-            const ruleId = result.getRuleId();
-            if (ruleId !== lastSeenRuleId) {
-                // Update the previous rule row
-                if (lastSeenRuleId !== "") {
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    const lastRuleStatus = this.ruleIdToRuleStatus.get(lastSeenRuleId)!;
-                    this.updateRuleRow(lastRuleStatus, lastRuleShownResultsCount);
-                }
-
-                // Append the new rule row
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const newRuleStatus = this.ruleIdToRuleStatus.get(ruleId)!;
-                tableBody.appendChild(newRuleStatus.row);
-
-                lastSeenRuleId = ruleId;
-                lastRuleShownResultsCount = 0;
-                visitedRules.add(ruleId);
-            }
-
-            lastRuleShownResultsCount += 1;
-
-            // Render the result
-            const row = this.resultToResultAndRow(result).row;
-            tableBody.appendChild(row);
-
-            // Hidden results are not selectable
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            if (this.ruleIdToRuleStatus.get(ruleId)!.opened === false) {
-                continue;
-            }
-
-            // If the selected result is in the filtered results, note that we found it
-            if (
-                selectedResultOrNull &&
-                selectedResultOrNull.getResultIdWithSarifPath() === result.getResultIdWithSarifPath()
-            ) {
-                isSelectedResultDisplayed = true;
-            }
-        }
-
-        // Update the last rule row
-        const lastRuleStatus = this.ruleIdToRuleStatus.get(lastSeenRuleId);
-        if (lastRuleStatus) {
-            this.updateRuleRow(lastRuleStatus, lastRuleShownResultsCount);
-        }
-
-        // Sort the remaining list of rules how the results table does
-        const ruleStatusList = [...this.ruleIdToRuleStatus.values()];
-        ruleStatusList.sort((a, b): number => {
-            return this.resultsTable.compareRule(a.rule, b.rule);
-        });
-
-        for (const ruleStatus of ruleStatusList) {
-            // Add any rules that were not in the filtered results
-            if (!visitedRules.has(ruleStatus.rule.id)) {
-                this.updateRuleRow(ruleStatus, 0);
-                tableBody.appendChild(ruleStatus.row);
-            }
-        }
-
-        // If the selected result is not in the filtered results, keep it selected but mark it as not being displayed
-        // This enables results to stay selected when hidden but give us a way to prevent actions on them
         if (selectedResultOrNull) {
+            const selectedResultLocations = selectedResultOrNull.getLocations();
+            isSelectedResultDisplayed = selectedResultLocations.some((location) => {
+                if (location?.logicalLocations) {
+                    return location.logicalLocations.some((logicalLocation) => {
+                        const node = this.findNode(this.logicalLocationsMap.get("Project")!, logicalLocation.index);
+                        return node !== undefined;
+                    });
+                }
+                return false;
+            });
+
             this.selectedResult.setIsBeingDisplayed(isSelectedResultDisplayed);
         } else {
             this.detailsWidget.clearDetails();
         }
-
-        // NOTE: We could scroll the selected result into view here, but it may be more annoying than helpful
-        // this.scrollToSelectedResult();
     }
 
+    // Helper function to find a node in the logicalLocationsMap based on the index
+    private findNode(node: LogicalLocationNode, index: number): LogicalLocationNode | undefined {
+        if (node.index === index) {
+            return node;
+        }
+
+        for (const key in node) {
+            if (key === "results") {
+                continue;
+            }
+
+            if (typeof node[key] === "object") {
+                const foundNode = this.findNode(node[key], index);
+                if (foundNode) {
+                    return foundNode;
+                }
+            }
+        }
+
+        return undefined;
+    }
     private updateRuleRow(ruleStatus: RuleStatus, shownResultsCount: number) {
         const row = ruleStatus.row;
         const totalResultsCount = ruleStatus.results.size;
