@@ -47,8 +47,6 @@ export class SarifExplorerWebview {
     private WORKSPACE_STORAGE_IS_VISIBLE_KEY = "isVisible";
 
     constructor(context: vscode.ExtensionContext) {
-        // vscode show message "hola amigo"
-        vscode.window.showInformationMessage("hola amigo");
         this._context = context;
 
         this.loadWorkspaceSarifFiles();

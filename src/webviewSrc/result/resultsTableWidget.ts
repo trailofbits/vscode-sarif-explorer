@@ -202,6 +202,9 @@ export class ResultsTableWidget {
 
     private vscodeConfig: VSCodeConfig = defaultVSCodeConfig();
 
+    // TODO: IS there a better place for this?  Like in the results table?
+    public logicalLocationsMap: Map<string, LogicalLocationNode> = new Map();
+
     constructor() {
         // Using this to keep the button consistent in both the table and the details widget
         this.detailsWidget = new ResultDetailsWidget(this);
@@ -636,153 +639,6 @@ export class ResultsTableWidget {
 
         return row;
     }
-    private createRuleElementPATH(rule: Rule, path: string): HTMLTableRowElement {
-        // Create the table row
-        const row = document.createElement("tr");
-        row.classList.add(this.RULE_ROW_CLASS);
-        row.id = path;
-        row.title = path;
-
-        // Add the dropdown arrow
-        {
-            const cell = row.insertCell();
-            cell.classList.add("iconCell");
-
-            const cellDiv = document.createElement("div");
-            cellDiv.classList.add("cellContainer");
-
-            const div = document.createElement("div");
-            div.classList.add("codicon");
-            div.classList.add(this.RULE_ROW_CLOSED_CLASS);
-
-            cellDiv.appendChild(div);
-            cell.appendChild(cellDiv);
-        }
-
-        // Add the rule name
-        {
-            const cell = row.insertCell();
-            cell.classList.add("ruleNameCell");
-            cell.colSpan = 3; // Go over all 3 extra columns
-
-            const cellContainer = document.createElement("div");
-            cellContainer.classList.add("cellWithButtons");
-
-            const content = document.createElement("div");
-            content.classList.add("cellContainer");
-            content.classList.add("cellWithButtonsContent");
-
-            const div0 = this.createResultLevelIcon(rule.level);
-
-            const divSpace = document.createElement("span");
-            divSpace.innerHTML = "&nbsp;";
-
-            const div1 = document.createElement("div");
-            div1.classList.add("ellipsis-beginning");
-            div1.innerText = rule.name;
-
-            const div2 = document.createElement("div");
-            if (rule.name !== rule.id) {
-                div2.classList.add("secondaryText");
-                div2.classList.add("ellipsis");
-                div2.innerText = rule.id;
-            }
-
-            const div3 = document.createElement("div");
-            div3.classList.add("countBadge");
-            div3.innerText = "0"; // Updated on render
-
-            const div4 = document.createElement("div");
-            div4.classList.add(this.RULE_ROW_FILTERED_SUMMARY_CLASS);
-            div4.innerText = ""; // Updated on render
-
-            content.appendChild(div0);
-            content.appendChild(divSpace);
-            content.appendChild(div1);
-            content.appendChild(div2);
-            content.appendChild(div3);
-            content.appendChild(div4);
-
-            // The buttons that will be displayed on the right of the message
-            const rowButtons = document.createElement("div");
-            rowButtons.classList.add("rowButtons");
-
-            const exportAllBugsInRuleAsGHIssue = document.createElement("div");
-            exportAllBugsInRuleAsGHIssue.title = "Export every visible result as one GitHub issue";
-            exportAllBugsInRuleAsGHIssue.classList.add("rowButton");
-            exportAllBugsInRuleAsGHIssue.classList.add("codicon");
-            exportAllBugsInRuleAsGHIssue.classList.add("codicon-github-alt");
-            exportAllBugsInRuleAsGHIssue.onclick = (e) => {
-                e.stopPropagation();
-
-                const bugList: Result[] = [];
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                for (const resultAndRow of this.ruleIdToRuleStatus.get(rule.id)!.results.values()) {
-                    if (!this.resultsTable.isResultFiltered(resultAndRow.result)) {
-                        bugList.push(resultAndRow.result);
-                    }
-                }
-
-                apiExportGitHubIssue(bugList);
-            };
-
-            const toggleHideAllResultsFromRuleButton = document.createElement("div");
-            toggleHideAllResultsFromRuleButton.title = "Hide/show this rule's results";
-            toggleHideAllResultsFromRuleButton.classList.add("rowButton");
-            toggleHideAllResultsFromRuleButton.classList.add("codicon");
-            const filterRuleIdElement = getElementByIdOrThrow(this.FILTER_RULE_ID_ID) as HTMLTextAreaElement;
-            const updateRuleHideStatus = () => {
-                // Add this ruleID to the FILTER_RULE_ID filter
-                const ruleIds = splitStringInParts(filterRuleIdElement.value);
-                if (rule.isHidden) {
-                    ruleIds.add(rule.id);
-                    // Update the "hide" button with the correct icon
-                    toggleHideAllResultsFromRuleButton.classList.remove("codicon-eye");
-                    toggleHideAllResultsFromRuleButton.classList.add("codicon-eye-closed");
-                } else {
-                    ruleIds.delete(rule.id);
-                    // Update the "hide" button with the correct icon
-                    toggleHideAllResultsFromRuleButton.classList.remove("codicon-eye-closed");
-                    toggleHideAllResultsFromRuleButton.classList.add("codicon-eye");
-                }
-
-                filterRuleIdElement.value = setToStringInParts(ruleIds);
-            };
-
-            toggleHideAllResultsFromRuleButton.onclick = (e) => {
-                e.stopPropagation();
-
-                rule.isHidden = !rule.isHidden;
-                updateRuleHideStatus();
-                // trigger the input event to update the filter
-                filterRuleIdElement.dispatchEvent(new Event("input"));
-
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const ruleStatus: RuleStatus = this.ruleIdToRuleStatus.get(rule.id)!;
-                for (const sarifFilePath of ruleStatus.sarifFilePaths) {
-                    apiSetHiddenRule(sarifFilePath, rule.id, rule.isHidden);
-                }
-            };
-
-            // Update the "hide" button with the correct icon, etc.
-            updateRuleHideStatus();
-
-            rowButtons.appendChild(exportAllBugsInRuleAsGHIssue);
-            rowButtons.appendChild(toggleHideAllResultsFromRuleButton);
-
-            cellContainer.appendChild(content);
-            cellContainer.appendChild(rowButtons);
-            cell.appendChild(cellContainer);
-        }
-
-        row.onclick = () => {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const ruleStatus = this.ruleIdToRuleStatus.get(rule.id)!;
-            this.toggleRuleRowOpened(ruleStatus);
-        };
-
-        return row;
-    }
 
     // Get a result's path based on the VSCode configuration
     private getResultDisplayPathAndLine(result: Result): string {
@@ -810,7 +666,7 @@ export class ResultsTableWidget {
 
         // Create the table row
         const row = document.createElement("tr");
-        // row.classList.add("hidden");
+        // row.classList.add("hidden"); // TODO: Hack until we get collapse/expand buttons
         row.id = result.getResultIdWithSarifPath();
         row.title = fullPath + ":" + line.toString();
 
@@ -1149,9 +1005,6 @@ export class ResultsTableWidget {
         pathCell.innerText = this.getResultDisplayPathAndLine(result);
     }
 
-    public logicalLocationsMap: Map<string, LogicalLocationNode> = new Map();
-
-
     public parseLogicalLocations(logicalLocations: LogicalLocation[]): Map<string, LogicalLocationNode> {
         const rootNode: LogicalLocationNode = {
             ["Project"]: {
@@ -1294,36 +1147,13 @@ export class ResultsTableWidget {
                     filteredOut: false,
                 };
                 this.ruleIdToRuleStatus.set(ruleId, ruleStatus);
-                // iterate through result locations and add entry to pathToRuleStatus for each uri path
-                for (const location of result.getLocations()) {
-                    const path = location.path;
-                    let ruleStatus = this.pathToRuleStatus.get(path);
-                    if (ruleStatus === undefined) {
-                        // If we don't have an object for this rule, create one
-                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        const rule = sarifFile.getRule(ruleId)!;
-                        const ruleRow = this.createRuleElementPATH(rule, path);
-                        ruleStatus = {
-                            row: ruleRow,
-                            rule: rule,
-                            results: new Map(),
-                            sarifFilePaths: [result.getAssociatedSarifPath()],
-                            opened: false,
-                            filteredOut: false,
-                        };
-                        this.pathToRuleStatus.set(path, ruleStatus);
-                    }
-
-                }
-
+            } else if (!ruleStatus.sarifFilePaths.includes(result.getAssociatedSarifPath())) {
+                // If we have an object for this rule, but it is from a different file, add the file to the list
+                ruleStatus.sarifFilePaths.push(result.getAssociatedSarifPath());
             }
-            // else if (!ruleStatus.sarifFilePaths.includes(result.getAssociatedSarifPath())) {
-            //     // If we have an object for this rule, but it is from a different file, add the file to the list
-            //     ruleStatus.sarifFilePaths.push(result.getAssociatedSarifPath());
-            // }
 
-            // // Add the result to the rule entry
-            // ruleStatus.results.set(result.getResultIdWithSarifPath(), resultAndRow);
+            // Add the result to the rule entry
+            ruleStatus.results.set(result.getResultIdWithSarifPath(), resultAndRow);
         }
 
         const filterRuleIdElement = getElementByIdOrThrow(this.FILTER_RULE_ID_ID) as HTMLTextAreaElement;

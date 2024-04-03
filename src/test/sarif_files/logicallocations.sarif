@@ -18,17 +18,27 @@
             "parentIndex": -1
           },
           {
-            "name": "myFunction",
+            "name": "myFunction1",
+            "kind": "function",
+            "parentIndex": 0
+          },
+          {
+            "name": "myFunction2",
+            "kind": "function",
+            "parentIndex": 0
+          },
+          {
+            "name": "myFunction3",
             "kind": "function",
             "parentIndex": 0
           }
         ],
         "results": [
           {
-            "ruleId": "Project",
+            "ruleId": "ruleid",
             "message": {
-              "text": "Check all dependencies for most recent version",
-              "markdown": "MARKDOWN Check all dependencies for most recent version"
+              "text": "Is reentrancy a problem here?",
+              "markdown": "Check for reentrancy"
             },
             "level": "note",
             "locations": [
@@ -51,19 +61,20 @@
                 },
                 "logicalLocations": [
                   {
-                    "index": 1
+                    "index": 2
                   }]
               },
               {
                 "physicalLocation": {
                   "artifactLocation": {
                     "uri": "/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/b.sol"
-                  },
-                  "logicalLocations": [
-                    {
-                      "index": 1
-                    }]
-                }
+                  }
+                },
+                "logicalLocations": [
+                  {
+                    "index": 3
+                  }]
+
               }
             ],
             "partialFingerprints": {
@@ -71,9 +82,9 @@
             }
           },
           {
-            "ruleId": "hoagies",
+            "ruleId": "anotherruleid",
             "message": {
-              "text": "Pragma version0.8.19 (/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n",
+              "text": "THIS IS AT THE PROJECT LEVEL - Pragma version0.8.19 (/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n",
               "markdown": "Pragma version[0.8.19](/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#L1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n"
             },
             "level": "warning",
@@ -90,7 +101,7 @@
                 },
                 "logicalLocations": [
                   {
-                    "index": 1
+                    "index": 0
                   }]
               }
             ],
@@ -99,10 +110,10 @@
             }
           },
           {
-            "ruleId": "hoagies2",
+            "ruleId": "yetanotherruleid",
             "message": {
-              "text": "Pragma version0.8.19 (/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n",
-              "markdown": "Pragma version[0.8.19](/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#L1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n"
+              "text": "Another function checklist item",
+              "markdown": "Another function checklist item"
             },
             "level": "warning",
             "locations": [
@@ -118,7 +129,7 @@
                 },
                 "logicalLocations": [
                   {
-                    "index": 1
+                    "index": 2
                   }]
               }
             ],
@@ -127,10 +138,10 @@
             }
           },
           {
-            "ruleId": "hoagies3",
+            "ruleId": "yetanotherruleid2",
             "message": {
-              "text": "Pragma version0.8.19 (/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n",
-              "markdown": "Pragma version[0.8.19](/Users/devtooligan/audit/tools/tob-extensions/vscode-sarif-explorer/src/test/sarif_files/a.sol#L1) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n"
+              "text": "A very important checklist item",
+              "markdown": "A very important checklist item\n"
             },
             "level": "warning",
             "locations": [
@@ -146,7 +157,7 @@
                 },
                 "logicalLocations": [
                   {
-                    "index": 1
+                    "index": 3
                   }]
               }
             ],

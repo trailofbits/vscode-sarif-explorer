@@ -33,7 +33,6 @@ type SortConfig = {
 };
 
 export class ResultsTable {
-    private logicalLocations: any = {};
     private results: Result[] = [];
     private sortConfig: SortConfig = {
         unchangeableSortHeader: TableHeaders.RuleID,
@@ -57,7 +56,6 @@ export class ResultsTable {
         return this.results.filter((result) => this.filters.filter(result));
     }
 
-    // Returns the results in the table without the ones which are filtered and sorted by
     public isResultFiltered(result: Result): boolean {
         return !this.filters.filter(result);
     }
