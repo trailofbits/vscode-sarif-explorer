@@ -181,7 +181,11 @@ export class ResultDetailsWidget {
 
             ruleDiv.appendChild(span0);
             ruleDiv.appendChild(div0);
-            appendRowToTable("Rule:", ruleDiv);
+            if (result.isChecklist()) {
+                appendRowToTable("Catalog:", ruleDiv);
+            } else {
+                appendRowToTable("Rule:", ruleDiv);
+            }
         }
 
         // Rule description
@@ -215,7 +219,7 @@ export class ResultDetailsWidget {
             pathElement.onclick = () => {
                 result.openPrimaryCodeRegion();
             };
-            appendRowToTable("Path:", pathElement);
+            if (!result.isChecklist()) appendRowToTable("Path:", pathElement);
         }
 
         // Data Flow
