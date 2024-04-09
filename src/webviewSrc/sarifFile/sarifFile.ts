@@ -72,6 +72,7 @@ export class SarifFile {
 
                     toolName: this.tool.name,
                     isHidden: hiddenRules.includes(result.getRuleId()),
+                    isChecklist: false,
                 };
                 this.tool.rules.set(rule.id, rule);
             } else if (rule.level === ResultLevel.default) {
@@ -260,6 +261,9 @@ export class SarifFile {
 
                 // This level may be updated according to the level of a result with this rule
                 const level: ResultLevel = this.parseLevel(rule.defaultConfiguration?.level || "");
+
+                const isChecklist = rule.properties?.checklist == "true"|| false;
+
                 rules.set(ruleId, {
                     id: ruleId,
                     name: ruleName,
@@ -270,6 +274,7 @@ export class SarifFile {
                     helpURI: helpURI,
                     toolName: toolName,
                     isHidden: hiddenRules.includes(ruleId),
+                    isChecklist: isChecklist,
                 });
             }
         }

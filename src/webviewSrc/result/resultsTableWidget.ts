@@ -692,7 +692,7 @@ export class ResultsTableWidget {
         }
 
         // Add the file column
-        {
+        if (!result.isChecklist()) {
             const cell = row.insertCell();
             cell.classList.add("resultPathCell");
             cell.innerText = displayPathAndLine;

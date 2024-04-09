@@ -77,6 +77,10 @@ export class Result {
         return (this.level = level);
     }
 
+    public isChecklist(): boolean {
+        return this.sarifFile.getRule(this.ruleId)?.isChecklist ?? false;
+    }
+
     public getRule(): Rule {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return this.sarifFile.getRule(this.ruleId)!;
