@@ -85,6 +85,23 @@ export class SarifFile {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private parseLocation(loc: any): ResultLocation {
+        if (loc.physicalLocation === undefined) {
+            console.warn(
+                "[SARIF Explorer] Failed to parse the 'location' of a result because it does include the 'physicalLocation' property. The full 'location' value is: " +
+                    JSON.stringify(loc),
+            );
+
+            return {
+                path: "unknown_path",
+                region: {
+                    startLine: 1,
+                    startColumn: 1,
+                    endLine: 10000,
+                    endColumn: 10000,
+                },
+            };
+        }
+
         let path: string;
         if (loc.physicalLocation.artifactLocation !== undefined) {
             path = loc.physicalLocation.artifactLocation?.uri || "";
@@ -234,16 +251,18 @@ export class SarifFile {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private parseTool(tool: any, hiddenRules: string[]): Tool {
+        const tool_driver = tool.driver ?? tool;
+
         // A toolComponent object SHALL contain a property named name whose value is (...) the name of the tool component.
-        const toolName: string = tool.driver.name;
+        const toolName: string = tool_driver.name;
 
         // A toolComponent object MAY contain a property named informationUri | downloadUri
-        const informationUri: string = tool.driver.informationUri || tool.driver.downloadUri || "";
+        const informationUri: string = tool_driver.informationUri || tool_driver.downloadUri || "";
 
         // A toolComponent object MAY contain a property named rules
         const rules: Map<string, Rule> = new Map();
-        if (tool.driver.rules) {
-            for (const rule of tool.driver.rules) {
+        if (tool_driver.rules) {
+            for (const rule of tool_driver.rules) {
                 // A reportingDescriptor object SHALL contain a property named id
                 const ruleId = rule.id;
 
