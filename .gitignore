@@ -9,3 +9,5 @@ src/test/sarif_files_dont_upload
 /semgrep.sarif
 
 *.sarifexplorer
+
+sarif-explorer.vsix
