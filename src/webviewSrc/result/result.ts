@@ -201,6 +201,13 @@ export class Result {
     public messageToHTML(msg: string, shouldRemoveNewLines: boolean): HTMLElement[] {
         const res: HTMLElement[] = [];
 
+        if (msg === undefined) {
+            const span = document.createElement("span");
+            span.innerText = "undefined";
+            res.push(span);
+            return res;
+        }
+
         // Regexes to split by
         const httpsLinkRegex = /https:\/\/[^\s/$.?#].[^\s]*/i; // https://example.com
 
