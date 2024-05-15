@@ -1000,7 +1000,7 @@ export class ResultsTableWidget {
 
     // Adds the results of a whole sarifFile to the table
     public addResults(sarifFile: SarifFile) {
-        const results = sarifFile.getResults();
+        const results = sarifFile.getAllResults();
         this.resultsTable.addResultsAndSort(results);
         this.amountOfSarifFilesLoaded++;
 
@@ -1018,7 +1018,7 @@ export class ResultsTableWidget {
             if (ruleStatus === undefined) {
                 // If we don't have an object for this rule, create one
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const rule = sarifFile.getRule(ruleId)!;
+                const rule = result.getRule()!;
                 const ruleRow = this.createRuleElement(rule);
                 ruleStatus = {
                     row: ruleRow,
@@ -1045,7 +1045,7 @@ export class ResultsTableWidget {
 
     // Removes the results of a whole sarifFile to the table
     public removeResults(sarifFile: SarifFile) {
-        const results = sarifFile.getResults();
+        const results = sarifFile.getAllResults();
         this.amountOfSarifFilesLoaded--;
 
         this.resultsTable.removeResultsFromSarifPath(sarifFile.getSarifFilePath());

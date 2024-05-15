@@ -53,7 +53,7 @@ export class ResultsTableFilters {
             result.getResultPath().toLowerCase().includes(keyword) ||
             result.getLine().toString().includes(keyword) ||
             result.getMessage().toLowerCase().includes(keyword) ||
-            result.getAssociatedSarifFile().getTool().name.toLowerCase().includes(keyword) ||
+            result.getTool().name.toLowerCase().includes(keyword) ||
             result.getComment().toLowerCase().includes(keyword) ||
             rule.id.toLowerCase().includes(keyword) ||
             rule.name.toLowerCase().includes(keyword) ||

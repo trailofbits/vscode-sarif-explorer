@@ -86,40 +86,55 @@ export class SarifFileDetailsWidget {
             appendRowToTable("Path:", pathNode);
         }
 
-        // Tool with link to tool.informationUri (if it exists)
-        const tool = sarifFile.getTool();
-        {
-            let toolElement: string | HTMLAnchorElement = tool.name;
-            if (tool.informationUri !== "") {
-                toolElement = document.createElement("a");
-                toolElement.classList.add("wordBreakAll");
-                toolElement.href = tool.informationUri;
-                toolElement.innerText = tool.name;
+        // Only display #Runs if there are more than 1
+        if (sarifFile.getRunCount() > 1) {
+            // #Runs node
+            {
+                appendRowToTable("#Runs:", sarifFile.getRunCount().toString());
             }
-            appendRowToTable("Tool:", toolElement);
         }
 
-        // Number of results
-        {
-            appendRowToTable("#Results:", sarifFile.getResults().length.toString());
-        }
+        for (let i = 0; i < sarifFile.getRunCount(); i++) {
+            if (sarifFile.getRunCount() > 1) {
+                // Separator
+                const row = this.tableBody.insertRow();
+                row.style.borderBottom = "1px solid";
+            }
+            // Tool with link to tool.informationUri (if it exists)
+            const tool = sarifFile.getRunTool(i);
+            {
+                let toolElement: string | HTMLAnchorElement = tool.name;
+                if (tool.informationUri !== "") {
+                    toolElement = document.createElement("a");
+                    toolElement.classList.add("wordBreakAll");
+                    toolElement.href = tool.informationUri;
+                    toolElement.innerText = tool.name;
+                }
+                appendRowToTable("Tool:", toolElement);
+            }
 
-        // Rules
-        {
-            const ruleIdsOrdered = Array.from(tool.rules.keys()).sort();
+            // Number of results
+            {
+                appendRowToTable("#Results:", sarifFile.getRunResults(i).length.toString());
+            }
 
-            for (let i = 0; i < ruleIdsOrdered.length; i++) {
-                const ruleId = ruleIdsOrdered[i];
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const rule = tool.rules.get(ruleId)!;
-                const ruleElement = document.createElement("li");
-                ruleElement.classList.add("wordBreakAll");
-                ruleElement.innerText = rule.name;
+            // Rules
+            {
+                const ruleIdsOrdered = Array.from(tool.rules.keys()).sort();
 
-                if (i === 0) {
-                    appendRowToTable("Rules[]:", ruleElement);
-                } else {
-                    appendRowToTable("", ruleElement);
+                for (let i = 0; i < ruleIdsOrdered.length; i++) {
+                    const ruleId = ruleIdsOrdered[i];
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    const rule = tool.rules.get(ruleId)!;
+                    const ruleElement = document.createElement("li");
+                    ruleElement.classList.add("wordBreakAll");
+                    ruleElement.innerText = rule.name;
+
+                    if (i === 0) {
+                        appendRowToTable("Rules[]:", ruleElement);
+                    } else {
+                        appendRowToTable("", ruleElement);
+                    }
                 }
             }
         }
