@@ -5,7 +5,7 @@ on:
 
 # We need to have write permissions to add the vsix to the release assets
 permissions:
-    contents: write
+    contents: read
 
 jobs:
     build:
@@ -26,6 +26,8 @@ jobs:
                   path: sarif-explorer.vsix
 
     publish:
+        permissions:
+            contents: write
         runs-on: ubuntu-latest
         needs: build
         if: success()
