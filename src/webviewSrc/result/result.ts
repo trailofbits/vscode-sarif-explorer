@@ -1,4 +1,4 @@
-import { SarifFile } from "../sarifFile/sarifFile";
+import { SarifFile, Tool } from "../sarifFile/sarifFile";
 import { normalizePath } from "../../shared/file";
 import {
     DataFlowElement,
@@ -19,6 +19,7 @@ export type ResultAndRow = {
 export class Result {
     private resultId: string;
     private sarifFile: SarifFile;
+    private runIndex: number;
     private level: ResultLevel;
     private ruleId: string;
     private message: string;
@@ -31,6 +32,7 @@ export class Result {
     constructor(
         resultId: string,
         sarifFile: SarifFile,
+        runIndex: number,
         level: ResultLevel,
         ruleId: string,
         message: string,
@@ -42,6 +44,7 @@ export class Result {
     ) {
         this.resultId = resultId;
         this.sarifFile = sarifFile;
+        this.runIndex = runIndex;
         this.level = level;
         this.ruleId = ruleId;
         this.message = message;
@@ -79,7 +82,7 @@ export class Result {
 
     public getRule(): Rule {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return this.sarifFile.getRule(this.ruleId)!;
+        return this.sarifFile.getRunRule(this.ruleId, this.runIndex)!;
     }
 
     public getRuleId(): string {
@@ -132,6 +135,10 @@ export class Result {
         return this.sarifFile;
     }
 
+    public getAssociatedRunIndex(): number {
+        return this.runIndex;
+    }
+
     public getAssociatedSarifPath(): string {
         return this.sarifFile.getSarifFilePath();
     }
@@ -148,6 +155,10 @@ export class Result {
     // Result method to get the primary location
     public getLine(): number {
         return this.getResultPrimaryLocation().region.startLine;
+    }
+
+    public getTool(): Tool {
+        return this.getAssociatedSarifFile().getRunTool(this.getAssociatedRunIndex());
     }
 
     public getResultPath(): string {

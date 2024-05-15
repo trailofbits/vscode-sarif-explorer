@@ -17,14 +17,19 @@ export type Tool = {
     rules: Map<string, Rule>;
 };
 
+export type Run = {
+    runNumber: number;
+    tool: Tool;
+    results: Result[];
+};
+
 export class SarifFile {
     // The path to the SARIF file
     private sarifFilePath: string;
-    // The path containing the files that were tested by the static analysis tool
+    // The runs in the SARIF file
+    private runs: Run[] = [];
+    // The path containing the files that were tested by the static analysis tool (same for all runs)
     private resultsBaseFolder: string;
-    // The parsed results from the SARIF file
-    private results: Result[];
-    private tool: Tool;
 
     constructor(
         sarifFilePath: string,
@@ -36,50 +41,64 @@ export class SarifFile {
         this.sarifFilePath = sarifFilePath;
         this.resultsBaseFolder = resultsBaseFolder;
 
-        // Parse the SARIF file
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let sarifJson: any;
         try {
-            const sarifJson = JSON.parse(sarifFileContents);
-            const run = sarifJson.runs[0];
-            // Some SARIF files specify a potential base folder (for the system that generated the SARIF file). Use that by default
-            if (resultsBaseFolder === "" && run.originalUriBaseIds) {
-                if (run.originalUriBaseIds["SRCROOT"]) {
-                    this.resultsBaseFolder = run.originalUriBaseIds["SRCROOT"].uri;
-                } else if (run.originalUriBaseIds["srcroot"]) {
-                    this.resultsBaseFolder = run.originalUriBaseIds["srcroot"].uri;
+            sarifJson = JSON.parse(sarifFileContents);
+        } catch (e) {
+            throw new Error("Cannot parse the JSON contents of the SARIF file: " + e);
+        }
+
+        // Parse the SARIF file
+        for (const [runIndex, rawRun] of sarifJson.runs.entries()) {
+            let run: Run;
+
+            try {
+                // Some SARIF files specify a potential base folder (for the system that generated the SARIF file). Use that by default
+                if (resultsBaseFolder === "" && rawRun.originalUriBaseIds) {
+                    if (rawRun.originalUriBaseIds["SRCROOT"]) {
+                        this.resultsBaseFolder = rawRun.originalUriBaseIds["SRCROOT"].uri;
+                    } else if (rawRun.originalUriBaseIds["srcroot"]) {
+                        this.resultsBaseFolder = rawRun.originalUriBaseIds["srcroot"].uri;
+                    }
+                }
+
+                run = {
+                    runNumber: runIndex,
+                    tool: this.parseTool(rawRun.tool, hiddenRules, runIndex),
+                    results: this.parseResults(rawRun.results, runIndex, resultNotes),
+                };
+            } catch (e) {
+                console.error((e as Error).stack);
+                throw new Error("Parsing failed: " + e);
+            }
+
+            for (const result of run.results) {
+                const rule = run.tool.rules.get(result.getRuleId());
+
+                if (rule === undefined) {
+                    // If the rule is not specified, we just create one
+                    const rule: Rule = {
+                        id: result.getRuleId(),
+                        name: result.getRuleId(),
+                        level: result.getLevel(),
+                        shortDescription: "",
+                        fullDescription: "",
+                        help: "",
+                        helpURI: "",
+                        toolName: run.tool.name,
+                        isHidden: hiddenRules.includes(result.getRuleId()),
+                    };
+                    run.tool.rules.set(rule.id, rule);
+                } else if (rule.level === ResultLevel.default) {
+                    // Set the level of the rule
+                    rule.level = result.getLevel();
+                } else {
+                    result.setLevel(rule.level);
                 }
             }
 
-            this.results = this.parseResults(run.results, 0, resultNotes);
-            this.tool = this.parseTool(run.tool, hiddenRules);
-        } catch (e) {
-            console.error((e as Error).stack);
-            throw new Error("Parsing failed: " + e);
-        }
-
-        for (const result of this.results) {
-            const rule = this.tool.rules.get(result.getRuleId());
-            if (rule === undefined) {
-                // If the rule is not specified, we just create one
-                const rule: Rule = {
-                    id: result.getRuleId(),
-                    name: result.getRuleId(),
-                    level: result.getLevel(),
-
-                    shortDescription: "",
-                    fullDescription: "",
-                    help: "",
-                    helpURI: "",
-
-                    toolName: this.tool.name,
-                    isHidden: hiddenRules.includes(result.getRuleId()),
-                };
-                this.tool.rules.set(rule.id, rule);
-            } else if (rule.level === ResultLevel.default) {
-                // Set the level of the rule
-                rule.level = result.getLevel();
-            } else {
-                result.setLevel(rule.level);
-            }
+            this.runs.push(run);
         }
     }
 
@@ -229,13 +248,16 @@ export class SarifFile {
             }
             resultIdSet.add(resultId);
 
+            const ruleId = this.computeRuleId(runIndex, result.ruleId);
+
             const status = resultNotes[resultId]?.status || DEFAULT_NOTES_STATUS;
             const comment = resultNotes[resultId]?.comment || DEFAULT_NOTES_COMMENT;
             const parsedResult: Result = new Result(
                 resultId,
                 this,
+                runIndex,
                 resLevel,
-                result.ruleId,
+                ruleId,
                 result.message.text,
                 locations,
                 relatedLocations,
@@ -250,7 +272,7 @@ export class SarifFile {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private parseTool(tool: any, hiddenRules: string[]): Tool {
+    private parseTool(tool: any, hiddenRules: string[], runIndex: number): Tool {
         const tool_driver = tool.driver ?? tool;
 
         // A toolComponent object SHALL contain a property named name whose value is (...) the name of the tool component.
@@ -264,7 +286,7 @@ export class SarifFile {
         if (tool_driver.rules) {
             for (const rule of tool_driver.rules) {
                 // A reportingDescriptor object SHALL contain a property named id
-                const ruleId = rule.id;
+                const ruleId = this.computeRuleId(runIndex, rule.id);
 
                 // A reportingDescriptor object MAY contain a property named name
                 const ruleName = rule.name || rule.id || "";
@@ -279,7 +301,7 @@ export class SarifFile {
 
                 // This level may be updated according to the level of a result with this rule
                 const level: ResultLevel = this.parseLevel(rule.defaultConfiguration?.level || "");
-                rules.set(ruleId, {
+                const ruleObject: Rule = {
                     id: ruleId,
                     name: ruleName,
                     level: level,
@@ -289,7 +311,8 @@ export class SarifFile {
                     helpURI: helpURI,
                     toolName: toolName,
                     isHidden: hiddenRules.includes(ruleId),
-                });
+                };
+                rules.set(ruleId, ruleObject);
             }
         }
 
@@ -324,10 +347,19 @@ export class SarifFile {
         return runIndex + "|" + resultIndex.toString();
     }
 
+    // We use this to uniquely identify a rule in a run. If we wanted to merge the results with an identical rule id
+    // in the same run, we could always return the origRuleId here.
+    private computeRuleId(runIndex: number, origRuleId: string): string {
+        if (runIndex === 0) {
+            return origRuleId;
+        } else {
+            return origRuleId + "(run " + runIndex + ")";
+        }
+    }
     // ====================
     // Public methods
     // ====================
-    public getResultsBaseFolder() {
+    public getResultsBaseFolder(): string {
         return this.resultsBaseFolder;
     }
 
@@ -336,23 +368,35 @@ export class SarifFile {
         apiSetResultsBaseFolder(this.getSarifFilePath(), resultsBaseFolder);
     }
 
-    public getResults(): Result[] {
-        return this.results;
-    }
-
-    public getTool(): Tool {
-        return this.tool;
-    }
-
-    public getRule(id: string): Rule | undefined {
-        return this.tool.rules.get(id);
-    }
-
-    public getRules(): Map<string, Rule> {
-        return this.tool.rules;
-    }
-
     public getSarifFilePath(): string {
         return this.sarifFilePath;
+    }
+
+    public getRunCount(): number {
+        return this.runs.length;
+    }
+
+    public getRunResults(runIndex: number): Result[] {
+        return this.runs[runIndex].results;
+    }
+
+    public getRunTool(runIndex: number): Tool {
+        return this.runs[runIndex].tool;
+    }
+
+    public getRunRule(id: string, runIndex: number): Rule | undefined {
+        return this.runs[runIndex].tool.rules.get(id);
+    }
+
+    public getRunRules(runIndex: number): Map<string, Rule> {
+        return this.runs[runIndex].tool.rules;
+    }
+
+    public getAllResults(): Result[] {
+        const res: Result[] = [];
+        for (const run of this.runs) {
+            res.push(...run.results);
+        }
+        return res;
     }
 }
