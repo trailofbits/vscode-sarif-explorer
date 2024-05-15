@@ -24,7 +24,7 @@ jobs:
 
             - uses: actions/upload-artifact@v4
               with:
-                  name: sarif-explorer.vsix
+                  name: sarif-explorer
                   path: sarif-explorer.vsix
 
     upload-asset:
@@ -37,13 +37,13 @@ jobs:
             - id: download
               uses: actions/download-artifact@v4
               with:
-                  name: sarif-explorer.vsix
+                  name: sarif-explorer
 
             - name: Add vsix to the release assets
               uses: actions/upload-release-asset@v1.0.2
               with:
                   upload_url: ${{ github.event.release.upload_url }}
-                  asset_path: ${{ steps.download.outputs.download-path }}
+                  asset_path: sarif-explorer.vsix
                   asset_name: sarif-explorer.vsix
                   asset_content_type: application/octet-stream
 
@@ -59,7 +59,7 @@ jobs:
 
             # Uncomment the following lines to also publish the extension on the VSCode Marketplace
             # - name: Publish Extension on VSCode's Marketplace
-            #   run: npx vsce publish --pat ${{ secrets.VSCODE_PUBLISHING_TOKEN }} --packagePath ${{ steps.download.outputs.download-path }}
+            #   run: npx vsce publish --pat ${{ secrets.VSCODE_PUBLISHING_TOKEN }} --packagePath sarif-explorer.vsix
 
             - name: Publish Extension on OpenVSX
-              run: npx ovsx publish --pat ${{ secrets.OPENVSX_PUBLISHING_TOKEN }} --packagePath ${{ steps.download.outputs.download-path }}
+              run: npx ovsx publish --pat ${{ secrets.OPENVSX_PUBLISHING_TOKEN }} --packagePath sarif-explorer.vsix
