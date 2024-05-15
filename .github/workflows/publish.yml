@@ -3,7 +3,6 @@ on:
     release:
         types: [published]
 
-# We need to have write permissions to add the vsix to the release assets
 permissions:
     contents: read
 
