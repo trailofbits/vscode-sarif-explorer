@@ -34,13 +34,14 @@ jobs:
         permissions:
             contents: write
         steps:
-            - id: download
-              uses: actions/download-artifact@v4
+            - uses: actions/download-artifact@v4
               with:
                   name: sarif-explorer
 
             - name: Add vsix to the release assets
               uses: actions/upload-release-asset@v1.0.2
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ github.event.release.upload_url }}
                   asset_path: sarif-explorer.vsix
@@ -52,10 +53,9 @@ jobs:
         needs: build
         if: success()
         steps:
-            - id: download
-              uses: actions/download-artifact@v4
+            - uses: actions/download-artifact@v4
               with:
-                  name: sarif-explorer.vsix
+                  name: sarif-explorer
 
             # Uncomment the following lines to also publish the extension on the VSCode Marketplace
             # - name: Publish Extension on VSCode's Marketplace
