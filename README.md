@@ -1,5 +1,6 @@
+<!-- Cannot use SVG because of the VSCode extension packager :cries: -->
 <!-- trunk-ignore-all(markdownlint/MD041) -->
-![SARIF Explorer banner](./media/banner.svg)
+![SARIF Explorer banner](./media/banner.png)
 
 # SARIF Explorer: Enjoy reviewing your static analysis results
 
