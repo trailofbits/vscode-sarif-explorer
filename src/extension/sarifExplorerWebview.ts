@@ -219,6 +219,7 @@ export class SarifExplorerWebview {
             },
         );
 
+        this._webview.iconPath = vscode.Uri.joinPath(this._context.extensionUri, "media", "logo.svg");
         this._webview.webview.options = {
             // Enable script in the Webview
             enableScripts: true,
