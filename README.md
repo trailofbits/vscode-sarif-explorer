@@ -1,4 +1,4 @@
-# <a><img src="./media/logo.png" width="40em" style="float: left" alt="folder icon"></a> SARIF Explorer - Enjoy reviewing your static analysis results
+# <picture><img src="./media/logo.png" width="40em" style="float: left" alt="folder icon"></picture>> SARIF Explorer - Enjoy reviewing your static analysis results
 
 SARIF Explorer is a VSCode extension that enables you to review static analysis results effectively and enjoyably. No more browsing `.txt` or `.csv` files.
 
