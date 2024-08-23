@@ -1,4 +1,4 @@
-# SARIF Explorer - Enjoy reviewing your static analysis results
+# <img src="./media/logo.png" width="32em" alt="folder icon"> SARIF Explorer - Enjoy reviewing your static analysis results
 
 SARIF Explorer is a VSCode extension that enables you to review static analysis results effectively and enjoyably. No more browsing `.txt` or `.csv` files.
 
