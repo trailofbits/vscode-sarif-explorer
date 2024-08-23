@@ -175,6 +175,8 @@ table {
 
     text-align: left;
 
+    border: $table_border;
+
     th,
     td {
         padding: 5px;
@@ -184,8 +186,6 @@ table {
     tbody {
         margin-top: 40px;
     }
-
-    border: $table_border;
 }
 
 .mainTable {
