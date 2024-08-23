@@ -1,4 +1,5 @@
-![SARIF Explorer banner](./media/banner.png)
+<!-- trunk-ignore-all(markdownlint/MD041) -->
+![SARIF Explorer banner](./media/banner.svg)
 
 # SARIF Explorer: Enjoy reviewing your static analysis results
 
