@@ -82,7 +82,7 @@
         "watch-tests": "tsc -p . -w --outDir out",
         "pretest": "npm run compile-tests && npm run compile && npm run lint",
         "lint": "eslint --ext ts ./src",
-        "prettify": "prettier . --write",
+        "prettify": "trunk fmt",
         "test": "node ./out/test/runTest.js"
     },
     "devDependencies": {
@@ -94,7 +94,7 @@
         "@typescript-eslint/eslint-plugin": "^5.47.1",
         "@typescript-eslint/parser": "^5.47.1",
         "@vscode/test-electron": "^2.2.1",
-        "@vscode/vsce": "^2.20.1",
+        "@vscode/vsce": "^3.0.0",
         "css-loader": "^6.8.1",
         "eslint": "^8.30.0",
         "glob": "^8.0.3",
