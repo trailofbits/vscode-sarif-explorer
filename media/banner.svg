@@ -6,16 +6,16 @@
         fill: #10181f;
       }
 
-      @media (prefers-color-scheme: dark) {
-      .cls-1 {
-        fill: #efefef;
-        stroke: none;
-      }
-
       .cls-2 {
         fill: #ad2b43;
       }
-    }
+
+      @media (prefers-color-scheme: dark) {
+        .cls-1 {
+          fill: #efefef;
+          stroke: none;
+        }
+      }
     </style>
   </defs>
   <!-- Generator: Adobe Illustrator 28.6.0, SVG Export Plug-In . SVG Version: 1.2.0 Build 709)  -->
