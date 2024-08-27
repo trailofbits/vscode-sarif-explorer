@@ -1,6 +1,11 @@
 <!-- Cannot use SVG because of the VSCode extension packager :cries: -->
 <!-- trunk-ignore-all(markdownlint/MD041) -->
-![SARIF Explorer banner](./media/banner.png)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/trailofbits/vscode-sarif-explorer/main/media/banner-dark-mode.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/trailofbits/vscode-sarif-explorer/main/media/banner-light-mode.png">
+  <img alt="SARIF Explorer banner" src="https://raw.githubusercontent.com/trailofbits/vscode-sarif-explorer/main/media/banner-dark-mode.png">
+</picture>
 
 # SARIF Explorer: Enjoy reviewing your static analysis results
 
