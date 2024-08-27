@@ -2,7 +2,7 @@
     "name": "sarif-explorer",
     "displayName": "SARIF Explorer",
     "description": "SARIF Explorer: Explore static analysis results effectively and enjoyably.",
-    "version": "1.2.6",
+    "version": "1.2.7",
     "publisher": "trailofbits",
     "author": {
         "name": "Trail of Bits"
