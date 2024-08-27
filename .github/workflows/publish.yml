@@ -56,9 +56,8 @@ jobs:
               with:
                   name: sarif-explorer
 
-            # Uncomment the following lines to also publish the extension on the VSCode Marketplace
-            # - name: Publish Extension on VSCode's Marketplace
-            #   run: npx vsce publish --pat ${{ secrets.VSCODE_PUBLISHING_TOKEN }} --packagePath sarif-explorer.vsix
+            - name: Publish Extension on VSCode's Marketplace
+              run: npx vsce publish --pat ${{ secrets.VSCODE_PUBLISHING_TOKEN }} --packagePath sarif-explorer.vsix
 
             - name: Publish Extension on OpenVSX
               run: npx ovsx publish --pat ${{ secrets.OPENVSX_PUBLISHING_TOKEN }} --packagePath sarif-explorer.vsix
