@@ -417,7 +417,7 @@ export class ResultsTableWidget {
             }
         };
 
-        // 10. Settings button
+        // 10. Send bugs to WeAudit button
         const sendBugsToWeAuditButton = getElementByIdOrThrow(this.SEND_BUGS_TO_WEAUDIT_BUTTON_ID) as HTMLButtonElement;
         sendBugsToWeAuditButton.onclick = () => {
             apiSendBugsToWeAudit(this.resultsTable.getBugs());

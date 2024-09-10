@@ -83,6 +83,7 @@ export class SarifFileListWidget {
     /* eslint-disable @typescript-eslint/naming-convention */
     private SARIF_LIST_TABLE_ID = "sarifFileTable";
     private SARIF_LIST_OPEN_BUTTON_ID = "openNewSarifFileButton";
+    private CLOSE_ALL_SARIF_FILES_BUTTON_ID = "closeAllSarifFilesButton";
     /* eslint-enable @typescript-eslint/naming-convention */
 
     private sarifFileListData: SarifFileList;
@@ -110,6 +111,15 @@ export class SarifFileListWidget {
         const openNewSarifFileButton = getElementByIdOrThrow(this.SARIF_LIST_OPEN_BUTTON_ID) as HTMLButtonElement;
         openNewSarifFileButton.onclick = () => {
             apiLaunchOpenSarifFileDialog();
+        };
+
+        // Close all SARIF files button
+        const closeAllSarifFilesButton = getElementByIdOrThrow(this.CLOSE_ALL_SARIF_FILES_BUTTON_ID) as HTMLButtonElement;
+        closeAllSarifFilesButton.onclick = () => {
+            this.sarifFilePathToRow.forEach((sarifFileAndRow) => {
+                this.removeSarifFile(sarifFileAndRow);
+                apiCloseSarifFile(sarifFileAndRow.sarifFile.getSarifFilePath());
+            });
         };
 
         this.sarifFileTableElement.setAttribute("tabindex", "0");
