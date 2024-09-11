@@ -114,7 +114,9 @@ export class SarifFileListWidget {
         };
 
         // Close all SARIF files button
-        const closeAllSarifFilesButton = getElementByIdOrThrow(this.CLOSE_ALL_SARIF_FILES_BUTTON_ID) as HTMLButtonElement;
+        const closeAllSarifFilesButton = getElementByIdOrThrow(
+            this.CLOSE_ALL_SARIF_FILES_BUTTON_ID,
+        ) as HTMLButtonElement;
         closeAllSarifFilesButton.onclick = () => {
             this.sarifFilePathToRow.forEach((sarifFileAndRow) => {
                 this.removeSarifFile(sarifFileAndRow);
