@@ -51,8 +51,6 @@
         ],
         "configuration": [
             {
-                "id": "general",
-                "title": "General Settings",
                 "order": 1,
                 "properties": {
                     "sarif-explorer.showFullPathInResultsTable": {
