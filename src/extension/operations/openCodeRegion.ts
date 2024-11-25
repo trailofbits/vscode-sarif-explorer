@@ -2,6 +2,7 @@ import { ResultRegion } from "../../shared/resultTypes";
 import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
+import { fileURLToPath } from "url";
 
 export class SarifResultPathIsAbsolute extends Error {
     constructor(filePath: string) {
@@ -63,9 +64,15 @@ export async function getResultFileUri(
     resultsBaseFolder: string,
     potentialBaseFolders: string[],
 ): Promise<UriAndBaseFolder> {
-    // remove "file://" from the beginning of the path
+    // Gets the path from the file URI (needed on Windows to replace `/` with `\` and more)
     if (filePath.startsWith("file://")) {
-        filePath = filePath.substring("file://".length);
+        filePath = fileURLToPath(filePath);
+    }
+
+    // If running on WSL, replace `C:` or `/C:` with `/mnt/c`
+    const isRunningOnWSL = vscode.env.remoteName === "wsl";
+    if (isRunningOnWSL) {
+        filePath = filePath.replace(/^\/?([A-Za-z]):\//, "/mnt/$1/");
     }
 
     if (path.isAbsolute(filePath)) {
