@@ -156,9 +156,11 @@ export class SarifFile {
 
             // Parse all the locations associated with the result
             const locations: ResultLocation[] = [];
-            for (const loc of result.locations) {
-                const parsedLocation: ResultLocation = this.parseLocation(loc);
-                locations.push(parsedLocation);
+            if (result.locations) {
+                for (const loc of result.locations) {
+                    const parsedLocation: ResultLocation = this.parseLocation(loc);
+                    locations.push(parsedLocation);
+                }
             }
 
             // See: https://docs.oasis-open.org/sarif/sarif/v2.1.0/csprd01/sarif-v2.1.0-csprd01.html#_Toc10541098
