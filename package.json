@@ -70,6 +70,11 @@
             }
         ]
     },
+    "capabilities": {
+        "untrustedWorkspaces": {
+            "supported": true
+        }
+    },
     "scripts": {
         "vscode:prepublish": "npm run package",
         "vscode:package": "vsce package",
