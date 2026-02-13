@@ -31,14 +31,14 @@ export class ResultDetailsWidget {
         return this.buttons;
     }
 
-    public clearDetails() {
+    public clearDetails(): void {
         this.detailsSummary.innerText = "No result selected";
         this.tableBody.innerText = "";
         this.buttons.innerText = "";
         this.buttons.classList.add("hidden");
     }
 
-    public updateDetails(resultAndRow: ResultAndRow) {
+    public updateDetails(resultAndRow: ResultAndRow): void {
         const result = resultAndRow.result;
 
         // Summary
@@ -70,9 +70,9 @@ export class ResultDetailsWidget {
             return [cellKey, cellValue];
         };
 
-        const appendNavigationTableToTable = (key: string, rowsData: { column1Text: string; column2Text: string; location: ResultLocation }[]) => {
+        const appendNavigationTableToTable = (key: string, rowsData: { column1Text: string; column2Text: string; location: ResultLocation }[]): void => {
             // Check if any rowsData has a column1Text
-            const hasColumn1Text = rowsData.some((rowData) => rowData.column1Text !== "");
+            const hasColumn1Text = rowsData.some((rowData): boolean => rowData.column1Text !== "");
 
             // Create table with the same style as the main result's table
             const table = document.createElement("table");
@@ -110,13 +110,13 @@ export class ResultDetailsWidget {
                 linkCell.appendChild(link);
 
                 // Append the text node and link to the cell
-                row.onclick = () => {
+                row.onclick = (): void => {
                     result.openCodeRegion(rowData.location);
                 };
 
                 // Set the onclick event for each row so that clicking ArrowDown and ArrowUp will work
                 row.tabIndex = 0;
-                row.addEventListener("keydown", (e: KeyboardEvent) => {
+                row.addEventListener("keydown", (e: KeyboardEvent): void => {
                     if (e.key === "ArrowDown") {
                         if (i < rowsData.length - 1) {
                             const target = table.rows[i + 1];
@@ -144,7 +144,7 @@ export class ResultDetailsWidget {
             const editableNodeTextArea = document.createElement("textarea");
             editableNodeTextArea.placeholder = "Add a comment...";
             editableNodeTextArea.value = result.getComment();
-            editableNodeTextArea.oninput = () => {
+            editableNodeTextArea.oninput = (): void => {
                 result.setComment(editableNodeTextArea.value);
                 this.resultsTableWidget.updateResultRowComment(resultAndRow);
             };
@@ -206,7 +206,7 @@ export class ResultDetailsWidget {
             pathElement.classList.add("wordBreakAll");
             pathElement.href = result.getResultNormalizedPath();
             pathElement.innerText = result.getResultNormalizedPath() + ":" + result.getLine().toString();
-            pathElement.onclick = () => {
+            pathElement.onclick = (): void => {
                 result.openPrimaryCodeRegion();
             };
             appendRowToTable("Path:", pathElement);
@@ -218,7 +218,7 @@ export class ResultDetailsWidget {
             if (dataFlow.length > 0) {
                 appendNavigationTableToTable(
                     "Data Flow:",
-                    dataFlow.map((dataFlowElement, i) => {
+                    dataFlow.map((dataFlowElement, i): { column1Text: string; column2Text: string; location: ResultLocation } => {
                         return {
                             column1Text: i === 0 ? "Source: " : i === result.getDataFlow().length - 1 ? "Sink: " : `${i}: `,
                             column2Text: dataFlowElement.message,

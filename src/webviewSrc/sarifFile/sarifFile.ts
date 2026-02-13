@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument */
 import { Result } from "../result/result";
 import {
     ResultNotes,
@@ -349,7 +350,7 @@ export class SarifFile {
         return this.resultsBaseFolder;
     }
 
-    public setResultsBaseFolder(resultsBaseFolder: string) {
+    public setResultsBaseFolder(resultsBaseFolder: string): void {
         this.resultsBaseFolder = resultsBaseFolder;
         apiSetResultsBaseFolder(this.getSarifFilePath(), resultsBaseFolder);
     }

@@ -53,7 +53,7 @@ export class ResultsTable {
     // ====================
     // Returns the results in the table without the ones which are filtered
     public getFilteredResults(): Result[] {
-        return this.results.filter((result) => this.filters.filter(result));
+        return this.results.filter((result): boolean => this.filters.filter(result));
     }
 
     public isResultFiltered(result: Result): boolean {
@@ -65,11 +65,11 @@ export class ResultsTable {
     }
 
     public getBugs(): Result[] {
-        return this.results.filter((result) => result.getStatus() === ResultStatus.Bug);
+        return this.results.filter((result): boolean => result.getStatus() === ResultStatus.Bug);
     }
 
     // Add SARIF file to the list of open SARIF files
-    public addResultsAndSort(results: Result[]) {
+    public addResultsAndSort(results: Result[]): void {
         this.results = this.results.concat(results);
 
         // After appending the results to the end, sort them
@@ -77,8 +77,8 @@ export class ResultsTable {
     }
 
     // Remove results based on their associated SARIF file path
-    public removeResultsFromSarifPath(path: string) {
-        this.results = this.results.filter((result) => result.getAssociatedSarifPath() !== path);
+    public removeResultsFromSarifPath(path: string): void {
+        this.results = this.results.filter((result): boolean => result.getAssociatedSarifPath() !== path);
     }
 
     // Remove results based on their associated SARIF file path
@@ -93,16 +93,16 @@ export class ResultsTable {
         return this.sortConfig;
     }
 
-    public setSortConfig(sortConfig: SortConfig) {
+    public setSortConfig(sortConfig: SortConfig): void {
         this.sortConfig = sortConfig;
     }
 
-    public setSortConfigAndSort(sortConfig: SortConfig) {
+    public setSortConfigAndSort(sortConfig: SortConfig): void {
         this.setSortConfig(sortConfig);
         this.sort();
     }
 
-    public sortByHeader(headerToSortBy: TableHeaders) {
+    public sortByHeader(headerToSortBy: TableHeaders): void {
         if (this.sortConfig.mainHeader === headerToSortBy) {
             // If the column is already sorted, keep the same secondary header and reverse the sort direction
             this.setSortConfigAndSort({
@@ -126,7 +126,7 @@ export class ResultsTable {
         }
     }
 
-    public sort() {
+    public sort(): void {
         const sc = this.sortConfig;
 
         // Our sorting function: it compares values and if they are equal, it keeps the original order
@@ -224,55 +224,55 @@ export class ResultsTable {
     // ====================
     // Filter functions
     // ====================
-    public setKeywordFilter(s: string) {
+    public setKeywordFilter(s: string): void {
         this.filters.setKeyword(s);
     }
 
-    public setIncludePathFilter(s: string) {
+    public setIncludePathFilter(s: string): void {
         this.filters.setIncludePaths(s);
     }
 
-    public setExcludePathFilter(s: string) {
+    public setExcludePathFilter(s: string): void {
         this.filters.setExcludePaths(s);
     }
 
-    public setExcludedRuleIdFilter(s: string) {
+    public setExcludedRuleIdFilter(s: string): void {
         this.filters.setExcludedRuleIds(s);
     }
 
-    public setExcludedSarifFilesFilter(s: string) {
+    public setExcludedSarifFilesFilter(s: string): void {
         this.filters.setExcludedSarifFiles(s);
     }
 
-    public setLevelErrorFilter(b: boolean) {
+    public setLevelErrorFilter(b: boolean): void {
         this.filters.setLevelError(b);
     }
 
-    public setLevelWarningFilter(b: boolean) {
+    public setLevelWarningFilter(b: boolean): void {
         this.filters.setLevelWarning(b);
     }
 
-    public setLevelNoteFilter(b: boolean) {
+    public setLevelNoteFilter(b: boolean): void {
         this.filters.setLevelNote(b);
     }
 
-    public setLevelNoneFilter(b: boolean) {
+    public setLevelNoneFilter(b: boolean): void {
         this.filters.setLevelNone(b);
     }
 
-    public setStatusTodoFilter(b: boolean) {
+    public setStatusTodoFilter(b: boolean): void {
         this.filters.setStatusTodo(b);
     }
 
-    public setStatusBugFilter(b: boolean) {
+    public setStatusBugFilter(b: boolean): void {
         this.filters.setStatusBug(b);
     }
 
-    public setStatusFalsePositiveFilter(b: boolean) {
+    public setStatusFalsePositiveFilter(b: boolean): void {
         this.filters.setStatusFalsePositive(b);
     }
 
-    public setFilters(filterData: FilterData) {
+    public setFilters(filterData: FilterData): void {
         this.filters.setFilters(filterData);
     }
 }

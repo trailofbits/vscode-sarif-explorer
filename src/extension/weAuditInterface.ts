@@ -10,8 +10,8 @@ export class WeAuditNotInstalledError extends Error {
         this.name = "WeAuditNotInstalledError";
     }
 
-    public showInstallWeAuditVSCodeError(errorMsg: string) {
-        vscode.window.showErrorMessage(`${errorMsg}: ${this.message}.`, "Install weAudit").then((selection) => {
+    public showInstallWeAuditVSCodeError(errorMsg: string): void {
+        vscode.window.showErrorMessage(`${errorMsg}: ${this.message}.`, "Install weAudit").then((selection): void => {
             if (selection === "Install weAudit") {
                 vscode.commands.executeCommand("workbench.extensions.action.showExtensionsWithIds", [weAuditExtensionId]);
             }
@@ -44,7 +44,7 @@ export async function getGitHubPermalink(startLine: number, endLine: number, abs
 
 async function exportedResultsToEntry(results: ExportedResult[]): Promise<Entry> {
     // Ensure that every bug has the same ruleName
-    if (!results.every((result) => result.rule.name === results[0].rule.name)) {
+    if (!results.every((result): boolean => result.rule.name === results[0].rule.name)) {
         throw new Error(
             "Failed to convert an ExportedResult list into a single weAudit Entry. Expected all items inside ExportedResult[] to be from the same rule.",
         );
@@ -131,7 +131,7 @@ async function exportedResultsToEntry(results: ExportedResult[]): Promise<Entry>
     return entry;
 }
 
-export async function openGithubIssueFromResults(results: ExportedResult[]) {
+export async function openGithubIssueFromResults(results: ExportedResult[]): Promise<void> {
     // Ensure that the weAudit extension is installed
     if (!isWeAuditInstalled()) {
         throw new WeAuditNotInstalledError();
@@ -143,7 +143,7 @@ export async function openGithubIssueFromResults(results: ExportedResult[]) {
     await vscode.commands.executeCommand("weAudit.openGithubIssue", entry);
 }
 
-export async function sendBugsToWeAudit(bugs: ExportedResult[]) {
+export async function sendBugsToWeAudit(bugs: ExportedResult[]): Promise<void> {
     // Ensure that the weAudit extension is installed
     if (!isWeAuditInstalled()) {
         throw new WeAuditNotInstalledError();

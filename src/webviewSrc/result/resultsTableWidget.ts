@@ -202,14 +202,14 @@ export class ResultsTableWidget {
         this.initResultsTable();
     }
 
-    private initNoFilesOpenedView() {
+    private initNoFilesOpenedView(): void {
         const noFilesOpenedButton = getElementByIdOrThrow(this.NO_FILES_OPENED_BUTTON) as HTMLButtonElement;
-        noFilesOpenedButton.onclick = () => {
+        noFilesOpenedButton.onclick = (): void => {
             apiLaunchOpenSarifFileDialog();
         };
     }
 
-    private initResultsTable() {
+    private initResultsTable(): void {
         // For each header cell in the table, add an onclick event that handles sorting
         const tableHeaders = this.tableElement.getElementsByTagName("th");
         for (let i = 0; i < tableHeaders.length; i++) {
@@ -237,7 +237,7 @@ export class ResultsTableWidget {
             }
 
             // Sort the table on click
-            th.onclick = () => {
+            th.onclick = (): void => {
                 const header = parseInt(th.getAttribute(this.TABLE_HEADER_INDEX)!) as TableHeaders;
                 this.resultsTable.sortByHeader(header);
                 this.render();
@@ -248,7 +248,7 @@ export class ResultsTableWidget {
         this.tableElement.setAttribute("tabindex", "0");
 
         // Set the onclick event for the table
-        this.tableElement.addEventListener("keydown", (e: KeyboardEvent) => {
+        this.tableElement.addEventListener("keydown", (e: KeyboardEvent): void => {
             // Get a non-hidden row
             let selectedResultAndRow = this.selectedResult.getResultAndRow();
             if (selectedResultAndRow && selectedResultAndRow.row.classList.contains("hidden")) {
@@ -293,24 +293,24 @@ export class ResultsTableWidget {
         });
     }
 
-    private initResultsFilter() {
+    private initResultsFilter(): void {
         // 1. Set the onclick event for the filter menu button to show/hide the filter menu
         const filterMenuButton = getElementByIdOrThrow(this.FILTER_MENU_BUTTON_ID) as HTMLButtonElement;
         const filterMenu = getElementByIdOrThrow(this.FILTER_MENU_ID) as HTMLDivElement;
-        filterMenuButton.onclick = () => {
+        filterMenuButton.onclick = (): void => {
             filterMenu.classList.toggle("hidden");
         };
 
         // 1.1 Set the onclick event for the refresh button to refresh the table
         const refreshFilterMenuButton = getElementByIdOrThrow(this.FILTER_REFRESH_BUTTON_ID) as HTMLButtonElement;
-        refreshFilterMenuButton.onclick = () => {
+        refreshFilterMenuButton.onclick = (): void => {
             this.resultsTable.sort();
             this.render();
         };
 
         // 2. Handle the keyword filter
         const filterKeywordElement = getElementByIdOrThrow(this.FILTER_KEYWORD_ID) as HTMLTextAreaElement;
-        filterKeywordElement.oninput = () => {
+        filterKeywordElement.oninput = (): void => {
             const textAreaValue = filterKeywordElement.value;
             this.resultsTable.setKeywordFilter(textAreaValue);
             this.render();
@@ -318,7 +318,7 @@ export class ResultsTableWidget {
 
         // 3. Handle the include path filter
         const filterIncludePathElement = getElementByIdOrThrow(this.FILTER_INCLUDE_PATH_ID) as HTMLTextAreaElement;
-        filterIncludePathElement.oninput = () => {
+        filterIncludePathElement.oninput = (): void => {
             const textAreaValue = filterIncludePathElement.value;
             this.resultsTable.setIncludePathFilter(textAreaValue);
             this.render();
@@ -326,7 +326,7 @@ export class ResultsTableWidget {
 
         // 4. Handle the exclude path filter
         const filterExcludePathElement = getElementByIdOrThrow(this.FILTER_EXCLUDE_PATH_ID) as HTMLTextAreaElement;
-        filterExcludePathElement.oninput = () => {
+        filterExcludePathElement.oninput = (): void => {
             const textAreaValue = filterExcludePathElement.value;
             this.resultsTable.setExcludePathFilter(textAreaValue);
             this.render();
@@ -334,7 +334,7 @@ export class ResultsTableWidget {
 
         // 5. Handle the rule id filter
         const filterRuleIdElement = getElementByIdOrThrow(this.FILTER_RULE_ID_ID) as HTMLTextAreaElement;
-        filterRuleIdElement.oninput = () => {
+        filterRuleIdElement.oninput = (): void => {
             const textAreaValue = filterRuleIdElement.value;
             this.resultsTable.setExcludedRuleIdFilter(textAreaValue);
             this.render();
@@ -342,7 +342,7 @@ export class ResultsTableWidget {
 
         // 6. Handle the SARIF files filter
         const filterSarifFilesElement = getElementByIdOrThrow(this.FILTER_SARIF_FILES_ID) as HTMLTextAreaElement;
-        filterSarifFilesElement.oninput = () => {
+        filterSarifFilesElement.oninput = (): void => {
             const textAreaValue = filterSarifFilesElement.value;
             this.resultsTable.setExcludedSarifFilesFilter(textAreaValue);
             this.render();
@@ -350,51 +350,51 @@ export class ResultsTableWidget {
 
         // 7. Handle the level filter
         const filterLevelErrorElement = getElementByIdOrThrow(this.FILTER_LEVEL_ERROR_ID) as HTMLInputElement;
-        filterLevelErrorElement.onchange = () => {
+        filterLevelErrorElement.onchange = (): void => {
             this.resultsTable.setLevelErrorFilter(filterLevelErrorElement.checked);
             this.render();
         };
 
         const filterLevelWarningElement = getElementByIdOrThrow(this.FILTER_LEVEL_WARNING_ID) as HTMLInputElement;
-        filterLevelWarningElement.onchange = () => {
+        filterLevelWarningElement.onchange = (): void => {
             this.resultsTable.setLevelWarningFilter(filterLevelWarningElement.checked);
             this.render();
         };
 
         const filterLevelNoteElement = getElementByIdOrThrow(this.FILTER_LEVEL_NOTE_ID) as HTMLInputElement;
-        filterLevelNoteElement.onchange = () => {
+        filterLevelNoteElement.onchange = (): void => {
             this.resultsTable.setLevelNoteFilter(filterLevelNoteElement.checked);
             this.render();
         };
 
         const filterLevelNoneElement = getElementByIdOrThrow(this.FILTER_LEVEL_NONE_ID) as HTMLInputElement;
-        filterLevelNoneElement.onchange = () => {
+        filterLevelNoneElement.onchange = (): void => {
             this.resultsTable.setLevelNoneFilter(filterLevelNoneElement.checked);
             this.render();
         };
 
         // 8. Handle the status filter
         const filterStatusTodoElement = getElementByIdOrThrow(this.FILTER_STATUS_TODO_ID) as HTMLInputElement;
-        filterStatusTodoElement.onchange = () => {
+        filterStatusTodoElement.onchange = (): void => {
             this.resultsTable.setStatusTodoFilter(filterStatusTodoElement.checked);
             this.render();
         };
 
         const filterStatusBugElement = getElementByIdOrThrow(this.FILTER_STATUS_BUG_ID) as HTMLInputElement;
-        filterStatusBugElement.onchange = () => {
+        filterStatusBugElement.onchange = (): void => {
             this.resultsTable.setStatusBugFilter(filterStatusBugElement.checked);
             this.render();
         };
 
         const filterStatusFalsePositiveElement = getElementByIdOrThrow(this.FILTER_STATUS_FALSE_POSITIVE_ID) as HTMLInputElement;
-        filterStatusFalsePositiveElement.onchange = () => {
+        filterStatusFalsePositiveElement.onchange = (): void => {
             this.resultsTable.setStatusFalsePositiveFilter(filterStatusFalsePositiveElement.checked);
             this.render();
         };
 
         // 9. Close all button
         const closeAllRowsButton = getElementByIdOrThrow(this.CLOSE_ALL_ROWS_BUTTON_ID) as HTMLButtonElement;
-        closeAllRowsButton.onclick = () => {
+        closeAllRowsButton.onclick = (): void => {
             for (const ruleStatus of this.ruleIdToRuleStatus.values()) {
                 if (ruleStatus.opened) {
                     this.closeRuleRow(ruleStatus);
@@ -404,12 +404,12 @@ export class ResultsTableWidget {
 
         // 10. Send bugs to WeAudit button
         const sendBugsToWeAuditButton = getElementByIdOrThrow(this.SEND_BUGS_TO_WEAUDIT_BUTTON_ID) as HTMLButtonElement;
-        sendBugsToWeAuditButton.onclick = () => {
+        sendBugsToWeAuditButton.onclick = (): void => {
             apiSendBugsToWeAudit(this.resultsTable.getBugs());
         };
     }
 
-    public updateResultFiltersHTMLElements() {
+    public updateResultFiltersHTMLElements(): void {
         const filterData = this.resultsTable.getFilterData();
 
         // Based on the current filters, update the HTML elements
@@ -450,7 +450,7 @@ export class ResultsTableWidget {
         filterStatusFalsePositiveElement.checked = filterData.includeStatusFalsePositive;
     }
 
-    public globalOnClick(_e: MouseEvent) {
+    public globalOnClick(_e: MouseEvent): void {
         // TODO: Consider closing the filter menu here
     }
 
@@ -544,7 +544,7 @@ export class ResultsTableWidget {
             exportAllBugsInRuleAsGHIssue.classList.add("rowButton");
             exportAllBugsInRuleAsGHIssue.classList.add("codicon");
             exportAllBugsInRuleAsGHIssue.classList.add("codicon-github-alt");
-            exportAllBugsInRuleAsGHIssue.onclick = (e) => {
+            exportAllBugsInRuleAsGHIssue.onclick = (e): void => {
                 e.stopPropagation();
 
                 const bugList: Result[] = [];
@@ -563,7 +563,7 @@ export class ResultsTableWidget {
             toggleHideAllResultsFromRuleButton.classList.add("rowButton");
             toggleHideAllResultsFromRuleButton.classList.add("codicon");
             const filterRuleIdElement = getElementByIdOrThrow(this.FILTER_RULE_ID_ID) as HTMLTextAreaElement;
-            const updateRuleHideStatus = () => {
+            const updateRuleHideStatus = (): void => {
                 // Add this ruleID to the FILTER_RULE_ID filter
                 const ruleIds = splitStringInParts(filterRuleIdElement.value);
                 if (rule.isHidden) {
@@ -581,7 +581,7 @@ export class ResultsTableWidget {
                 filterRuleIdElement.value = setToStringInParts(ruleIds);
             };
 
-            toggleHideAllResultsFromRuleButton.onclick = (e) => {
+            toggleHideAllResultsFromRuleButton.onclick = (e): void => {
                 e.stopPropagation();
 
                 rule.isHidden = !rule.isHidden;
@@ -606,7 +606,7 @@ export class ResultsTableWidget {
             cell.appendChild(cellContainer);
         }
 
-        row.onclick = () => {
+        row.onclick = (): void => {
             const ruleStatus = this.ruleIdToRuleStatus.get(rule.id)!;
             this.toggleRuleRowOpened(ruleStatus);
         };
@@ -703,7 +703,7 @@ export class ResultsTableWidget {
         this.updateResultRowComment({ result, row });
 
         // Add the onclick event which will open the file at the specific line
-        row.onclick = () => {
+        row.onclick = (): void => {
             result.openPrimaryCodeRegion();
             this.selectedResult.setResult({
                 row: row,
@@ -725,7 +725,7 @@ export class ResultsTableWidget {
         exportGhButton.classList.add("codicon");
         exportGhButton.classList.add("codicon-github-alt");
         exportGhButton.title = "Export result as GitHub issue";
-        exportGhButton.onclick = (e) => {
+        exportGhButton.onclick = (e): void => {
             e.stopPropagation();
             result.exportAsGHIssue();
         };
@@ -735,7 +735,7 @@ export class ResultsTableWidget {
         copyPermalinkButton.classList.add("codicon");
         copyPermalinkButton.classList.add("codicon-link");
         copyPermalinkButton.title = "Copy result's GitHub permalink";
-        copyPermalinkButton.onclick = (e) => {
+        copyPermalinkButton.onclick = (e): void => {
             e.stopPropagation();
             result.copyPermalink();
         };
@@ -749,7 +749,7 @@ export class ResultsTableWidget {
         if (result.getStatus() === ResultStatus.Bug) {
             setStatusAsBugButton.classList.add("currentStatus");
         }
-        setStatusAsBugButton.onclick = (e) => {
+        setStatusAsBugButton.onclick = (e): void => {
             e.stopPropagation();
             result.setStatus(ResultStatus.Bug);
             this.updateResultRowStatus(resultAndRow);
@@ -764,7 +764,7 @@ export class ResultsTableWidget {
         if (result.getStatus() === ResultStatus.FalsePositive) {
             setStatusAsFalsePositiveButton.classList.add("currentStatus");
         }
-        setStatusAsFalsePositiveButton.onclick = (e) => {
+        setStatusAsFalsePositiveButton.onclick = (e): void => {
             e.stopPropagation();
             result.setStatus(ResultStatus.FalsePositive);
             this.updateResultRowStatus(resultAndRow);
@@ -779,7 +779,7 @@ export class ResultsTableWidget {
         if (result.getStatus() === ResultStatus.Todo) {
             setStatusAsTodoButton.classList.add("currentStatus");
         }
-        setStatusAsTodoButton.onclick = (e) => {
+        setStatusAsTodoButton.onclick = (e): void => {
             e.stopPropagation();
             result.setStatus(ResultStatus.Todo);
             this.updateResultRowStatus(resultAndRow);
@@ -823,7 +823,7 @@ export class ResultsTableWidget {
         return div;
     }
 
-    private openRuleRow(ruleStatus: RuleStatus) {
+    private openRuleRow(ruleStatus: RuleStatus): void {
         ruleStatus.opened = true;
 
         // Make all children result visible on click
@@ -840,7 +840,7 @@ export class ResultsTableWidget {
         dropdownIcon.classList.add(this.RULE_ROW_OPENED_CLASS);
     }
 
-    private closeRuleRow(ruleStatus: RuleStatus) {
+    private closeRuleRow(ruleStatus: RuleStatus): void {
         ruleStatus.opened = false;
 
         const selectedResultId = this.selectedResult.getResult()?.getResultIdWithSarifPath() || "fakeId";
@@ -856,7 +856,7 @@ export class ResultsTableWidget {
         dropdownIcon.classList.add(this.RULE_ROW_CLOSED_CLASS);
     }
 
-    private toggleRuleRowOpened(ruleStatus: RuleStatus) {
+    private toggleRuleRowOpened(ruleStatus: RuleStatus): void {
         // If the rule is filtered out, don't do anything
         if (ruleStatus.filteredOut || ruleStatus.rule.isHidden) {
             return;
@@ -869,7 +869,7 @@ export class ResultsTableWidget {
         }
     }
 
-    private updateResultRowStatus(resultAndRow: ResultAndRow) {
+    private updateResultRowStatus(resultAndRow: ResultAndRow): void {
         const row = resultAndRow.row;
         const result = resultAndRow.result;
 
@@ -905,7 +905,7 @@ export class ResultsTableWidget {
         statusDiv.title = "Result marked as " + ResultStatus[result.getStatus()].toUpperCase();
 
         // Update the "currentStatus" button
-        const updateStatusOfRowButtons = (rowButtons: Element) => {
+        const updateStatusOfRowButtons = (rowButtons: Element): void => {
             for (let i = 0; i < rowButtons.children.length; i++) {
                 const rowButton = rowButtons.children[i];
                 switch (result.getStatus()) {
@@ -947,7 +947,7 @@ export class ResultsTableWidget {
         }
     }
 
-    public updateResultRowComment(resultAndRow: ResultAndRow) {
+    public updateResultRowComment(resultAndRow: ResultAndRow): void {
         const row = resultAndRow.row;
         const result = resultAndRow.result;
 
@@ -969,7 +969,7 @@ export class ResultsTableWidget {
         }
     }
 
-    private updateResultRowPath(resultAndRow: ResultAndRow) {
+    private updateResultRowPath(resultAndRow: ResultAndRow): void {
         const row = resultAndRow.row;
         const result = resultAndRow.result;
 
@@ -979,7 +979,7 @@ export class ResultsTableWidget {
     }
 
     // Adds the results of a whole sarifFile to the table
-    public addResults(sarifFile: SarifFile) {
+    public addResults(sarifFile: SarifFile): void {
         const results = sarifFile.getAllResults();
         this.resultsTable.addResultsAndSort(results);
         this.amountOfSarifFilesLoaded++;
@@ -1024,7 +1024,7 @@ export class ResultsTableWidget {
     }
 
     // Removes the results of a whole sarifFile to the table
-    public removeResults(sarifFile: SarifFile) {
+    public removeResults(sarifFile: SarifFile): void {
         const results = sarifFile.getAllResults();
         this.amountOfSarifFilesLoaded--;
 
@@ -1062,7 +1062,7 @@ export class ResultsTableWidget {
     }
 
     // Re-renders the table based on the this.resultsTable object
-    public render() {
+    public render(): void {
         // ====================
         // If the table is empty, just render a button that allows the user to open SARIF files
         if (this.amountOfSarifFilesLoaded === 0) {
@@ -1194,7 +1194,7 @@ export class ResultsTableWidget {
         // this.scrollToSelectedResult();
     }
 
-    private updateRuleRow(ruleStatus: RuleStatus, shownResultsCount: number) {
+    private updateRuleRow(ruleStatus: RuleStatus, shownResultsCount: number): void {
         const row = ruleStatus.row;
         const totalResultsCount = ruleStatus.results.size;
         const filteredCount = totalResultsCount - shownResultsCount;
@@ -1262,14 +1262,14 @@ export class ResultsTableWidget {
         return dropdownIcon.classList.contains(this.RULE_ROW_OPENED_CLASS);
     }
 
-    private scrollToSelectedResult() {
+    private scrollToSelectedResult(): void {
         const selectedRow = this.selectedResult.getRow();
         if (selectedRow) {
             scrollToRow(selectedRow);
         }
     }
 
-    public setSelectedResultBelow(selectedRow: HTMLTableRowElement) {
+    public setSelectedResultBelow(selectedRow: HTMLTableRowElement): void {
         let nextRow = selectedRow.nextElementSibling as HTMLTableRowElement;
         if (!nextRow) {
             return;
@@ -1290,7 +1290,7 @@ export class ResultsTableWidget {
         nextRow.click();
     }
 
-    public setSelectedResultAbove(selectedRow: HTMLTableRowElement) {
+    public setSelectedResultAbove(selectedRow: HTMLTableRowElement): void {
         let prevRow = selectedRow.previousElementSibling as HTMLTableRowElement;
         if (!prevRow) {
             return;
@@ -1325,7 +1325,7 @@ export class ResultsTableWidget {
         prevRow.click();
     }
 
-    public setResultToStatus(resultAndRow: ResultAndRow, status: ResultStatus) {
+    public setResultToStatus(resultAndRow: ResultAndRow, status: ResultStatus): void {
         resultAndRow.result.setStatus(status);
         this.updateResultRowStatus(resultAndRow);
 
@@ -1337,7 +1337,7 @@ export class ResultsTableWidget {
     // ====================
     // VSCode config functions
     // ====================
-    public updateVSCodeConfig(config: VSCodeConfig) {
+    public updateVSCodeConfig(config: VSCodeConfig): void {
         this.vscodeConfig = config;
 
         // Update the result rows

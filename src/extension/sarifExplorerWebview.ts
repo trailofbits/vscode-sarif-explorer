@@ -34,12 +34,14 @@ export class SarifExplorerWebview {
     private _webviewIsReady = false;
     private vscodeConfig = defaultVSCodeConfig();
 
+    /* eslint-disable @typescript-eslint/naming-convention */
     private BUG_IN_SARIF_EXPLORER_MSG =
         "This is likely a SARIF Explorer bug, please open an issue at https://github.com/trailofbits/vscode-sarif-explorer/issues.";
 
     private WORKSPACE_STORAGE_OPENED_SARIF_FILES_KEY = "openedSarifFiles";
     private WORKSPACE_STORAGE_FILTER_DATA_KEY = "filterData";
     private WORKSPACE_STORAGE_IS_VISIBLE_KEY = "isVisible";
+    /* eslint-enable @typescript-eslint/naming-convention */
 
     constructor(context: vscode.ExtensionContext) {
         this._context = context;
@@ -47,7 +49,7 @@ export class SarifExplorerWebview {
         this.loadWorkspaceSarifFiles();
 
         this.loadVSCodeConfig();
-        vscode.workspace.onDidChangeConfiguration((e: vscode.ConfigurationChangeEvent) => {
+        vscode.workspace.onDidChangeConfiguration((e: vscode.ConfigurationChangeEvent): void => {
             this.updateVSCodeConfig(e);
         });
     }
@@ -55,7 +57,7 @@ export class SarifExplorerWebview {
     // ====================
     // VSCode Config
     // ====================
-    private loadVSCodeConfig() {
+    private loadVSCodeConfig(): void {
         this.vscodeConfig.showFullPathInResultsTable = vscode.workspace.getConfiguration("sarif-explorer").get("showFullPathInResultsTable")!;
     }
 
@@ -75,7 +77,7 @@ export class SarifExplorerWebview {
         return res;
     }
 
-    private async updateWorkspaceOpenedSarifFiles() {
+    private async updateWorkspaceOpenedSarifFiles(): Promise<void> {
         const updatedOpenedSarifFiles: { [s: string]: SarifFileWorkspaceData } = {};
         for (const [sarifFilePath, sarifFileMetadata] of this._openedSarifFiles) {
             updatedOpenedSarifFiles[sarifFilePath] = sarifFileMetadata.getWorkspaceMetadata();
@@ -83,7 +85,7 @@ export class SarifExplorerWebview {
         return this._context.workspaceState.update(this.WORKSPACE_STORAGE_OPENED_SARIF_FILES_KEY, updatedOpenedSarifFiles);
     }
 
-    private loadWorkspaceSarifFiles() {
+    private loadWorkspaceSarifFiles(): void {
         const openedSarifFiles = this.getWorkspaceOpenedSarifFiles();
         if (Object.keys(openedSarifFiles).length > 0) {
             for (const [sarifFilePath, sarifFileWorkspaceMetadata] of Object.entries(openedSarifFiles)) {
@@ -121,7 +123,7 @@ export class SarifExplorerWebview {
         return res;
     }
 
-    private updateWorkspaceFilterData(filterData: FilterData) {
+    private updateWorkspaceFilterData(filterData: FilterData): void {
         // Save the filter data to the workspace storage
         this._context.workspaceState.update(this.WORKSPACE_STORAGE_FILTER_DATA_KEY, filterData);
     }
@@ -130,11 +132,11 @@ export class SarifExplorerWebview {
         return this._context.workspaceState.get<boolean>(this.WORKSPACE_STORAGE_IS_VISIBLE_KEY, false);
     }
 
-    private updateWorkspaceIsVisible(isVisible: boolean) {
+    private updateWorkspaceIsVisible(isVisible: boolean): void {
         this._context.workspaceState.update(this.WORKSPACE_STORAGE_IS_VISIBLE_KEY, isVisible);
     }
 
-    public async resetWorkspaceData() {
+    public async resetWorkspaceData(): Promise<void> {
         // Reset the workspace storage
         await this._context.workspaceState.update(this.WORKSPACE_STORAGE_OPENED_SARIF_FILES_KEY, {});
         await this._context.workspaceState.update(this.WORKSPACE_STORAGE_FILTER_DATA_KEY, {
@@ -155,7 +157,7 @@ export class SarifExplorerWebview {
         });
     }
 
-    private getPotentialBaseFolders(sarifFilePath: string) {
+    private getPotentialBaseFolders(sarifFilePath: string): string[] {
         const allOpenedBaseFolders = new Set<string>();
         for (const sarifFileMetadata of this._openedSarifFiles.values()) {
             allOpenedBaseFolders.add(sarifFileMetadata.getBaseFolder());
@@ -164,12 +166,12 @@ export class SarifExplorerWebview {
     }
 
     // To ensure the file is actually opened, you need to call `.show`
-    public addSarifToToOpenList(sarifFilePath: string, baseFolder = "") {
+    public addSarifToToOpenList(sarifFilePath: string, baseFolder = ""): void {
         this._filesToOpen.set(sarifFilePath, { baseFolder: baseFolder });
     }
 
     // Function that shows the webview panel
-    public show() {
+    public show(): void {
         this.updateWorkspaceIsVisible(true);
 
         if (this._webview) {
@@ -213,9 +215,10 @@ export class SarifExplorerWebview {
         this._webview.webview.html = this._getHtml(this._webview.webview);
 
         // Setup the message the handler for Webview post messages
-        this._webview.webview.onDidReceiveMessage((message) => this._handleMessages(message));
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        this._webview.webview.onDidReceiveMessage((message): Promise<void> => this._handleMessages(message));
 
-        this._webview.onDidDispose(() => {
+        this._webview.onDidDispose((): void => {
             this._webview = null;
             this._webviewIsReady = false;
             this.updateWorkspaceIsVisible(false);
@@ -223,12 +226,12 @@ export class SarifExplorerWebview {
     }
 
     // Generate a cryptographically-safe nonce for use in the webview's CSP
-    private _getNonce() {
+    private _getNonce(): string {
         return crypto.randomBytes(16).toString("base64");
     }
 
     // Return the HTML for the webview
-    private _getHtml(webview: vscode.Webview) {
+    private _getHtml(webview: vscode.Webview): string {
         // Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
         const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._context.extensionUri, "dist", "webview.js"));
 
@@ -236,7 +239,7 @@ export class SarifExplorerWebview {
         const nonce = this._getNonce();
 
         // read the html file from path main.html
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
         const bodyHtml = require("../webviewSrc/main.html");
 
         return `<!DOCTYPE html>
@@ -261,7 +264,7 @@ export class SarifExplorerWebview {
         </html>`;
     }
 
-    public postMessage(msg: ExtensionToWebviewMsgTypes) {
+    public postMessage(msg: ExtensionToWebviewMsgTypes): void {
         if (this._webview) {
             this._webview.webview.postMessage(msg);
         } else {
@@ -269,13 +272,13 @@ export class SarifExplorerWebview {
         }
     }
 
-    private updatedRelativeLocationToAbsolute(sarifFileMetadata: SarifFileMetadata, location: ResultLocation) {
+    private updatedRelativeLocationToAbsolute(sarifFileMetadata: SarifFileMetadata, location: ResultLocation): void {
         const newPath = getResultFileUri(location.path, sarifFileMetadata.getBaseFolder(), this.getPotentialBaseFolders(sarifFileMetadata.getSarifFilePath()))
             .uri.path;
         location.path = newPath;
     }
 
-    private updateResultPathsToAbsolute(sarifFileMetadata: SarifFileMetadata, result: ExportedResult) {
+    private updateResultPathsToAbsolute(sarifFileMetadata: SarifFileMetadata, result: ExportedResult): void {
         for (let i = 0; i < result.locations.length; i++) {
             this.updatedRelativeLocationToAbsolute(sarifFileMetadata, result.locations[i]);
         }
@@ -285,7 +288,7 @@ export class SarifExplorerWebview {
         }
     }
 
-    private async _handleMessages(msg: WebviewToExtensionMsgTypes) {
+    private async _handleMessages(msg: WebviewToExtensionMsgTypes): Promise<void> {
         // console.debug("[Extension] Received a '" + msg.command + "'");
         // console.debug("[Extension] Received message from webview: ", msg);
 
@@ -489,7 +492,7 @@ export class SarifExplorerWebview {
         }
     }
 
-    public async launchOpenSarifFileDialogAndSendToWebview() {
+    public async launchOpenSarifFileDialogAndSendToWebview(): Promise<void> {
         const sarifFilePaths = await openSarifFileDialog();
 
         // Failed to get a file path from the dialog; no need for an error message here
@@ -503,7 +506,7 @@ export class SarifExplorerWebview {
         }
     }
 
-    public openSarifFileAndSendToWebview(sarifFilePath: string, sarifFileWorkspaceData: SarifFileWorkspaceData) {
+    public openSarifFileAndSendToWebview(sarifFilePath: string, sarifFileWorkspaceData: SarifFileWorkspaceData): void {
         // Open and send the SARIF file to the webview
         let res;
         try {
@@ -532,7 +535,7 @@ export class SarifExplorerWebview {
         this.postMessage(sarifFileMsg);
     }
 
-    public handleOpenCodeRegion(msg: OpenCodeRegion) {
+    public handleOpenCodeRegion(msg: OpenCodeRegion): void {
         // Open the code region
         let newResultsBaseFolder;
         try {
@@ -563,9 +566,9 @@ export class SarifExplorerWebview {
         errorMsg: string,
         sarifFilePath: string,
         resultFilePath: string,
-    ) {
+    ): void {
         // If the base folder is incorrect, ask the user to select a new one
-        void vscode.window.showErrorMessage(`${errorMsg}: ${err.message}.`, "Select a new base folder").then(async (t) => {
+        void vscode.window.showErrorMessage(`${errorMsg}: ${err.message}.`, "Select a new base folder").then(async (t): Promise<void> => {
             // Undefined means the error was dismissed
             if (t === undefined) {
                 return;

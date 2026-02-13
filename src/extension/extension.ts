@@ -2,17 +2,17 @@ import * as vscode from "vscode";
 import { SarifExplorerWebview } from "./sarifExplorerWebview";
 
 // This method is called when your extension is activated
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: vscode.ExtensionContext): void {
     const sarifExplorer = new SarifExplorerWebview(context);
 
     context.subscriptions.push(
-        vscode.commands.registerCommand("sarif-explorer.showSarifExplorer", () => {
+        vscode.commands.registerCommand("sarif-explorer.showSarifExplorer", (): void => {
             void sarifExplorer.show();
         }),
     );
 
     context.subscriptions.push(
-        vscode.commands.registerCommand("sarif-explorer.openSarifFile", (sarifPath: string, baseFolder: string) => {
+        vscode.commands.registerCommand("sarif-explorer.openSarifFile", (sarifPath: string, baseFolder: string): void => {
             if (sarifPath) {
                 sarifExplorer.addSarifToToOpenList(sarifPath, baseFolder);
                 void sarifExplorer.show();
@@ -24,7 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     context.subscriptions.push(
-        vscode.commands.registerCommand("sarif-explorer.resetWorkspaceData", () => {
+        vscode.commands.registerCommand("sarif-explorer.resetWorkspaceData", (): void => {
             // This command is useful if SARIF Explorer gets stuck in a bad state
             void sarifExplorer.resetWorkspaceData();
         }),
@@ -32,7 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // load a SARIF file when it is opened
     context.subscriptions.push(
-        vscode.workspace.onDidOpenTextDocument((document) => {
+        vscode.workspace.onDidOpenTextDocument((document): void => {
             if (document.fileName.endsWith(".sarif")) {
                 sarifExplorer.addSarifToToOpenList(document.fileName);
                 void sarifExplorer.show();
@@ -44,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
     // (otherwise, the extension would not automatically open the webview because the onDidOpenTextDocument
     // handler above was still not registered)
     let shouldShowWebview = false;
-    vscode.workspace.textDocuments.forEach((document) => {
+    vscode.workspace.textDocuments.forEach((document): void => {
         if (document.fileName.endsWith(".sarif")) {
             sarifExplorer.addSarifToToOpenList(document.fileName);
             shouldShowWebview = true;
@@ -57,4 +57,4 @@ export function activate(context: vscode.ExtensionContext) {
 
 // This method is called when your extension is deactivated
 
-export function deactivate() {}
+export function deactivate(): void {}

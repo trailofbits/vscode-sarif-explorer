@@ -68,8 +68,8 @@ export class Result {
         return ResultLevel[this.getLevel()];
     }
 
-    public setLevel(level: ResultLevel) {
-        return (this.level = level);
+    public setLevel(level: ResultLevel): void {
+        this.level = level;
     }
 
     public getRule(): Rule {
@@ -104,7 +104,7 @@ export class Result {
         return ResultStatus[this.getStatus()];
     }
 
-    public setStatus(status: ResultStatus) {
+    public setStatus(status: ResultStatus): void {
         this.note.status = status;
         apiSetResultNote(this);
     }
@@ -117,7 +117,7 @@ export class Result {
         return this.note.comment;
     }
 
-    public setComment(comment: string) {
+    public setComment(comment: string): void {
         this.note.comment = comment;
         apiSetResultNote(this);
     }
@@ -169,15 +169,15 @@ export class Result {
     }
 
     // ====================
-    public openPrimaryCodeRegion() {
+    public openPrimaryCodeRegion(): void {
         apiOpenCodeRegion(this.sarifFile, this.getResultPrimaryLocation());
     }
 
-    public openCodeRegion(location: ResultLocation) {
+    public openCodeRegion(location: ResultLocation): void {
         apiOpenCodeRegion(this.sarifFile, location);
     }
 
-    public openRelatedLocation(index: number) {
+    public openRelatedLocation(index: number): void {
         const relatedLocation = this.relatedLocations.get(index);
         if (relatedLocation) {
             apiOpenCodeRegion(this.sarifFile, relatedLocation.location);
@@ -186,11 +186,11 @@ export class Result {
         }
     }
 
-    public exportAsGHIssue() {
+    public exportAsGHIssue(): void {
         apiExportGitHubIssue([this]);
     }
 
-    public copyPermalink() {
+    public copyPermalink(): void {
         apiCopyPermalink(this);
     }
 
@@ -239,7 +239,7 @@ export class Result {
                 linkUrl = "#";
                 // This index is used to link to a file location defined elsewhere in the SARIF file
                 const linkIndex = parseInt(linkMatch[2]);
-                linkOnClick = (e) => {
+                linkOnClick = (e): void => {
                     e.stopImmediatePropagation();
                     this.openRelatedLocation(linkIndex);
                 };

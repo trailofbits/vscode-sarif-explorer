@@ -146,71 +146,71 @@ export class ResultsTableFilters {
         return this.d;
     }
 
-    public setKeyword(s: string) {
+    public setKeyword(s: string): void {
         this.d.keyword = s;
         apiSetFilterData(this.d);
     }
 
-    public setIncludePaths(s: string) {
+    public setIncludePaths(s: string): void {
         this.includePathsAsSet = splitStringInParts(s);
         this.d.includePaths = Array.from(this.includePathsAsSet);
         apiSetFilterData(this.d);
     }
 
-    public setExcludePaths(s: string) {
+    public setExcludePaths(s: string): void {
         this.excludePathsAsSet = splitStringInParts(s);
         this.d.excludePaths = Array.from(this.excludePathsAsSet);
         apiSetFilterData(this.d);
     }
 
-    public setExcludedRuleIds(s: string) {
+    public setExcludedRuleIds(s: string): void {
         this.excludeRuleIdsAsSet = splitStringInParts(s);
         this.d.excludeRuleIds = Array.from(this.excludeRuleIdsAsSet);
         apiSetFilterData(this.d);
     }
 
-    public setExcludedSarifFiles(s: string) {
+    public setExcludedSarifFiles(s: string): void {
         this.excludeSarifFilesAsSet = splitStringInParts(s);
         this.d.excludeSarifFiles = Array.from(this.excludeSarifFilesAsSet);
         apiSetFilterData(this.d);
     }
 
-    public setLevelError(b: boolean) {
+    public setLevelError(b: boolean): void {
         this.d.includeLevelError = b;
         apiSetFilterData(this.d);
     }
 
-    public setLevelWarning(b: boolean) {
+    public setLevelWarning(b: boolean): void {
         this.d.includeLevelWarning = b;
         apiSetFilterData(this.d);
     }
 
-    public setLevelNote(b: boolean) {
+    public setLevelNote(b: boolean): void {
         this.d.includeLevelNote = b;
         apiSetFilterData(this.d);
     }
 
-    public setLevelNone(b: boolean) {
+    public setLevelNone(b: boolean): void {
         this.d.includeLevelNone = b;
         apiSetFilterData(this.d);
     }
 
-    public setStatusTodo(b: boolean) {
+    public setStatusTodo(b: boolean): void {
         this.d.includeStatusTodo = b;
         apiSetFilterData(this.d);
     }
 
-    public setStatusBug(b: boolean) {
+    public setStatusBug(b: boolean): void {
         this.d.includeStatusBug = b;
         apiSetFilterData(this.d);
     }
 
-    public setStatusFalsePositive(b: boolean) {
+    public setStatusFalsePositive(b: boolean): void {
         this.d.includeStatusFalsePositive = b;
         apiSetFilterData(this.d);
     }
 
-    public setFilters(filterData: FilterData) {
+    public setFilters(filterData: FilterData): void {
         this.d = filterData;
         this.includePathsAsSet = new Set(filterData.includePaths);
         this.excludePathsAsSet = new Set(filterData.excludePaths);
@@ -225,7 +225,7 @@ export function splitStringInParts(s: string): Set<string> {
     return new Set(
         s
             .split(",")
-            .map((s) => s.trim())
+            .map((s): string => s.trim())
             .filter(Boolean),
     ); // Removes empty strings
 }

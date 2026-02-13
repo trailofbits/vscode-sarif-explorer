@@ -17,7 +17,7 @@ type State = {
 
 let state: State;
 
-function init() {
+function init(): void {
     const _resultsTableWidget = new ResultsTableWidget();
     state = {
         tabManager: new TabManager(),
@@ -26,7 +26,8 @@ function init() {
     };
 
     // Add an event listener to receive messages from the extension
-    window.addEventListener("message", (event) => {
+    window.addEventListener("message", (event): void => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const message: ExtensionToWebviewMsgTypes = event.data;
         handleWebviewMessage(message);
     });
@@ -36,17 +37,17 @@ function init() {
 
     initResizablePanels();
 
-    window.addEventListener("click", (event) => {
+    window.addEventListener("click", (event): void => {
         state.resultsTableWidget.globalOnClick(event);
     });
 }
 
 // Init everything when the DOM is ready
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function (): void {
     init();
 });
 
-function handleWebviewMessage(msg: ExtensionToWebviewMsgTypes) {
+function handleWebviewMessage(msg: ExtensionToWebviewMsgTypes): void {
     // console.debug("[Webview] Received a '" + msg.command + "'");
     // console.debug("[Webview] Received message from extension:", msg);
 
@@ -75,7 +76,7 @@ function handleWebviewMessage(msg: ExtensionToWebviewMsgTypes) {
     }
 }
 
-function handleOpenSarifFileResponseMsg(msg: OpenSarifFileResponse) {
+function handleOpenSarifFileResponseMsg(msg: OpenSarifFileResponse): void {
     // If we already have the SARIF file open, reload it
     if (state.sarifFileListWidget.hasSarifFile(msg.sarifFilePath)) {
         state.sarifFileListWidget.removeSarifFileWithPath(msg.sarifFilePath);
@@ -93,7 +94,7 @@ function handleOpenSarifFileResponseMsg(msg: OpenSarifFileResponse) {
     state.tabManager.showResultsTab();
 }
 
-function handleSetSarifFileBaseFolderMsg(msg: SetSarifFileBaseFolder) {
+function handleSetSarifFileBaseFolderMsg(msg: SetSarifFileBaseFolder): void {
     const sarifFile = state.sarifFileListWidget.getSarifFileListData().getSarifFile(msg.sarifFilePath);
     if (!sarifFile) {
         console.error("[SARIF Explorer] handleSetSarifFileBaseFolderMsg: Could not find SARIF file for path:", msg.sarifFilePath);

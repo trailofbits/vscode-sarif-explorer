@@ -42,18 +42,6 @@ module.exports = [
             eqeqeq: "warn",
             "no-throw-literal": "warn",
             semi: "off",
-            // Downgraded from error to warn for incremental adoption
-            "@typescript-eslint/no-floating-promises": "warn",
-            "@typescript-eslint/require-await": "warn",
-            "@typescript-eslint/no-unsafe-assignment": "warn",
-            "@typescript-eslint/no-unsafe-member-access": "warn",
-            "@typescript-eslint/no-unsafe-call": "warn",
-            "@typescript-eslint/no-unsafe-argument": "warn",
-            "@typescript-eslint/no-unsafe-enum-comparison": "warn",
-            "@typescript-eslint/restrict-template-expressions": "warn",
-            "@typescript-eslint/restrict-plus-operands": "warn",
-            "@typescript-eslint/prefer-promise-reject-errors": "warn",
-            "@typescript-eslint/no-misused-promises": "warn",
         },
     },
 ];

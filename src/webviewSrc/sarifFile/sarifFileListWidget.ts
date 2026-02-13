@@ -109,14 +109,14 @@ export class SarifFileListWidget {
 
         // Add a click handler to the open SARIF file button
         const openNewSarifFileButton = getElementByIdOrThrow(this.SARIF_LIST_OPEN_BUTTON_ID) as HTMLButtonElement;
-        openNewSarifFileButton.onclick = () => {
+        openNewSarifFileButton.onclick = (): void => {
             apiLaunchOpenSarifFileDialog();
         };
 
         // Close all SARIF files button
         const closeAllSarifFilesButton = getElementByIdOrThrow(this.CLOSE_ALL_SARIF_FILES_BUTTON_ID) as HTMLButtonElement;
-        closeAllSarifFilesButton.onclick = () => {
-            this.sarifFilePathToRow.forEach((sarifFileAndRow) => {
+        closeAllSarifFilesButton.onclick = (): void => {
+            this.sarifFilePathToRow.forEach((sarifFileAndRow): void => {
                 this.removeSarifFile(sarifFileAndRow);
                 apiCloseSarifFile(sarifFileAndRow.sarifFile.getSarifFilePath());
             });
@@ -124,7 +124,7 @@ export class SarifFileListWidget {
 
         this.sarifFileTableElement.setAttribute("tabindex", "0");
 
-        this.sarifFileTableElement.addEventListener("keydown", (e: KeyboardEvent) => {
+        this.sarifFileTableElement.addEventListener("keydown", (e: KeyboardEvent): void => {
             const selectedRow = this.selectedSarifFile.getRow();
 
             switch (e.code) {
@@ -151,7 +151,7 @@ export class SarifFileListWidget {
         return this.sarifFileDetailsWidget;
     }
 
-    public addSarifFile(sarifFile: SarifFile) {
+    public addSarifFile(sarifFile: SarifFile): void {
         this.sarifFileListData.addSarifFile(sarifFile);
         this.resultTableWidget.addResults(sarifFile);
 
@@ -178,7 +178,7 @@ export class SarifFileListWidget {
         fullPathSpan.textContent = sarifFile.getSarifFilePath();
         pathContent.appendChild(fullPathSpan);
 
-        row.onclick = () => {
+        row.onclick = (): void => {
             if (!this.sarifFileListData.hasSarifFile(sarifFile.getSarifFilePath())) {
                 return;
             }
@@ -208,7 +208,7 @@ export class SarifFileListWidget {
         closeButton.classList.add("rowButton");
         closeButton.classList.add("codicon");
         closeButton.classList.add("codicon-close");
-        closeButton.onclick = (e) => {
+        closeButton.onclick = (e): void => {
             e.stopPropagation();
             this.removeSarifFile(sarifFileAndRow);
             apiCloseSarifFile(sarifFileAndRow.sarifFile.getSarifFilePath());
@@ -226,7 +226,7 @@ export class SarifFileListWidget {
         } else {
             hideButton.classList.add("codicon-eye");
         }
-        hideButton.onclick = (e) => {
+        hideButton.onclick = (e): void => {
             e.stopPropagation();
 
             // Add this ruleID to the FILTER_RULE_ID filter
@@ -256,7 +256,7 @@ export class SarifFileListWidget {
         refreshButton.classList.add("rowButton");
         refreshButton.classList.add("codicon");
         refreshButton.classList.add("codicon-refresh");
-        refreshButton.onclick = (e) => {
+        refreshButton.onclick = (e): void => {
             e.stopPropagation();
 
             // Remove and reopen the SARIF file
@@ -273,7 +273,7 @@ export class SarifFileListWidget {
         return rowButtons;
     }
 
-    public removeSarifFile(sarifFileAndRow: SarifFileAndRow) {
+    public removeSarifFile(sarifFileAndRow: SarifFileAndRow): void {
         const sarifFile = sarifFileAndRow.sarifFile;
 
         // If the selected row is the one we're removing, clear the selection
@@ -292,7 +292,7 @@ export class SarifFileListWidget {
         this.sarifFilePathToRow.delete(sarifFile.getSarifFilePath());
     }
 
-    public removeSarifFileWithPath(sarifFilePath: string) {
+    public removeSarifFileWithPath(sarifFilePath: string): void {
         const row = this.sarifFilePathToRow.get(sarifFilePath);
         if (!row) {
             return;
@@ -315,7 +315,7 @@ export class SarifFileListWidget {
 
     // ====================
     // For keyboard shortcuts
-    private setSelectedResultBelow(selectedRow: HTMLElement) {
+    private setSelectedResultBelow(selectedRow: HTMLElement): void {
         const nextRow = selectedRow.nextElementSibling as HTMLElement;
         if (!nextRow) {
             return;
@@ -325,7 +325,7 @@ export class SarifFileListWidget {
         nextRow.click();
     }
 
-    private setSelectedResultAbove(selectedRow: HTMLElement) {
+    private setSelectedResultAbove(selectedRow: HTMLElement): void {
         const prevRow = selectedRow.previousElementSibling as HTMLElement;
         if (!prevRow) {
             return;
