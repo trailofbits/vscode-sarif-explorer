@@ -10,12 +10,10 @@ export class WeAuditNotInstalledError extends Error {
         this.name = "WeAuditNotInstalledError";
     }
 
-    public showInstallWeAuditVSCodeError(errorMsg: string) {
-        vscode.window.showErrorMessage(`${errorMsg}: ${this.message}.`, "Install weAudit").then((selection) => {
+    public showInstallWeAuditVSCodeError(errorMsg: string): void {
+        vscode.window.showErrorMessage(`${errorMsg}: ${this.message}.`, "Install weAudit").then((selection): void => {
             if (selection === "Install weAudit") {
-                vscode.commands.executeCommand("workbench.extensions.action.showExtensionsWithIds", [
-                    weAuditExtensionId,
-                ]);
+                vscode.commands.executeCommand("workbench.extensions.action.showExtensionsWithIds", [weAuditExtensionId]);
             }
         });
     }
@@ -40,13 +38,13 @@ export async function getGitHubPermalink(startLine: number, endLine: number, abs
         label: "",
         description: "",
     };
-    const permalink = (await vscode.commands.executeCommand("weAudit.getClientPermalink", location)) as string;
+    const permalink = await vscode.commands.executeCommand<string>("weAudit.getClientPermalink", location);
     return permalink;
 }
 
 async function exportedResultsToEntry(results: ExportedResult[]): Promise<Entry> {
     // Ensure that every bug has the same ruleName
-    if (!results.every((result) => result.rule.name === results[0].rule.name)) {
+    if (!results.every((result): boolean => result.rule.name === results[0].rule.name)) {
         throw new Error(
             "Failed to convert an ExportedResult list into a single weAudit Entry. Expected all items inside ExportedResult[] to be from the same rule.",
         );
@@ -133,7 +131,7 @@ async function exportedResultsToEntry(results: ExportedResult[]): Promise<Entry>
     return entry;
 }
 
-export async function openGithubIssueFromResults(results: ExportedResult[]) {
+export async function openGithubIssueFromResults(results: ExportedResult[]): Promise<void> {
     // Ensure that the weAudit extension is installed
     if (!isWeAuditInstalled()) {
         throw new WeAuditNotInstalledError();
@@ -145,7 +143,7 @@ export async function openGithubIssueFromResults(results: ExportedResult[]) {
     await vscode.commands.executeCommand("weAudit.openGithubIssue", entry);
 }
 
-export async function sendBugsToWeAudit(bugs: ExportedResult[]) {
+export async function sendBugsToWeAudit(bugs: ExportedResult[]): Promise<void> {
     // Ensure that the weAudit extension is installed
     if (!isWeAuditInstalled()) {
         throw new WeAuditNotInstalledError();
@@ -158,7 +156,7 @@ export async function sendBugsToWeAudit(bugs: ExportedResult[]) {
         if (!bugsByRule.has(ruleName)) {
             bugsByRule.set(ruleName, []);
         }
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
         bugsByRule.get(ruleName)!.push(bug);
     }
 

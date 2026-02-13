@@ -7,14 +7,14 @@ export class TabManager {
         this.showSarifFilesTab();
     }
 
-    private initTabs() {
+    private initTabs(): void {
         const maybeResultsButton = document.getElementById("resultsTabButton");
         if (!maybeResultsButton) {
             console.error("[SARIF Explorer] results button not found in the document");
             return;
         }
         this.resultsTabButton = maybeResultsButton as HTMLTableElement;
-        this.resultsTabButton.onclick = (event) => {
+        this.resultsTabButton.onclick = (event): void => {
             this.showTab(event, "resultsTab");
         };
 
@@ -24,12 +24,12 @@ export class TabManager {
             return;
         }
         this.sarifFilesTabButton = maybeSarifFilesTabButton as HTMLTableElement;
-        this.sarifFilesTabButton.onclick = (event) => {
+        this.sarifFilesTabButton.onclick = (event): void => {
             this.showTab(event, "sarifFilesTab");
         };
     }
 
-    private showTab(event: Event, tabName: string) {
+    private showTab(event: Event, tabName: string): void {
         if (!event) {
             console.error("[SARIF Explorer] showTab called without a valid event object");
             return;
@@ -62,7 +62,7 @@ export class TabManager {
     // ====================
     // Public functions
     // ====================
-    public showResultsTab() {
+    public showResultsTab(): void {
         if (!this.resultsTabButton) {
             console.error("[SARIF Explorer] results button not found in the document");
             return;
@@ -70,7 +70,7 @@ export class TabManager {
         this.resultsTabButton.click();
     }
 
-    public showSarifFilesTab() {
+    public showSarifFilesTab(): void {
         if (!this.sarifFilesTabButton) {
             console.error("[SARIF Explorer] logs button not found in the document");
             return;

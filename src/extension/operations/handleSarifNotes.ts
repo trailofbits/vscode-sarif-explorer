@@ -44,27 +44,28 @@ export class SarifFileMetadata {
         return this.workspaceMetadata.baseFolder;
     }
 
-    public async setResultNote(resultId: string, note: ResultNote) {
+    public setResultNote(resultId: string, note: ResultNote): void {
         this.resultIdToNotes.set(resultId, note);
 
-        this.writeFile();
+        void this.writeFile();
     }
 
-    public async setHiddenRule(ruleId: string, isHidden: boolean) {
+    public setHiddenRule(ruleId: string, isHidden: boolean): void {
         if (isHidden) {
             this.hiddenRules.add(ruleId);
         } else {
             this.hiddenRules.delete(ruleId);
         }
 
-        this.writeFile();
+        void this.writeFile();
     }
 
-    public setBaseFolder(baseFolder: string) {
+    public setBaseFolder(baseFolder: string): void {
         this.workspaceMetadata.baseFolder = baseFolder;
     }
 
-    public loadFromFile() {
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
+    public loadFromFile(): void {
         if (!existsSync(this.notesFilePath)) {
             return;
         }
@@ -84,8 +85,9 @@ export class SarifFileMetadata {
             this.hiddenRules = new Set(res.hiddenRules);
         }
     }
+    /* eslint-enable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
 
-    private async writeFile() {
+    private writeFile(): void {
         const objAsStr = JSON.stringify(
             {
                 resultIdToNotes: this.getResultNotes(),

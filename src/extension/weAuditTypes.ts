@@ -1,6 +1,7 @@
 // ====================
 // Github Issue Creation
 // create an enum with two values
+/* eslint-disable @typescript-eslint/naming-convention */
 export enum FindingSeverity {
     Informational = "Informational",
     Undetermined = "Undetermined",
@@ -42,6 +43,7 @@ export enum EntryType {
     Note,
     PathOrganizer,
 }
+/* eslint-enable @typescript-eslint/naming-convention */
 
 export interface EntryDetails {
     severity: FindingSeverity;

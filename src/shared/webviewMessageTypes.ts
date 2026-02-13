@@ -1,11 +1,7 @@
 import { FilterData } from "./filterData";
 import { ResultRegion, ResultNote, ResultNotes, ResultLocation, ExportedResult, VSCodeConfig } from "./resultTypes";
 
-export type ExtensionToWebviewMsgTypes =
-    | OpenSarifFileResponse
-    | SetSarifFileBaseFolder
-    | WebviewIsReadyResponse
-    | UpdateVSCodeConfig;
+export type ExtensionToWebviewMsgTypes = OpenSarifFileResponse | SetSarifFileBaseFolder | WebviewIsReadyResponse | UpdateVSCodeConfig;
 
 export type WebviewToExtensionMsgTypes =
     | WebviewIsReady
