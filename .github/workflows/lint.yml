@@ -13,7 +13,7 @@ permissions: read-all
 
 jobs:
     lint:
-        uses: trailofbits/.github/.github/workflows/lint.yml@v0.1.0
+        uses: trailofbits/.github/.github/workflows/lint.yml@v0.1.3
         with:
             type: just
         permissions:
