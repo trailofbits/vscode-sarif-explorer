@@ -109,10 +109,7 @@ export class ResultsTable {
                 unchangeableSortHeader: this.sortConfig.unchangeableSortHeader,
 
                 mainHeader: headerToSortBy,
-                mainDirection:
-                    this.sortConfig.mainDirection === SortDirection.Ascending
-                        ? SortDirection.Descending
-                        : SortDirection.Ascending,
+                mainDirection: this.sortConfig.mainDirection === SortDirection.Ascending ? SortDirection.Descending : SortDirection.Ascending,
                 secondaryHeader: this.sortConfig.secondaryHeader,
                 secondaryDirection: this.sortConfig.secondaryDirection,
             });

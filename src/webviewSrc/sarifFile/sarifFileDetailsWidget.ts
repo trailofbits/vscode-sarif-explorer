@@ -65,8 +65,7 @@ export class SarifFileDetailsWidget {
         // Editable base folder
         {
             const editableBaseFolderNode = document.createElement("textarea");
-            editableBaseFolderNode.placeholder =
-                "Add a base folder... (this is the folder from which your results' relative paths will be based one)";
+            editableBaseFolderNode.placeholder = "Add a base folder... (this is the folder from which your results' relative paths will be based one)";
             editableBaseFolderNode.value = sarifFile.getResultsBaseFolder();
             editableBaseFolderNode.oninput = () => {
                 sarifFile.setResultsBaseFolder(editableBaseFolderNode.value);
@@ -124,7 +123,7 @@ export class SarifFileDetailsWidget {
 
                 for (let i = 0; i < ruleIdsOrdered.length; i++) {
                     const ruleId = ruleIdsOrdered[i];
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
                     const rule = tool.rules.get(ruleId)!;
                     const ruleElement = document.createElement("li");
                     ruleElement.classList.add("wordBreakAll");
@@ -149,7 +148,6 @@ export class SarifFileDetailsWidget {
             return;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const editableBaseFolderNode = this.tableBody.querySelector("textarea")!;
         editableBaseFolderNode.value = baseFolder;
     }

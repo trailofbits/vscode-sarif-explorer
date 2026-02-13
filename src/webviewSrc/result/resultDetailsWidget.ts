@@ -53,10 +53,7 @@ export class ResultDetailsWidget {
         // Table
         this.tableBody.innerText = "";
 
-        const appendRowToTable = (
-            key: string,
-            value: string | HTMLElement,
-        ): [HTMLTableCellElement, HTMLTableCellElement] => {
+        const appendRowToTable = (key: string, value: string | HTMLElement): [HTMLTableCellElement, HTMLTableCellElement] => {
             const row = this.tableBody.insertRow();
             const cellKey = row.insertCell();
             const cellValue = row.insertCell();
@@ -73,10 +70,7 @@ export class ResultDetailsWidget {
             return [cellKey, cellValue];
         };
 
-        const appendNavigationTableToTable = (
-            key: string,
-            rows_data: { column1_text: string; column2_text: string; location: ResultLocation }[],
-        ) => {
+        const appendNavigationTableToTable = (key: string, rows_data: { column1_text: string; column2_text: string; location: ResultLocation }[]) => {
             // Check if any rows_data has a column1_text
             const hasColumn1Text = rows_data.some((row_data) => row_data.column1_text !== "");
 
@@ -226,8 +220,7 @@ export class ResultDetailsWidget {
                     "Data Flow:",
                     dataFlow.map((dataFlowElement, i) => {
                         return {
-                            column1_text:
-                                i === 0 ? "Source: " : i === result.getDataFlow().length - 1 ? "Sink: " : `${i}: `,
+                            column1_text: i === 0 ? "Source: " : i === result.getDataFlow().length - 1 ? "Sink: " : `${i}: `,
                             column2_text: dataFlowElement.message,
                             location: dataFlowElement.location,
                         };
@@ -269,9 +262,7 @@ export class ResultDetailsWidget {
                 for (const [_key, value] of relatedLocations.entries()) {
                     relatedLocationsRows.push({
                         column1_text: "", // Empty so that the first column is suppressed
-                        column2_text: value.label
-                            ? value.label
-                            : value.location.path + ":" + value.location.region.startLine.toString(),
+                        column2_text: value.label ? value.label : value.location.path + ":" + value.location.region.startLine.toString(),
                         location: value.location,
                     });
                 }

@@ -3,7 +3,6 @@
 
 "use strict";
 
-/* trunk-ignore(eslint/@typescript-eslint/no-var-requires) */
 const path = require("path");
 
 //@ts-check

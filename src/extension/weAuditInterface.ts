@@ -13,9 +13,7 @@ export class WeAuditNotInstalledError extends Error {
     public showInstallWeAuditVSCodeError(errorMsg: string) {
         vscode.window.showErrorMessage(`${errorMsg}: ${this.message}.`, "Install weAudit").then((selection) => {
             if (selection === "Install weAudit") {
-                vscode.commands.executeCommand("workbench.extensions.action.showExtensionsWithIds", [
-                    weAuditExtensionId,
-                ]);
+                vscode.commands.executeCommand("workbench.extensions.action.showExtensionsWithIds", [weAuditExtensionId]);
             }
         });
     }
@@ -40,7 +38,7 @@ export async function getGitHubPermalink(startLine: number, endLine: number, abs
         label: "",
         description: "",
     };
-    const permalink = (await vscode.commands.executeCommand("weAudit.getClientPermalink", location)) as string;
+    const permalink = await vscode.commands.executeCommand<string>("weAudit.getClientPermalink", location);
     return permalink;
 }
 
@@ -158,7 +156,7 @@ export async function sendBugsToWeAudit(bugs: ExportedResult[]) {
         if (!bugsByRule.has(ruleName)) {
             bugsByRule.set(ruleName, []);
         }
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
         bugsByRule.get(ruleName)!.push(bug);
     }
 

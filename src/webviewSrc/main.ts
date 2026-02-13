@@ -1,8 +1,4 @@
-import {
-    ExtensionToWebviewMsgTypes,
-    OpenSarifFileResponse,
-    SetSarifFileBaseFolder,
-} from "../shared/webviewMessageTypes";
+import { ExtensionToWebviewMsgTypes, OpenSarifFileResponse, SetSarifFileBaseFolder } from "../shared/webviewMessageTypes";
 import { ResultsTableWidget } from "./result/resultsTableWidget";
 import { SarifFileListWidget } from "./sarifFile/sarifFileListWidget";
 import { TabManager } from "./tabs";
@@ -87,13 +83,7 @@ function handleOpenSarifFileResponseMsg(msg: OpenSarifFileResponse) {
 
     // Parse the SARIF file contents into results
     try {
-        const sarifFile = new SarifFile(
-            msg.sarifFilePath,
-            msg.sarifFileContents,
-            msg.resultNotes,
-            msg.hiddenRules,
-            msg.baseFolder,
-        );
+        const sarifFile = new SarifFile(msg.sarifFilePath, msg.sarifFileContents, msg.resultNotes, msg.hiddenRules, msg.baseFolder);
         state.sarifFileListWidget.addSarifFile(sarifFile);
     } catch (error) {
         apiFailedToParseSarifFile(msg.sarifFilePath, String(error));
@@ -106,18 +96,13 @@ function handleOpenSarifFileResponseMsg(msg: OpenSarifFileResponse) {
 function handleSetSarifFileBaseFolderMsg(msg: SetSarifFileBaseFolder) {
     const sarifFile = state.sarifFileListWidget.getSarifFileListData().getSarifFile(msg.sarifFilePath);
     if (!sarifFile) {
-        console.error(
-            "[SARIF Explorer] handleSetSarifFileBaseFolderMsg: Could not find SARIF file for path:",
-            msg.sarifFilePath,
-        );
+        console.error("[SARIF Explorer] handleSetSarifFileBaseFolderMsg: Could not find SARIF file for path:", msg.sarifFilePath);
         return;
     }
 
     if (sarifFile.getResultsBaseFolder() !== msg.resultsBaseFolder) {
         sarifFile.setResultsBaseFolder(msg.resultsBaseFolder);
-        state.sarifFileListWidget
-            .getSarifFileDetailsWidget()
-            .updateBaseFolder(msg.sarifFilePath, msg.resultsBaseFolder);
+        state.sarifFileListWidget.getSarifFileDetailsWidget().updateBaseFolder(msg.sarifFilePath, msg.resultsBaseFolder);
         // Update the result's detailed view
         state.resultsTableWidget.render();
     }

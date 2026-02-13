@@ -31,13 +31,7 @@ export class SarifFile {
     // The path containing the files that were tested by the static analysis tool (same for all runs)
     private resultsBaseFolder: string;
 
-    constructor(
-        sarifFilePath: string,
-        sarifFileContents: string,
-        resultNotes: ResultNotes,
-        hiddenRules: string[],
-        resultsBaseFolder: string,
-    ) {
+    constructor(sarifFilePath: string, sarifFileContents: string, resultNotes: ResultNotes, hiddenRules: string[], resultsBaseFolder: string) {
         this.sarifFilePath = sarifFilePath;
         this.resultsBaseFolder = resultsBaseFolder;
 
@@ -127,8 +121,7 @@ export class SarifFile {
         } else if (loc.physicalLocation.address !== undefined) {
             // Very basic support for address-based locations https://docs.oasis-open.org/sarif/sarif/v2.1.0/csprd01/sarif-v2.1.0-csprd01.html#_Toc10541143
             // Since SARIF Explorer works mostly with source files, we just have very minimal support for this
-            const address: number =
-                loc.physicalLocation.address?.absoluteAddress || loc.physicalLocation.address?.relativeAddress || -1;
+            const address: number = loc.physicalLocation.address?.absoluteAddress || loc.physicalLocation.address?.relativeAddress || -1;
             path = "0x" + address.toString(16);
         } else {
             path = "";
@@ -140,8 +133,7 @@ export class SarifFile {
                 startLine: loc.physicalLocation?.region?.startLine || 1,
                 startColumn: loc.physicalLocation?.region?.startColumn || 1,
                 endLine: loc.physicalLocation?.region?.endLine || loc.physicalLocation?.region?.startLine || 10000,
-                endColumn:
-                    loc.physicalLocation?.region?.endColumn || loc.physicalLocation?.region?.startColumn + 1 || 10000,
+                endColumn: loc.physicalLocation?.region?.endColumn || loc.physicalLocation?.region?.startColumn + 1 || 10000,
             },
         };
     }
@@ -211,11 +203,7 @@ export class SarifFile {
                     resLevel = ResultLevel[result.level as keyof typeof ResultLevel];
                 } else {
                     console.warn(
-                        "[SARIF Explorer] Unexpected result level '" +
-                            result.level +
-                            "' found in SARIF file " +
-                            this.sarifFilePath +
-                            ". Using default level.",
+                        "[SARIF Explorer] Unexpected result level '" + result.level + "' found in SARIF file " + this.sarifFilePath + ". Using default level.",
                     );
                 }
             }
@@ -244,9 +232,7 @@ export class SarifFile {
             // A result should NEVER have a duplicate resultId.
             const resultId = this.computeResultId(runIndex, i);
             if (resultIdSet.has(resultId)) {
-                console.warn(
-                    "[SARIF Explorer] The result id '" + resultId + "' is duplicated in " + this.sarifFilePath,
-                );
+                console.warn("[SARIF Explorer] The result id '" + resultId + "' is duplicated in " + this.sarifFilePath);
             }
             resultIdSet.add(resultId);
 
@@ -331,9 +317,7 @@ export class SarifFile {
             // Go from the string value to the enum value
             return ResultLevel[level as keyof typeof ResultLevel];
         } else {
-            console.warn(
-                "[SARIF Explorer] Unexpected result level '" + level + "' found in SARIF file " + this.sarifFilePath,
-            );
+            console.warn("[SARIF Explorer] Unexpected result level '" + level + "' found in SARIF file " + this.sarifFilePath);
 
             return ResultLevel.default;
         }

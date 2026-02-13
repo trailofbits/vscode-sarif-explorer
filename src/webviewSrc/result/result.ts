@@ -1,14 +1,6 @@
 import { SarifFile, Tool } from "../sarifFile/sarifFile";
 import { normalizePath } from "../../shared/file";
-import {
-    DataFlowElement,
-    LabeledLocation,
-    ResultLevel,
-    ResultLocation,
-    ResultNote,
-    ResultStatus,
-    Rule,
-} from "../../shared/resultTypes";
+import { DataFlowElement, LabeledLocation, ResultLevel, ResultLocation, ResultNote, ResultStatus, Rule } from "../../shared/resultTypes";
 import { apiCopyPermalink, apiExportGitHubIssue, apiOpenCodeRegion, apiSetResultNote } from "../extensionApi";
 
 export type ResultAndRow = {
@@ -81,7 +73,6 @@ export class Result {
     }
 
     public getRule(): Rule {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return this.sarifFile.getRunRule(this.ruleId, this.runIndex)!;
     }
 
@@ -191,11 +182,7 @@ export class Result {
         if (relatedLocation) {
             apiOpenCodeRegion(this.sarifFile, relatedLocation.location);
         } else {
-            console.warn(
-                "[SARIF Explorer] Could not find related location with index " +
-                    index +
-                    ". The message in the SARIF file is likely incorrect.",
-            );
+            console.warn("[SARIF Explorer] Could not find related location with index " + index + ". The message in the SARIF file is likely incorrect.");
         }
     }
 
@@ -228,10 +215,7 @@ export class Result {
         const mdLinkRegex = new RegExp("\\[[^\\]]+\\]\\(" + httpsLinkRegex.source + "\\)"); // [text](https://example.com)
         const mdLinkRegexWithGroups = new RegExp("\\[([^\\]]+)\\]\\((" + httpsLinkRegex.source + ")\\)");
 
-        const combinedRegex = new RegExp(
-            "(" + relatedLocationLinkRegex.source + "|" + mdLinkRegex.source + "|" + httpsLinkRegex.source + ")",
-            "gmi",
-        );
+        const combinedRegex = new RegExp("(" + relatedLocationLinkRegex.source + "|" + mdLinkRegex.source + "|" + httpsLinkRegex.source + ")", "gmi");
 
         let messageParts: string[];
         if (shouldRemoveNewLines) {

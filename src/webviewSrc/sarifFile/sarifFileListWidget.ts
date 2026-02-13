@@ -114,9 +114,7 @@ export class SarifFileListWidget {
         };
 
         // Close all SARIF files button
-        const closeAllSarifFilesButton = getElementByIdOrThrow(
-            this.CLOSE_ALL_SARIF_FILES_BUTTON_ID,
-        ) as HTMLButtonElement;
+        const closeAllSarifFilesButton = getElementByIdOrThrow(this.CLOSE_ALL_SARIF_FILES_BUTTON_ID) as HTMLButtonElement;
         closeAllSarifFilesButton.onclick = () => {
             this.sarifFilePathToRow.forEach((sarifFileAndRow) => {
                 this.removeSarifFile(sarifFileAndRow);
@@ -232,9 +230,7 @@ export class SarifFileListWidget {
             e.stopPropagation();
 
             // Add this ruleID to the FILTER_RULE_ID filter
-            const filterSarifFilesElement = getElementByIdOrThrow(
-                this.resultTableWidget.FILTER_SARIF_FILES_ID,
-            ) as HTMLTextAreaElement;
+            const filterSarifFilesElement = getElementByIdOrThrow(this.resultTableWidget.FILTER_SARIF_FILES_ID) as HTMLTextAreaElement;
             const excludedSarifFiles = splitStringInParts(filterSarifFilesElement.value);
             if (excludedSarifFiles.has(sarifFile.getSarifFilePath())) {
                 excludedSarifFiles.delete(sarifFile.getSarifFilePath());

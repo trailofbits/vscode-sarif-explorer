@@ -1,18 +1,6 @@
 import { getPathLeaf } from "../../shared/file";
-import {
-    ResultLevel,
-    ResultLocation,
-    ResultStatus,
-    Rule,
-    VSCodeConfig,
-    defaultVSCodeConfig,
-} from "../../shared/resultTypes";
-import {
-    apiExportGitHubIssue,
-    apiLaunchOpenSarifFileDialog,
-    apiSendBugsToWeAudit,
-    apiSetHiddenRule,
-} from "../extensionApi";
+import { ResultLevel, ResultLocation, ResultStatus, Rule, VSCodeConfig, defaultVSCodeConfig } from "../../shared/resultTypes";
+import { apiExportGitHubIssue, apiLaunchOpenSarifFileDialog, apiSendBugsToWeAudit, apiSetHiddenRule } from "../extensionApi";
 import { SarifFile } from "../sarifFile/sarifFile";
 import { getElementByIdOrThrow, scrollToRow } from "../utils";
 import { Result, ResultAndRow } from "./result";
@@ -250,7 +238,6 @@ export class ResultsTableWidget {
 
             // Sort the table on click
             th.onclick = () => {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const header = parseInt(th.getAttribute(this.TABLE_HEADER_INDEX)!) as TableHeaders;
                 this.resultsTable.sortByHeader(header);
                 this.render();
@@ -399,9 +386,7 @@ export class ResultsTableWidget {
             this.render();
         };
 
-        const filterStatusFalsePositiveElement = getElementByIdOrThrow(
-            this.FILTER_STATUS_FALSE_POSITIVE_ID,
-        ) as HTMLInputElement;
+        const filterStatusFalsePositiveElement = getElementByIdOrThrow(this.FILTER_STATUS_FALSE_POSITIVE_ID) as HTMLInputElement;
         filterStatusFalsePositiveElement.onchange = () => {
             this.resultsTable.setStatusFalsePositiveFilter(filterStatusFalsePositiveElement.checked);
             this.render();
@@ -461,9 +446,7 @@ export class ResultsTableWidget {
         const filterStatusBugElement = getElementByIdOrThrow(this.FILTER_STATUS_BUG_ID) as HTMLInputElement;
         filterStatusBugElement.checked = filterData.includeStatusBug;
 
-        const filterStatusFalsePositiveElement = getElementByIdOrThrow(
-            this.FILTER_STATUS_FALSE_POSITIVE_ID,
-        ) as HTMLInputElement;
+        const filterStatusFalsePositiveElement = getElementByIdOrThrow(this.FILTER_STATUS_FALSE_POSITIVE_ID) as HTMLInputElement;
         filterStatusFalsePositiveElement.checked = filterData.includeStatusFalsePositive;
     }
 
@@ -477,7 +460,7 @@ export class ResultsTableWidget {
     private resultToResultAndRow(result: Result): ResultAndRow {
         const resultId = result.getResultIdWithSarifPath();
         const ruleId = result.getRuleId();
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
         const resultAndRow = this.ruleIdToRuleStatus.get(ruleId)!.results.get(resultId)!;
         return resultAndRow;
     }
@@ -565,7 +548,7 @@ export class ResultsTableWidget {
                 e.stopPropagation();
 
                 const bugList: Result[] = [];
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
                 for (const resultAndRow of this.ruleIdToRuleStatus.get(rule.id)!.results.values()) {
                     if (!this.resultsTable.isResultFiltered(resultAndRow.result)) {
                         bugList.push(resultAndRow.result);
@@ -606,7 +589,6 @@ export class ResultsTableWidget {
                 // trigger the input event to update the filter
                 filterRuleIdElement.dispatchEvent(new Event("input"));
 
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const ruleStatus: RuleStatus = this.ruleIdToRuleStatus.get(rule.id)!;
                 for (const sarifFilePath of ruleStatus.sarifFilePaths) {
                     apiSetHiddenRule(sarifFilePath, rule.id, rule.isHidden);
@@ -625,7 +607,6 @@ export class ResultsTableWidget {
         }
 
         row.onclick = () => {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const ruleStatus = this.ruleIdToRuleStatus.get(rule.id)!;
             this.toggleRuleRowOpened(ruleStatus);
         };
@@ -846,8 +827,7 @@ export class ResultsTableWidget {
         ruleStatus.opened = true;
 
         // Make all children result visible on click
-        const selectedResultId =
-            this.selectedResult.getResultEvenIfNotBeingDisplayed()?.getResultIdWithSarifPath() || "fakeId";
+        const selectedResultId = this.selectedResult.getResultEvenIfNotBeingDisplayed()?.getResultIdWithSarifPath() || "fakeId";
         for (const resultAndRow of ruleStatus.results.values()) {
             if (selectedResultId === resultAndRow.result.getResultIdWithSarifPath()) {
                 this.selectedResult.setIsBeingDisplayed(true);
@@ -1017,8 +997,8 @@ export class ResultsTableWidget {
             let ruleStatus = this.ruleIdToRuleStatus.get(ruleId);
             if (ruleStatus === undefined) {
                 // If we don't have an object for this rule, create one
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const rule = result.getRule()!;
+
+                const rule = result.getRule();
                 const ruleRow = this.createRuleElement(rule);
                 ruleStatus = {
                     row: ruleRow,
@@ -1058,7 +1038,7 @@ export class ResultsTableWidget {
             // Remove the result from the rule
             const resultId = result.getResultIdWithSarifPath();
             const ruleId = resultAndRow.result.getRuleId();
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
             const ruleStatus = this.ruleIdToRuleStatus.get(ruleId)!;
             const ruleResults = ruleStatus.results;
             ruleResults.delete(resultId);
@@ -1106,7 +1086,6 @@ export class ResultsTableWidget {
             const statusIcon = th.getElementsByClassName("resultsTableStatusIcon")[0] as HTMLDivElement;
             statusIcon.classList.add("codicon");
 
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const headerId = parseInt(th.getAttribute(this.TABLE_HEADER_INDEX)!) as TableHeaders;
 
             if (headerId === sortStatus.mainHeader) {
@@ -1151,13 +1130,12 @@ export class ResultsTableWidget {
             if (ruleId !== lastSeenRuleId) {
                 // Update the previous rule row
                 if (lastSeenRuleId !== "") {
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     const lastRuleStatus = this.ruleIdToRuleStatus.get(lastSeenRuleId)!;
                     this.updateRuleRow(lastRuleStatus, lastRuleShownResultsCount);
                 }
 
                 // Append the new rule row
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
                 const newRuleStatus = this.ruleIdToRuleStatus.get(ruleId)!;
                 tableBody.appendChild(newRuleStatus.row);
 
@@ -1173,16 +1151,13 @@ export class ResultsTableWidget {
             tableBody.appendChild(row);
 
             // Hidden results are not selectable
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
             if (this.ruleIdToRuleStatus.get(ruleId)!.opened === false) {
                 continue;
             }
 
             // If the selected result is in the filtered results, note that we found it
-            if (
-                selectedResultOrNull &&
-                selectedResultOrNull.getResultIdWithSarifPath() === result.getResultIdWithSarifPath()
-            ) {
+            if (selectedResultOrNull && selectedResultOrNull.getResultIdWithSarifPath() === result.getResultIdWithSarifPath()) {
                 isSelectedResultDisplayed = true;
             }
         }
