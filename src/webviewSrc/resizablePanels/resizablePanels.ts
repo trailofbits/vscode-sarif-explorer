@@ -44,15 +44,14 @@ async function initResizablePanel(divider: HTMLElement): Promise<void> {
     // ====================
     // Handle the dragging events
     // ====================
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let x = 0;
+    let _x = 0;
     let y = 0;
     let prevSiblingHeight = 0;
 
     // Handle the mousedown event that's triggered when user drags the divider
     const mouseDownHandler = function (e: MouseEvent): void {
         // Get the current mouse position
-        x = e.clientX;
+        _x = e.clientX;
         y = e.clientY;
         prevSiblingHeight = prevSibling.getBoundingClientRect().height;
 
