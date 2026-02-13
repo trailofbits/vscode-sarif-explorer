@@ -62,7 +62,7 @@ export class SarifExplorerWebview {
     private updateVSCodeConfig(e: vscode.ConfigurationChangeEvent): void {
         if (e.affectsConfiguration("sarif-explorer.showFullPathInResultsTable")) {
             this.vscodeConfig.showFullPathInResultsTable = vscode.workspace.getConfiguration("sarif-explorer").get("showFullPathInResultsTable")!;
-            this.postMessage({ command: "updateVSCodeConfig", vscodeConfig: this.vscodeConfig });
+            void this.postMessage({ command: "updateVSCodeConfig", vscodeConfig: this.vscodeConfig });
         }
     }
 
@@ -169,7 +169,7 @@ export class SarifExplorerWebview {
     }
 
     // Function that shows the webview panel
-    public async show() {
+    public show() {
         this.updateWorkspaceIsVisible(true);
 
         if (this._webview) {
@@ -183,7 +183,7 @@ export class SarifExplorerWebview {
                 // Send the list of opened SARIF files to the webview
                 for (const [sarifFilePath, workspaceData] of this._filesToOpen) {
                     this._filesToOpen.delete(sarifFilePath);
-                    this.openSarifFileAndSendToWebview(sarifFilePath, workspaceData);
+                    void this.openSarifFileAndSendToWebview(sarifFilePath, workspaceData);
                 }
             }
 
@@ -256,12 +256,12 @@ export class SarifExplorerWebview {
 		</head>
         <body>
             ${bodyHtml}
-            <script nonce="${nonce}" src="${scriptUri}"></script>
+            <script nonce="${nonce}" src="${scriptUri.toString()}"></script>
         </body>
         </html>`;
     }
 
-    public async postMessage(msg: ExtensionToWebviewMsgTypes) {
+    public postMessage(msg: ExtensionToWebviewMsgTypes) {
         if (this._webview) {
             this._webview.webview.postMessage(msg);
         } else {
@@ -269,20 +269,19 @@ export class SarifExplorerWebview {
         }
     }
 
-    private async updatedRelativeLocationToAbsolute(sarifFileMetadata: SarifFileMetadata, location: ResultLocation) {
-        const newPath = (
-            await getResultFileUri(location.path, sarifFileMetadata.getBaseFolder(), this.getPotentialBaseFolders(sarifFileMetadata.getSarifFilePath()))
-        ).uri.path;
+    private updatedRelativeLocationToAbsolute(sarifFileMetadata: SarifFileMetadata, location: ResultLocation) {
+        const newPath = getResultFileUri(location.path, sarifFileMetadata.getBaseFolder(), this.getPotentialBaseFolders(sarifFileMetadata.getSarifFilePath()))
+            .uri.path;
         location.path = newPath;
     }
 
-    private async updateResultPathsToAbsolute(sarifFileMetadata: SarifFileMetadata, result: ExportedResult) {
+    private updateResultPathsToAbsolute(sarifFileMetadata: SarifFileMetadata, result: ExportedResult) {
         for (let i = 0; i < result.locations.length; i++) {
-            await this.updatedRelativeLocationToAbsolute(sarifFileMetadata, result.locations[i]);
+            this.updatedRelativeLocationToAbsolute(sarifFileMetadata, result.locations[i]);
         }
 
         for (let i = 0; i < result.dataFlow.length; i++) {
-            await this.updatedRelativeLocationToAbsolute(sarifFileMetadata, result.dataFlow[i].location);
+            this.updatedRelativeLocationToAbsolute(sarifFileMetadata, result.dataFlow[i].location);
         }
     }
 
@@ -326,12 +325,12 @@ export class SarifExplorerWebview {
                 break;
             }
             case "launchOpenSarifFileDialog": {
-                this.launchOpenSarifFileDialogAndSendToWebview();
+                void this.launchOpenSarifFileDialogAndSendToWebview();
                 break;
             }
             case "closeSarifFile": {
                 this._openedSarifFiles.delete(msg.sarifFilePath);
-                this.updateWorkspaceOpenedSarifFiles();
+                void this.updateWorkspaceOpenedSarifFiles();
                 break;
             }
             case "setResultsBaseFolder": {
@@ -341,7 +340,7 @@ export class SarifExplorerWebview {
                     return;
                 }
                 sarifFileMetadata.setBaseFolder(msg.resultsBaseFolder);
-                this.updateWorkspaceOpenedSarifFiles();
+                void this.updateWorkspaceOpenedSarifFiles();
                 break;
             }
             case "failedToParseSarifFile": {
@@ -351,7 +350,7 @@ export class SarifExplorerWebview {
                     return;
                 }
                 this._openedSarifFiles.delete(msg.sarifFilePath);
-                this.updateWorkspaceOpenedSarifFiles();
+                void this.updateWorkspaceOpenedSarifFiles();
 
                 const errorMsg = `Failed to load "${getPathLeaf(msg.sarifFilePath)}": ${msg.error}.`;
                 vscode.window.showErrorMessage(errorMsg);
@@ -391,7 +390,7 @@ export class SarifExplorerWebview {
                             );
                             return;
                         }
-                        await this.updateResultPathsToAbsolute(sarifFileMetadata, bug);
+                        this.updateResultPathsToAbsolute(sarifFileMetadata, bug);
                     }
                     await sendBugsToWeAudit(msg.bugs);
                 } catch (err) {
@@ -408,7 +407,7 @@ export class SarifExplorerWebview {
                     } else if (err instanceof WeAuditNotInstalledError) {
                         err.showInstallWeAuditVSCodeError(errorMsg);
                     } else {
-                        vscode.window.showErrorMessage(`${errorMsg}: ${err}.`);
+                        vscode.window.showErrorMessage(`${errorMsg}: ${String(err)}.`);
                     }
                     return;
                 }
@@ -424,7 +423,7 @@ export class SarifExplorerWebview {
 
                 try {
                     // Update the path to be absolute
-                    await this.updatedRelativeLocationToAbsolute(sarifFileMetadata, msg.location);
+                    this.updatedRelativeLocationToAbsolute(sarifFileMetadata, msg.location);
 
                     const permalink = await getGitHubPermalink(msg.location.region.startLine - 1, msg.location.region.endLine - 1, msg.location.path);
 
@@ -441,7 +440,7 @@ export class SarifExplorerWebview {
                     } else if (err instanceof WeAuditNotInstalledError) {
                         err.showInstallWeAuditVSCodeError(errorMsg);
                     } else {
-                        vscode.window.showErrorMessage(`${errorMsg}: ${err}.`);
+                        vscode.window.showErrorMessage(`${errorMsg}: ${String(err)}.`);
                     }
                 }
 
@@ -463,7 +462,7 @@ export class SarifExplorerWebview {
                             return;
                         }
 
-                        await this.updateResultPathsToAbsolute(sarifFileMetadata, bug);
+                        this.updateResultPathsToAbsolute(sarifFileMetadata, bug);
                     }
 
                     await openGithubIssueFromResults(msg.bugs);
@@ -481,7 +480,7 @@ export class SarifExplorerWebview {
                     } else if (err instanceof WeAuditNotInstalledError) {
                         err.showInstallWeAuditVSCodeError(errorMsg);
                     } else {
-                        vscode.window.showErrorMessage(`${errorMsg}: ${err}.`);
+                        vscode.window.showErrorMessage(`${errorMsg}: ${String(err)}.`);
                     }
                     return;
                 }
@@ -504,13 +503,13 @@ export class SarifExplorerWebview {
         }
     }
 
-    public async openSarifFileAndSendToWebview(sarifFilePath: string, sarifFileWorkspaceData: SarifFileWorkspaceData) {
+    public openSarifFileAndSendToWebview(sarifFilePath: string, sarifFileWorkspaceData: SarifFileWorkspaceData) {
         // Open and send the SARIF file to the webview
         let res;
         try {
             res = openSarifFile(sarifFilePath);
         } catch (err) {
-            const errorMsg = `Failed to load "${getPathLeaf(sarifFilePath)}": ${err}.`;
+            const errorMsg = `Failed to load "${getPathLeaf(sarifFilePath)}": ${String(err)}.`;
             vscode.window.showErrorMessage(errorMsg);
             return;
         }
@@ -519,7 +518,7 @@ export class SarifExplorerWebview {
         const sarifFileMetadata = new SarifFileMetadata(sarifFilePath, sarifFileWorkspaceData);
         this._openedSarifFiles.set(sarifFilePath, sarifFileMetadata);
         // Update the data in the workspace storage
-        this.updateWorkspaceOpenedSarifFiles();
+        void this.updateWorkspaceOpenedSarifFiles();
 
         // Send the file to the webview
         const sarifFileMsg: OpenSarifFileResponse = {
@@ -533,22 +532,17 @@ export class SarifExplorerWebview {
         this.postMessage(sarifFileMsg);
     }
 
-    public async handleOpenCodeRegion(msg: OpenCodeRegion) {
+    public handleOpenCodeRegion(msg: OpenCodeRegion) {
         // Open the code region
         let newResultsBaseFolder;
         try {
-            newResultsBaseFolder = await openCodeRegion(
-                msg.resultFilePath,
-                msg.resultRegion,
-                msg.resultsBaseFolder,
-                this.getPotentialBaseFolders(msg.sarifFilePath),
-            );
+            newResultsBaseFolder = openCodeRegion(msg.resultFilePath, msg.resultRegion, msg.resultsBaseFolder, this.getPotentialBaseFolders(msg.sarifFilePath));
         } catch (err) {
             const errorMsg = "Failed to open code region";
             if (err instanceof BaseFolderIsIncorrectError || err instanceof BaseFolderCouldNotBeDeterminedError) {
                 this.handleBaseFolderIsIncorrectError(err, errorMsg, msg.sarifFilePath, msg.resultFilePath);
             } else {
-                vscode.window.showErrorMessage(`${errorMsg}: ${err}.`);
+                vscode.window.showErrorMessage(`${errorMsg}: ${String(err)}.`);
             }
             return;
         }
@@ -564,14 +558,14 @@ export class SarifExplorerWebview {
         }
     }
 
-    public async handleBaseFolderIsIncorrectError(
+    public handleBaseFolderIsIncorrectError(
         err: BaseFolderIsIncorrectError | BaseFolderCouldNotBeDeterminedError,
         errorMsg: string,
         sarifFilePath: string,
         resultFilePath: string,
     ) {
         // If the base folder is incorrect, ask the user to select a new one
-        vscode.window.showErrorMessage(`${errorMsg}: ${err}.`, "Select a new base folder").then(async (t) => {
+        void vscode.window.showErrorMessage(`${errorMsg}: ${err.message}.`, "Select a new base folder").then(async (t) => {
             // Undefined means the error was dismissed
             if (t === undefined) {
                 return;
@@ -580,8 +574,8 @@ export class SarifExplorerWebview {
             let uriAndBaseFolder;
             try {
                 uriAndBaseFolder = await openBaseFolderDialog(resultFilePath);
-            } catch (err) {
-                vscode.window.showErrorMessage(`${errorMsg}: ${err}.`);
+            } catch (innerErr) {
+                vscode.window.showErrorMessage(`${errorMsg}: ${String(innerErr)}.`);
                 return;
             }
 

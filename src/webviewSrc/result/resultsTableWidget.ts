@@ -223,12 +223,12 @@ export class ResultsTableWidget {
             th.setAttribute(this.TABLE_HEADER_INDEX, i.toString());
 
             // These are fake headers that are not sortable, etc
-            if (i === TableHeaders.FakeHeaderDropdownSymbol) {
+            if (i === (TableHeaders.FakeHeaderDropdownSymbol as number)) {
                 continue;
             }
 
             // Sanity check that the header is one of the expected ones
-            if (i !== TableHeaders.StatusSymbol) {
+            if (i !== (TableHeaders.StatusSymbol as number)) {
                 const expectedHeaderText = TableHeaders[i];
                 const realHeaderText = th.getElementsByTagName("span")[0].innerText;
                 if (expectedHeaderText !== realHeaderText) {
@@ -1065,7 +1065,7 @@ export class ResultsTableWidget {
     public render() {
         // ====================
         // If the table is empty, just render a button that allows the user to open SARIF files
-        if (this.amountOfSarifFilesLoaded == 0) {
+        if (this.amountOfSarifFilesLoaded === 0) {
             this.resultsTab.classList.add("hidden");
             this.sarifFilesTab.classList.add("hidden");
             this.noFilesOpenedContainer.classList.remove("hidden");

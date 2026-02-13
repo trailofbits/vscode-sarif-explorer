@@ -40,7 +40,7 @@ export class SarifFile {
         try {
             sarifJson = JSON.parse(sarifFileContents);
         } catch (e) {
-            throw new Error("Cannot parse the JSON contents of the SARIF file: " + e);
+            throw new Error("Cannot parse the JSON contents of the SARIF file: " + String(e));
         }
 
         // Parse the SARIF file
@@ -64,7 +64,7 @@ export class SarifFile {
                 };
             } catch (e) {
                 console.error((e as Error).stack);
-                throw new Error("Parsing failed: " + e);
+                throw new Error("Parsing failed: " + String(e));
             }
 
             for (const result of run.results) {
@@ -261,18 +261,18 @@ export class SarifFile {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private parseTool(tool: any, hiddenRules: string[], runIndex: number): Tool {
-        const tool_driver = tool.driver ?? tool;
+        const toolDriver = tool.driver ?? tool;
 
         // A toolComponent object SHALL contain a property named name whose value is (...) the name of the tool component.
-        const toolName: string = tool_driver.name;
+        const toolName: string = toolDriver.name;
 
         // A toolComponent object MAY contain a property named informationUri | downloadUri
-        const informationUri: string = tool_driver.informationUri || tool_driver.downloadUri || "";
+        const informationUri: string = toolDriver.informationUri || toolDriver.downloadUri || "";
 
         // A toolComponent object MAY contain a property named rules
         const rules: Map<string, Rule> = new Map();
-        if (tool_driver.rules) {
-            for (const rule of tool_driver.rules) {
+        if (toolDriver.rules) {
+            for (const rule of toolDriver.rules) {
                 // A reportingDescriptor object SHALL contain a property named id
                 const ruleId = this.computeRuleId(runIndex, rule.id);
 

@@ -2,7 +2,7 @@ export function initResizablePanels() {
     const resizableDividers = document.getElementsByClassName("verticalResizableDivider");
     for (let i = 0; i < resizableDividers.length; i++) {
         const it = resizableDividers[i];
-        initResizablePanel(it as HTMLElement);
+        void initResizablePanel(it as HTMLElement);
     }
 }
 

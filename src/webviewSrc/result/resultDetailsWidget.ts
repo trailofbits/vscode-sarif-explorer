@@ -70,9 +70,9 @@ export class ResultDetailsWidget {
             return [cellKey, cellValue];
         };
 
-        const appendNavigationTableToTable = (key: string, rows_data: { column1_text: string; column2_text: string; location: ResultLocation }[]) => {
-            // Check if any rows_data has a column1_text
-            const hasColumn1Text = rows_data.some((row_data) => row_data.column1_text !== "");
+        const appendNavigationTableToTable = (key: string, rowsData: { column1Text: string; column2Text: string; location: ResultLocation }[]) => {
+            // Check if any rowsData has a column1Text
+            const hasColumn1Text = rowsData.some((rowData) => rowData.column1Text !== "");
 
             // Create table with the same style as the main result's table
             const table = document.createElement("table");
@@ -86,8 +86,8 @@ export class ResultDetailsWidget {
 
             const tableBody = table.createTBody();
 
-            for (let i = 0; i < rows_data.length; i++) {
-                const row_data = rows_data[i];
+            for (let i = 0; i < rowsData.length; i++) {
+                const rowData = rowsData[i];
 
                 // Create the row
                 const row = tableBody.insertRow();
@@ -98,7 +98,7 @@ export class ResultDetailsWidget {
                     const textCell = row.insertCell();
                     textCell.classList.add("detailTableKey");
 
-                    const textNode = document.createTextNode(row_data.column1_text);
+                    const textNode = document.createTextNode(rowData.column1Text);
                     textCell.appendChild(textNode);
                 }
 
@@ -106,19 +106,19 @@ export class ResultDetailsWidget {
                 const linkCell = row.insertCell();
                 const link = document.createElement("a");
                 link.href = "#";
-                link.innerText = row_data.column2_text;
+                link.innerText = rowData.column2Text;
                 linkCell.appendChild(link);
 
                 // Append the text node and link to the cell
                 row.onclick = () => {
-                    result.openCodeRegion(row_data.location);
+                    result.openCodeRegion(rowData.location);
                 };
 
                 // Set the onclick event for each row so that clicking ArrowDown and ArrowUp will work
                 row.tabIndex = 0;
                 row.addEventListener("keydown", (e: KeyboardEvent) => {
                     if (e.key === "ArrowDown") {
-                        if (i < rows_data.length - 1) {
+                        if (i < rowsData.length - 1) {
                             const target = table.rows[i + 1];
                             target.focus();
                             target.click();
@@ -220,8 +220,8 @@ export class ResultDetailsWidget {
                     "Data Flow:",
                     dataFlow.map((dataFlowElement, i) => {
                         return {
-                            column1_text: i === 0 ? "Source: " : i === result.getDataFlow().length - 1 ? "Sink: " : `${i}: `,
-                            column2_text: dataFlowElement.message,
+                            column1Text: i === 0 ? "Source: " : i === result.getDataFlow().length - 1 ? "Sink: " : `${i}: `,
+                            column2Text: dataFlowElement.message,
                             location: dataFlowElement.location,
                         };
                     }),
@@ -261,8 +261,8 @@ export class ResultDetailsWidget {
                 const relatedLocationsRows = [];
                 for (const [_key, value] of relatedLocations.entries()) {
                     relatedLocationsRows.push({
-                        column1_text: "", // Empty so that the first column is suppressed
-                        column2_text: value.label ? value.label : value.location.path + ":" + value.location.region.startLine.toString(),
+                        column1Text: "", // Empty so that the first column is suppressed
+                        column2Text: value.label ? value.label : value.location.path + ":" + value.location.region.startLine.toString(),
                         location: value.location,
                     });
                 }

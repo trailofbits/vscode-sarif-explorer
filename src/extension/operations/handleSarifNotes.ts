@@ -44,20 +44,20 @@ export class SarifFileMetadata {
         return this.workspaceMetadata.baseFolder;
     }
 
-    public async setResultNote(resultId: string, note: ResultNote) {
+    public setResultNote(resultId: string, note: ResultNote) {
         this.resultIdToNotes.set(resultId, note);
 
-        this.writeFile();
+        void this.writeFile();
     }
 
-    public async setHiddenRule(ruleId: string, isHidden: boolean) {
+    public setHiddenRule(ruleId: string, isHidden: boolean) {
         if (isHidden) {
             this.hiddenRules.add(ruleId);
         } else {
             this.hiddenRules.delete(ruleId);
         }
 
-        this.writeFile();
+        void this.writeFile();
     }
 
     public setBaseFolder(baseFolder: string) {
@@ -85,7 +85,7 @@ export class SarifFileMetadata {
         }
     }
 
-    private async writeFile() {
+    private writeFile() {
         const objAsStr = JSON.stringify(
             {
                 resultIdToNotes: this.getResultNotes(),
