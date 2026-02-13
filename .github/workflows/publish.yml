@@ -24,7 +24,7 @@ jobs:
             - name: Build the vsix
               run: npx vsce package -o sarif-explorer.vsix
 
-            - uses: actions/upload-artifact@v4
+            - uses: actions/upload-artifact@v6
               with:
                   name: sarif-explorer
                   path: sarif-explorer.vsix
