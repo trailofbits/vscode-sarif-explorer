@@ -7,9 +7,16 @@ updates:
     cooldown:
       default-days: 7
     groups:
-      npm-dependencies:
-        patterns:
-          - "*"
+      dev-dependencies:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+      production-dependencies:
+        dependency-type: production
+        update-types:
+          - minor
+          - patch
     open-pull-requests-limit: 10
 
   - package-ecosystem: github-actions
@@ -19,7 +26,10 @@ updates:
     cooldown:
       default-days: 7
     groups:
-      github-actions:
+      actions:
         patterns:
           - "*"
-    open-pull-requests-limit: 10
+        update-types:
+          - minor
+          - patch
+    open-pull-requests-limit: 5
