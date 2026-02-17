@@ -10,11 +10,11 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
               with:
                   persist-credentials: false
 
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
               with:
                   node-version-file: .nvmrc
 
@@ -24,7 +24,7 @@ jobs:
             - name: Build the vsix
               run: npx vsce package -o sarif-explorer.vsix
 
-            - uses: actions/upload-artifact@v4
+            - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
               with:
                   name: sarif-explorer
                   path: sarif-explorer.vsix
@@ -36,7 +36,7 @@ jobs:
         permissions:
             contents: write
         steps:
-            - uses: actions/download-artifact@v4
+            - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
               with:
                   name: sarif-explorer
 
@@ -55,7 +55,7 @@ jobs:
         needs: build
         if: success()
         steps:
-            - uses: actions/download-artifact@v4
+            - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
               with:
                   name: sarif-explorer
 
