@@ -20,7 +20,7 @@ repos:
 
           - id: eslint
             name: eslint
-            entry: npx eslint --ext ts -c .eslintrc.cjs
+            entry: npx eslint
             language: system
             types: [ts]
 
