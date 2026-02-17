@@ -110,7 +110,7 @@
         "mocha": "^10.2.0",
         "sass": "^1.57.1",
         "sass-loader": "^13.2.0",
-        "style-loader": "^3.3.1",
+        "style-loader": "^4.0.0",
         "ts-loader": "^9.4.2",
         "ts-node": "^10.9.1",
         "typescript": "^5.9.3",
