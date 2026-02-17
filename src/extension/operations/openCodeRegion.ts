@@ -17,9 +17,7 @@ export class SarifResultPathIsAbsolute extends Error {
 
 export class BaseFolderIsIncorrectError extends Error {
     constructor(filePath: string, resultsBaseFolder: string) {
-        super(
-            `The user-provided base path ('${resultsBaseFolder}') plus the result's relative path ('${filePath}') does not exist`,
-        );
+        super(`The user-provided base path ('${resultsBaseFolder}') plus the result's relative path ('${filePath}') does not exist`);
         this.name = "BaseFolderIsIncorrectError";
     }
 }
@@ -44,14 +42,9 @@ type UriAndBaseFolder = {
 };
 
 // Reveal a code region in a file
-export async function openCodeRegion(
-    resultPath: string,
-    region: ResultRegion,
-    baseFolder: string,
-    potentialBaseFolders: string[],
-): Promise<string> {
+export function openCodeRegion(resultPath: string, region: ResultRegion, baseFolder: string, potentialBaseFolders: string[]): string {
     // get file uri associated with resultPath
-    const resultFileUriAndBaseFolder = await getResultFileUri(resultPath, baseFolder, potentialBaseFolders);
+    const resultFileUriAndBaseFolder = getResultFileUri(resultPath, baseFolder, potentialBaseFolders);
 
     // open file with the given range
     openResource(resultFileUriAndBaseFolder.uri, region);
@@ -59,11 +52,7 @@ export async function openCodeRegion(
     return resultFileUriAndBaseFolder.baseFolder;
 }
 
-export async function getResultFileUri(
-    filePath: string,
-    resultsBaseFolder: string,
-    potentialBaseFolders: string[],
-): Promise<UriAndBaseFolder> {
+export function getResultFileUri(filePath: string, resultsBaseFolder: string, potentialBaseFolders: string[]): UriAndBaseFolder {
     // Gets the path from the file URI (needed on Windows to replace `/` with `\` and more)
     if (filePath.startsWith("file://")) {
         filePath = fileURLToPath(filePath);
@@ -174,8 +163,7 @@ function openResource(resource: vscode.Uri, region: ResultRegion): void {
     const vscodeRegion = regionToVscodeRegion(region);
     if (
         vscode.window.activeTextEditor === undefined ||
-        (vscode.window.activeTextEditor !== undefined &&
-            vscode.window.activeTextEditor.document.fileName !== resource.fsPath)
+        (vscode.window.activeTextEditor !== undefined && vscode.window.activeTextEditor.document.fileName !== resource.fsPath)
     ) {
         vscode.window.showTextDocument(resource, {
             viewColumn: vscode.ViewColumn.One,

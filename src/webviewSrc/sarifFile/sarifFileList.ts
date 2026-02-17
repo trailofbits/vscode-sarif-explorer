@@ -5,23 +5,23 @@ export class SarifFileList {
     private openSarifFiles: Map<string, SarifFile> = new Map<string, SarifFile>();
 
     // Returns true if the List contains the SARIF file
-    public hasSarifFile(path: string) {
+    public hasSarifFile(path: string): boolean {
         return this.openSarifFiles.has(path);
     }
 
     // Returns true if the List contains the SARIF file
-    public getSarifFile(path: string) {
+    public getSarifFile(path: string): SarifFile | undefined {
         return this.openSarifFiles.get(path);
     }
 
     // Add SARIF file to the list of open SARIF files
-    public addSarifFile(sarifFile: SarifFile) {
+    public addSarifFile(sarifFile: SarifFile): void {
         const path = sarifFile.getSarifFilePath();
         this.openSarifFiles.set(path, sarifFile);
     }
 
     // Remove SARIF file from the list of open SARIF files
-    public removeSarifFile(path: string) {
+    public removeSarifFile(path: string): void {
         this.openSarifFiles.delete(path);
     }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument */
 import { Result } from "../result/result";
 import {
     ResultNotes,
@@ -31,13 +32,7 @@ export class SarifFile {
     // The path containing the files that were tested by the static analysis tool (same for all runs)
     private resultsBaseFolder: string;
 
-    constructor(
-        sarifFilePath: string,
-        sarifFileContents: string,
-        resultNotes: ResultNotes,
-        hiddenRules: string[],
-        resultsBaseFolder: string,
-    ) {
+    constructor(sarifFilePath: string, sarifFileContents: string, resultNotes: ResultNotes, hiddenRules: string[], resultsBaseFolder: string) {
         this.sarifFilePath = sarifFilePath;
         this.resultsBaseFolder = resultsBaseFolder;
 
@@ -46,7 +41,7 @@ export class SarifFile {
         try {
             sarifJson = JSON.parse(sarifFileContents);
         } catch (e) {
-            throw new Error("Cannot parse the JSON contents of the SARIF file: " + e);
+            throw new Error("Cannot parse the JSON contents of the SARIF file: " + String(e));
         }
 
         // Parse the SARIF file
@@ -70,7 +65,7 @@ export class SarifFile {
                 };
             } catch (e) {
                 console.error((e as Error).stack);
-                throw new Error("Parsing failed: " + e);
+                throw new Error("Parsing failed: " + String(e));
             }
 
             for (const result of run.results) {
@@ -127,8 +122,7 @@ export class SarifFile {
         } else if (loc.physicalLocation.address !== undefined) {
             // Very basic support for address-based locations https://docs.oasis-open.org/sarif/sarif/v2.1.0/csprd01/sarif-v2.1.0-csprd01.html#_Toc10541143
             // Since SARIF Explorer works mostly with source files, we just have very minimal support for this
-            const address: number =
-                loc.physicalLocation.address?.absoluteAddress || loc.physicalLocation.address?.relativeAddress || -1;
+            const address: number = loc.physicalLocation.address?.absoluteAddress || loc.physicalLocation.address?.relativeAddress || -1;
             path = "0x" + address.toString(16);
         } else {
             path = "";
@@ -140,8 +134,7 @@ export class SarifFile {
                 startLine: loc.physicalLocation?.region?.startLine || 1,
                 startColumn: loc.physicalLocation?.region?.startColumn || 1,
                 endLine: loc.physicalLocation?.region?.endLine || loc.physicalLocation?.region?.startLine || 10000,
-                endColumn:
-                    loc.physicalLocation?.region?.endColumn || loc.physicalLocation?.region?.startColumn + 1 || 10000,
+                endColumn: loc.physicalLocation?.region?.endColumn || loc.physicalLocation?.region?.startColumn + 1 || 10000,
             },
         };
     }
@@ -211,11 +204,7 @@ export class SarifFile {
                     resLevel = ResultLevel[result.level as keyof typeof ResultLevel];
                 } else {
                     console.warn(
-                        "[SARIF Explorer] Unexpected result level '" +
-                            result.level +
-                            "' found in SARIF file " +
-                            this.sarifFilePath +
-                            ". Using default level.",
+                        "[SARIF Explorer] Unexpected result level '" + result.level + "' found in SARIF file " + this.sarifFilePath + ". Using default level.",
                     );
                 }
             }
@@ -244,9 +233,7 @@ export class SarifFile {
             // A result should NEVER have a duplicate resultId.
             const resultId = this.computeResultId(runIndex, i);
             if (resultIdSet.has(resultId)) {
-                console.warn(
-                    "[SARIF Explorer] The result id '" + resultId + "' is duplicated in " + this.sarifFilePath,
-                );
+                console.warn("[SARIF Explorer] The result id '" + resultId + "' is duplicated in " + this.sarifFilePath);
             }
             resultIdSet.add(resultId);
 
@@ -275,18 +262,18 @@ export class SarifFile {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private parseTool(tool: any, hiddenRules: string[], runIndex: number): Tool {
-        const tool_driver = tool.driver ?? tool;
+        const toolDriver = tool.driver ?? tool;
 
         // A toolComponent object SHALL contain a property named name whose value is (...) the name of the tool component.
-        const toolName: string = tool_driver.name;
+        const toolName: string = toolDriver.name;
 
         // A toolComponent object MAY contain a property named informationUri | downloadUri
-        const informationUri: string = tool_driver.informationUri || tool_driver.downloadUri || "";
+        const informationUri: string = toolDriver.informationUri || toolDriver.downloadUri || "";
 
         // A toolComponent object MAY contain a property named rules
         const rules: Map<string, Rule> = new Map();
-        if (tool_driver.rules) {
-            for (const rule of tool_driver.rules) {
+        if (toolDriver.rules) {
+            for (const rule of toolDriver.rules) {
                 // A reportingDescriptor object SHALL contain a property named id
                 const ruleId = this.computeRuleId(runIndex, rule.id);
 
@@ -331,9 +318,7 @@ export class SarifFile {
             // Go from the string value to the enum value
             return ResultLevel[level as keyof typeof ResultLevel];
         } else {
-            console.warn(
-                "[SARIF Explorer] Unexpected result level '" + level + "' found in SARIF file " + this.sarifFilePath,
-            );
+            console.warn("[SARIF Explorer] Unexpected result level '" + level + "' found in SARIF file " + this.sarifFilePath);
 
             return ResultLevel.default;
         }
@@ -365,7 +350,7 @@ export class SarifFile {
         return this.resultsBaseFolder;
     }
 
-    public setResultsBaseFolder(resultsBaseFolder: string) {
+    public setResultsBaseFolder(resultsBaseFolder: string): void {
         this.resultsBaseFolder = resultsBaseFolder;
         apiSetResultsBaseFolder(this.getSarifFilePath(), resultsBaseFolder);
     }

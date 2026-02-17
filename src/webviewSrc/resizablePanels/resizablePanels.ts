@@ -1,12 +1,12 @@
-export function initResizablePanels() {
+export function initResizablePanels(): void {
     const resizableDividers = document.getElementsByClassName("verticalResizableDivider");
     for (let i = 0; i < resizableDividers.length; i++) {
         const it = resizableDividers[i];
-        initResizablePanel(it as HTMLElement);
+        void initResizablePanel(it as HTMLElement);
     }
 }
 
-async function initResizablePanel(divider: HTMLElement) {
+async function initResizablePanel(divider: HTMLElement): Promise<void> {
     // ====================
     // Get all the required elements
     // ====================
@@ -33,7 +33,9 @@ async function initResizablePanel(divider: HTMLElement) {
     let parentHeight = 0;
     while (parentHeight === 0) {
         parentHeight = parent.getBoundingClientRect().height;
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        await new Promise((resolve): void => {
+            setTimeout(resolve, 10);
+        });
     }
     // Set the panel's height to 70% of the parent's height in pixels (has to be in pixels for the overflow-y to work)
     const h = (parentHeight * 70) / 100;
@@ -42,15 +44,14 @@ async function initResizablePanel(divider: HTMLElement) {
     // ====================
     // Handle the dragging events
     // ====================
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let x = 0;
+    let _x = 0;
     let y = 0;
     let prevSiblingHeight = 0;
 
     // Handle the mousedown event that's triggered when user drags the divider
-    const mouseDownHandler = function (e: MouseEvent) {
+    const mouseDownHandler = function (e: MouseEvent): void {
         // Get the current mouse position
-        x = e.clientX;
+        _x = e.clientX;
         y = e.clientY;
         prevSiblingHeight = prevSibling.getBoundingClientRect().height;
 
@@ -59,7 +60,7 @@ async function initResizablePanel(divider: HTMLElement) {
         document.addEventListener("mouseup", mouseUpHandler);
     };
 
-    const mouseMoveHandler = function (e: MouseEvent) {
+    const mouseMoveHandler = function (e: MouseEvent): void {
         // How far the mouse has been moved
         const dy = e.clientY - y;
 
@@ -77,7 +78,7 @@ async function initResizablePanel(divider: HTMLElement) {
         nextSibling.style.pointerEvents = "none";
     };
 
-    const mouseUpHandler = function () {
+    const mouseUpHandler = function (): void {
         divider.style.removeProperty("cursor");
         document.body.style.removeProperty("cursor");
 

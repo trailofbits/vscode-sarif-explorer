@@ -1,8 +1,4 @@
-import {
-    ExtensionToWebviewMsgTypes,
-    OpenSarifFileResponse,
-    SetSarifFileBaseFolder,
-} from "../shared/webviewMessageTypes";
+import { ExtensionToWebviewMsgTypes, OpenSarifFileResponse, SetSarifFileBaseFolder } from "../shared/webviewMessageTypes";
 import { ResultsTableWidget } from "./result/resultsTableWidget";
 import { SarifFileListWidget } from "./sarifFile/sarifFileListWidget";
 import { TabManager } from "./tabs";
@@ -21,7 +17,7 @@ type State = {
 
 let state: State;
 
-function init() {
+function init(): void {
     const _resultsTableWidget = new ResultsTableWidget();
     state = {
         tabManager: new TabManager(),
@@ -30,7 +26,8 @@ function init() {
     };
 
     // Add an event listener to receive messages from the extension
-    window.addEventListener("message", (event) => {
+    window.addEventListener("message", (event): void => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const message: ExtensionToWebviewMsgTypes = event.data;
         handleWebviewMessage(message);
     });
@@ -40,17 +37,17 @@ function init() {
 
     initResizablePanels();
 
-    window.addEventListener("click", (event) => {
+    window.addEventListener("click", (event): void => {
         state.resultsTableWidget.globalOnClick(event);
     });
 }
 
 // Init everything when the DOM is ready
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function (): void {
     init();
 });
 
-function handleWebviewMessage(msg: ExtensionToWebviewMsgTypes) {
+function handleWebviewMessage(msg: ExtensionToWebviewMsgTypes): void {
     // console.debug("[Webview] Received a '" + msg.command + "'");
     // console.debug("[Webview] Received message from extension:", msg);
 
@@ -79,7 +76,7 @@ function handleWebviewMessage(msg: ExtensionToWebviewMsgTypes) {
     }
 }
 
-function handleOpenSarifFileResponseMsg(msg: OpenSarifFileResponse) {
+function handleOpenSarifFileResponseMsg(msg: OpenSarifFileResponse): void {
     // If we already have the SARIF file open, reload it
     if (state.sarifFileListWidget.hasSarifFile(msg.sarifFilePath)) {
         state.sarifFileListWidget.removeSarifFileWithPath(msg.sarifFilePath);
@@ -87,13 +84,7 @@ function handleOpenSarifFileResponseMsg(msg: OpenSarifFileResponse) {
 
     // Parse the SARIF file contents into results
     try {
-        const sarifFile = new SarifFile(
-            msg.sarifFilePath,
-            msg.sarifFileContents,
-            msg.resultNotes,
-            msg.hiddenRules,
-            msg.baseFolder,
-        );
+        const sarifFile = new SarifFile(msg.sarifFilePath, msg.sarifFileContents, msg.resultNotes, msg.hiddenRules, msg.baseFolder);
         state.sarifFileListWidget.addSarifFile(sarifFile);
     } catch (error) {
         apiFailedToParseSarifFile(msg.sarifFilePath, String(error));
@@ -103,21 +94,16 @@ function handleOpenSarifFileResponseMsg(msg: OpenSarifFileResponse) {
     state.tabManager.showResultsTab();
 }
 
-function handleSetSarifFileBaseFolderMsg(msg: SetSarifFileBaseFolder) {
+function handleSetSarifFileBaseFolderMsg(msg: SetSarifFileBaseFolder): void {
     const sarifFile = state.sarifFileListWidget.getSarifFileListData().getSarifFile(msg.sarifFilePath);
     if (!sarifFile) {
-        console.error(
-            "[SARIF Explorer] handleSetSarifFileBaseFolderMsg: Could not find SARIF file for path:",
-            msg.sarifFilePath,
-        );
+        console.error("[SARIF Explorer] handleSetSarifFileBaseFolderMsg: Could not find SARIF file for path:", msg.sarifFilePath);
         return;
     }
 
     if (sarifFile.getResultsBaseFolder() !== msg.resultsBaseFolder) {
         sarifFile.setResultsBaseFolder(msg.resultsBaseFolder);
-        state.sarifFileListWidget
-            .getSarifFileDetailsWidget()
-            .updateBaseFolder(msg.sarifFilePath, msg.resultsBaseFolder);
+        state.sarifFileListWidget.getSarifFileDetailsWidget().updateBaseFolder(msg.sarifFilePath, msg.resultsBaseFolder);
         // Update the result's detailed view
         state.resultsTableWidget.render();
     }

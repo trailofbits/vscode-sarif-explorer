@@ -6,6 +6,6 @@ export function getElementByIdOrThrow(id: string): HTMLElement {
     return el;
 }
 
-export function scrollToRow(row: HTMLElement) {
+export function scrollToRow(row: HTMLElement): void {
     row.scrollIntoView({ block: "nearest", inline: "center" });
 }

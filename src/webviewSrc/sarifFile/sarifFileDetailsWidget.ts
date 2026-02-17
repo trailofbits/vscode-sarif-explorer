@@ -24,14 +24,14 @@ export class SarifFileDetailsWidget {
         this.buttons = getElementByIdOrThrow(this.SARIF_FILE_DETAILS_BUTTONS) as HTMLDivElement;
     }
 
-    public clearDetails() {
+    public clearDetails(): void {
         this.detailsSummary.innerText = "No SARIF file selected";
         this.tableBody.innerText = "";
         this.buttons.innerText = "";
         this.buttons.classList.add("hidden");
     }
 
-    public updateDetails(sarifFileAndRow: SarifFileAndRow) {
+    public updateDetails(sarifFileAndRow: SarifFileAndRow): void {
         this.currentSarifFileAndRow = sarifFileAndRow;
         const sarifFile = sarifFileAndRow.sarifFile;
 
@@ -47,7 +47,7 @@ export class SarifFileDetailsWidget {
         // Add data of the result object to the details panel
         this.tableBody.innerText = "";
 
-        const appendRowToTable = (key: string, value: string | HTMLElement) => {
+        const appendRowToTable = (key: string, value: string | HTMLElement): void => {
             const row = this.tableBody.insertRow();
             const cellKey = row.insertCell();
             const cellValue = row.insertCell();
@@ -65,10 +65,9 @@ export class SarifFileDetailsWidget {
         // Editable base folder
         {
             const editableBaseFolderNode = document.createElement("textarea");
-            editableBaseFolderNode.placeholder =
-                "Add a base folder... (this is the folder from which your results' relative paths will be based one)";
+            editableBaseFolderNode.placeholder = "Add a base folder... (this is the folder from which your results' relative paths will be based one)";
             editableBaseFolderNode.value = sarifFile.getResultsBaseFolder();
-            editableBaseFolderNode.oninput = () => {
+            editableBaseFolderNode.oninput = (): void => {
                 sarifFile.setResultsBaseFolder(editableBaseFolderNode.value);
             };
             editableBaseFolderNode.classList.add("detailEditableTextArea");
@@ -124,7 +123,7 @@ export class SarifFileDetailsWidget {
 
                 for (let i = 0; i < ruleIdsOrdered.length; i++) {
                     const ruleId = ruleIdsOrdered[i];
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
                     const rule = tool.rules.get(ruleId)!;
                     const ruleElement = document.createElement("li");
                     ruleElement.classList.add("wordBreakAll");
@@ -140,7 +139,7 @@ export class SarifFileDetailsWidget {
         }
     }
 
-    public updateBaseFolder(sarifFilePath: string, baseFolder: string) {
+    public updateBaseFolder(sarifFilePath: string, baseFolder: string): void {
         if (this.currentSarifFileAndRow === null) {
             return;
         }
@@ -149,7 +148,6 @@ export class SarifFileDetailsWidget {
             return;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const editableBaseFolderNode = this.tableBody.querySelector("textarea")!;
         editableBaseFolderNode.value = baseFolder;
     }
