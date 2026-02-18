@@ -93,7 +93,7 @@
     },
     "devDependencies": {
         "@biomejs/biome": "^2.3.11",
-        "@eslint/js": "^9.39.2",
+        "@eslint/js": "^10.0.1",
         "@stylistic/eslint-plugin": "^5.7.0",
         "@types/glob": "^8.0.0",
         "@types/mocha": "^10.0.1",
