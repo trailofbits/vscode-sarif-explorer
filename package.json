@@ -92,7 +92,7 @@
         "test": "node ./out/test/runTest.js"
     },
     "devDependencies": {
-        "@biomejs/biome": "^2.3.11",
+        "@biomejs/biome": "^2.4.2",
         "@eslint/js": "^9.39.2",
         "@stylistic/eslint-plugin": "^5.7.0",
         "@types/glob": "^8.0.0",
