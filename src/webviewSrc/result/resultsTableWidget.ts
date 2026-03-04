@@ -510,7 +510,7 @@ export class ResultsTableWidget {
             divSpace.innerHTML = "&nbsp;";
 
             const div1 = document.createElement("div");
-            div1.classList.add("ellipsis-beginning");
+            div1.classList.add("ellipsis");
             div1.innerText = rule.name;
 
             const div2 = document.createElement("div");
