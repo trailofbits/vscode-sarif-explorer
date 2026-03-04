@@ -353,10 +353,11 @@ export class SarifFile {
             if (extensionName === "") {
                 continue;
             }
+            const extensionProperties = extension?.properties ?? extensionToolComponent.properties;
             extensions.push({
                 name: extensionName,
                 version: this.parseText(extensionToolComponent.version || extensionToolComponent.semanticVersion),
-                properties: extensionToolComponent.properties,
+                properties: extensionProperties,
             });
         }
 

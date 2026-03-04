@@ -54,7 +54,17 @@ suite("Extension Test Suite", () => {
                                     role: "technique",
                                     parameters: {
                                         model: "opus",
+                                        temperature: 0,
                                     },
+                                },
+                            },
+                            {
+                                driver: {
+                                    name: "solidity-auditor",
+                                    version: "0.3.1",
+                                },
+                                properties: {
+                                    role: "skill",
                                 },
                             },
                         ],
@@ -122,8 +132,20 @@ suite("Extension Test Suite", () => {
         const runTool = sarifFile.getRunTool(0);
         assert.strictEqual(runTool.name, "benchmarker");
         assert.strictEqual(runTool.version, "1.2.3");
-        assert.strictEqual(runTool.extensions.length, 1);
+        assert.strictEqual(runTool.extensions.length, 2);
         assert.strictEqual(runTool.extensions[0].name, "claude_skills_runner");
+        assert.deepStrictEqual(runTool.extensions[0].properties, {
+            role: "technique",
+            parameters: {
+                model: "opus",
+                temperature: 0,
+            },
+        });
+        assert.strictEqual(runTool.extensions[1].name, "solidity-auditor");
+        assert.strictEqual(runTool.extensions[1].version, "0.3.1");
+        assert.deepStrictEqual(runTool.extensions[1].properties, {
+            role: "skill",
+        });
 
         assert.strictEqual(sarifFile.getRunAutomationDetailsId(0), "llm-run-2026-02-09");
         assert.deepStrictEqual(sarifFile.getRunVersionControlProvenance(0), [
