@@ -154,9 +154,18 @@ export class ResultDetailsWidget {
             appendRowToTable("Comment:", editableNodeTextArea);
         }
 
+        const rule = result.getRule();
+
+        // Author
+        {
+            const author = result.getAuthor();
+            if (author !== "") {
+                appendRowToTable("Author:", author);
+            }
+        }
+
         // Rule
         {
-            const rule = result.getRule();
             const ruleDiv = document.createElement("div");
             ruleDiv.classList.add("detailValueContainer");
 
@@ -178,16 +187,15 @@ export class ResultDetailsWidget {
             appendRowToTable("Rule:", ruleDiv);
         }
 
-        // Rule description
-        const rule = result.getRule();
-        const ruleDescription = rule.fullDescription || rule.shortDescription || "";
+        // Result description
+        const resultDescription = result.getDescription();
         {
-            if (ruleDescription && ruleDescription !== result.getMessage()) {
-                const ruleDescriptionDiv = document.createElement("div");
-                for (const el of result.messageToHTML(ruleDescription, false)) {
-                    ruleDescriptionDiv.appendChild(el);
+            if (resultDescription !== "") {
+                const resultDescriptionDiv = document.createElement("div");
+                for (const el of result.messageToHTML(resultDescription, false)) {
+                    resultDescriptionDiv.appendChild(el);
                 }
-                appendRowToTable("Description:", ruleDescriptionDiv);
+                appendRowToTable("Description:", resultDescriptionDiv);
             }
         }
 
@@ -233,7 +241,7 @@ export class ResultDetailsWidget {
         {
             let ruleHelp = rule.help;
 
-            if (ruleHelp === ruleDescription || ruleHelp === result.getMessage()) {
+            if (ruleHelp === resultDescription || ruleHelp === result.getMessage()) {
                 ruleHelp = "";
             }
 

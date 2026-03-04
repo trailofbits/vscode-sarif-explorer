@@ -5,11 +5,165 @@ import * as assert from "assert";
 import * as vscode from "vscode";
 // import * as myExtension from '../../extension';
 
+type VSCodeApi = {
+    postMessage: (msg: unknown) => void;
+};
+
+type GlobalWithAcquireVsCodeApi = typeof globalThis & {
+    acquireVsCodeApi?: () => VSCodeApi;
+};
+
+async function loadSarifFileClass(): Promise<typeof import("../../webviewSrc/sarifFile/sarifFile").SarifFile> {
+    const globalWithAcquireVsCodeApi = globalThis as GlobalWithAcquireVsCodeApi;
+    if (globalWithAcquireVsCodeApi.acquireVsCodeApi === undefined) {
+        globalWithAcquireVsCodeApi.acquireVsCodeApi = (): VSCodeApi => {
+            return {
+                postMessage: (): void => {},
+            };
+        };
+    }
+
+    const sarifFileModule = await import("../../webviewSrc/sarifFile/sarifFile");
+    return sarifFileModule.SarifFile;
+}
+
 suite("Extension Test Suite", () => {
     vscode.window.showInformationMessage("Start all tests.");
 
     test("Sample test", () => {
         assert.strictEqual(-1, [1, 2, 3].indexOf(5));
         assert.strictEqual(-1, [1, 2, 3].indexOf(0));
+    });
+
+    test("Parses results without ruleId and keeps synthetic rules isolated", async () => {
+        const sarifFileClass = await loadSarifFileClass();
+        const sarifJson = {
+            version: "2.1.0",
+            runs: [
+                {
+                    tool: {
+                        driver: {
+                            name: "benchmarker",
+                            version: "1.2.3",
+                        },
+                        extensions: [
+                            {
+                                name: "claude_skills_runner",
+                                version: "0.2.0",
+                                properties: {
+                                    role: "technique",
+                                    parameters: {
+                                        model: "opus",
+                                    },
+                                },
+                            },
+                        ],
+                    },
+                    automationDetails: {
+                        id: "llm-run-2026-02-09",
+                    },
+                    versionControlProvenance: [
+                        {
+                            repositoryUri: "https://github.com/trailofbits/audit-cap-2025",
+                            revisionId: "d35eb79e752c376b105aa095428f1b41289dd2fd",
+                        },
+                    ],
+                    results: [
+                        {
+                            message: { text: "Unchecked external call" },
+                            properties: {
+                                apolloResultId: "90b1f1ed0b30f6cb",
+                                author: "llm",
+                                description: "Detailed finding description.",
+                            },
+                            locations: [
+                                {
+                                    physicalLocation: {
+                                        artifactLocation: { uri: "contracts/Vault.sol" },
+                                        region: { startLine: 120, endLine: 140 },
+                                    },
+                                },
+                            ],
+                        },
+                        {
+                            message: { text: "Unchecked external call" },
+                            properties: {
+                                apolloResultId: "90b1f1ed0b30f6cb",
+                                author: "llm",
+                                description: "Another finding description.",
+                            },
+                            locations: [
+                                {
+                                    physicalLocation: {
+                                        artifactLocation: { uri: "contracts/Vault.sol" },
+                                        region: { startLine: 220, endLine: 240 },
+                                    },
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        const sarifFile = new sarifFileClass("/tmp/ruleless.sarif", JSON.stringify(sarifJson), {}, [], "");
+        const results = sarifFile.getAllResults();
+        assert.strictEqual(results.length, 2);
+
+        const firstResult = results[0];
+        const secondResult = results[1];
+        assert.notStrictEqual(firstResult.getRuleId(), secondResult.getRuleId());
+        assert.ok(firstResult.getRuleId().includes("__no_rule__:"));
+
+        assert.strictEqual(firstResult.getRule().name, "Unchecked external call");
+        assert.strictEqual(firstResult.getAuthor(), "llm");
+        assert.strictEqual(firstResult.getDescription(), "Detailed finding description.");
+
+        const runTool = sarifFile.getRunTool(0);
+        assert.strictEqual(runTool.name, "benchmarker");
+        assert.strictEqual(runTool.version, "1.2.3");
+        assert.strictEqual(runTool.extensions.length, 1);
+        assert.strictEqual(runTool.extensions[0].name, "claude_skills_runner");
+
+        assert.strictEqual(sarifFile.getRunAutomationDetailsId(0), "llm-run-2026-02-09");
+        assert.deepStrictEqual(sarifFile.getRunVersionControlProvenance(0), [
+            {
+                repositoryUri: "https://github.com/trailofbits/audit-cap-2025",
+                revisionId: "d35eb79e752c376b105aa095428f1b41289dd2fd",
+            },
+        ]);
+    });
+
+    test("Handles missing result message for rule-less result", async () => {
+        const sarifFileClass = await loadSarifFileClass();
+        const sarifJson = {
+            version: "2.1.0",
+            runs: [
+                {
+                    tool: {
+                        driver: {
+                            name: "weaudit-import",
+                        },
+                    },
+                    results: [
+                        {
+                            properties: {
+                                author: "importer",
+                                description: "Imported finding.",
+                            },
+                            locations: [],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        const sarifFile = new sarifFileClass("/tmp/ruleless-empty-message.sarif", JSON.stringify(sarifJson), {}, [], "");
+        const result = sarifFile.getAllResults()[0];
+
+        assert.strictEqual(result.getMessage(), "");
+        assert.strictEqual(result.getRule().name, "Unnamed result");
+        assert.strictEqual(result.getAuthor(), "importer");
+        assert.strictEqual(result.getDescription(), "Imported finding.");
     });
 });

@@ -514,7 +514,7 @@ export class ResultsTableWidget {
             div1.innerText = rule.name;
 
             const div2 = document.createElement("div");
-            if (rule.name !== rule.id) {
+            if (rule.name !== rule.id && !rule.id.startsWith("__no_rule__:")) {
                 div2.classList.add("secondaryText");
                 div2.classList.add("ellipsis");
                 div2.innerText = rule.id;

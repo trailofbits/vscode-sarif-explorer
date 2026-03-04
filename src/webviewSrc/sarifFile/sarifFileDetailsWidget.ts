@@ -62,6 +62,27 @@ export class SarifFileDetailsWidget {
             cellValue.classList.add("detailValue");
         };
 
+        const appendMultiRowsToTable = (key: string, values: (string | HTMLElement)[]): void => {
+            for (let i = 0; i < values.length; i++) {
+                appendRowToTable(i === 0 ? key : "", values[i]);
+            }
+        };
+
+        const serializeUnknownValue = (value: unknown): string => {
+            if (value === undefined || value === null) {
+                return "";
+            }
+            if (typeof value === "string") {
+                return value;
+            }
+            try {
+                const serialized = JSON.stringify(value);
+                return serialized === undefined ? "" : serialized;
+            } catch {
+                return "[unserializable]";
+            }
+        };
+
         // Editable base folder
         {
             const editableBaseFolderNode = document.createElement("textarea");
@@ -99,22 +120,71 @@ export class SarifFileDetailsWidget {
                 const row = this.tableBody.insertRow();
                 row.style.borderBottom = "1px solid";
             }
+
             // Tool with link to tool.informationUri (if it exists)
             const tool = sarifFile.getRunTool(i);
             {
-                let toolElement: string | HTMLAnchorElement = tool.name;
+                const toolName = tool.version !== "" ? `${tool.name} (${tool.version})` : tool.name;
+                let toolElement: string | HTMLAnchorElement = toolName;
                 if (tool.informationUri !== "") {
                     toolElement = document.createElement("a");
                     toolElement.classList.add("wordBreakAll");
                     toolElement.href = tool.informationUri;
-                    toolElement.innerText = tool.name;
+                    toolElement.innerText = toolName;
                 }
-                appendRowToTable("Tool:", toolElement);
+                appendRowToTable("Tool Driver:", toolElement);
             }
 
             // Number of results
             {
                 appendRowToTable("#Results:", sarifFile.getRunResults(i).length.toString());
+            }
+
+            // Run automation ID
+            {
+                const automationDetailsId = sarifFile.getRunAutomationDetailsId(i);
+                if (automationDetailsId !== "") {
+                    appendRowToTable("Automation ID:", automationDetailsId);
+                }
+            }
+
+            // Run version control provenance
+            {
+                const versionControlProvenanceRows: string[] = [];
+                for (const versionControlProvenance of sarifFile.getRunVersionControlProvenance(i)) {
+                    const repositoryUri = versionControlProvenance.repositoryUri;
+                    const revisionId = versionControlProvenance.revisionId;
+
+                    if (repositoryUri !== "" && revisionId !== "") {
+                        versionControlProvenanceRows.push(repositoryUri + " @ " + revisionId);
+                    } else if (repositoryUri !== "") {
+                        versionControlProvenanceRows.push(repositoryUri);
+                    } else if (revisionId !== "") {
+                        versionControlProvenanceRows.push(revisionId);
+                    }
+                }
+
+                if (versionControlProvenanceRows.length > 0) {
+                    appendMultiRowsToTable("Version Control Provenance:", versionControlProvenanceRows);
+                }
+            }
+
+            // Tool extensions
+            {
+                const extensionRows: string[] = [];
+                for (const extension of tool.extensions) {
+                    const extensionName = extension.version !== "" ? `${extension.name} (${extension.version})` : extension.name;
+                    const extensionProperties = serializeUnknownValue(extension.properties);
+                    if (extensionProperties !== "") {
+                        extensionRows.push(extensionName + " - " + extensionProperties);
+                    } else {
+                        extensionRows.push(extensionName);
+                    }
+                }
+
+                if (extensionRows.length > 0) {
+                    appendMultiRowsToTable("Tool Extensions:", extensionRows);
+                }
             }
 
             // Rules
