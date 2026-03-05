@@ -620,7 +620,7 @@ export class ResultsTableWidget {
         const line = location.region.startLine;
         const fullPath = location.path;
 
-        let res = "";
+        let res;
         if (this.vscodeConfig.showFullPathInResultsTable) {
             res = fullPath;
         } else {

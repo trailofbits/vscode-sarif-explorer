@@ -41,7 +41,7 @@ export class SarifFile {
         try {
             sarifJson = JSON.parse(sarifFileContents);
         } catch (e) {
-            throw new Error("Cannot parse the JSON contents of the SARIF file: " + String(e));
+            throw new Error("Cannot parse the JSON contents of the SARIF file: " + String(e), { cause: e });
         }
 
         // Parse the SARIF file
@@ -65,7 +65,7 @@ export class SarifFile {
                 };
             } catch (e) {
                 console.error((e as Error).stack);
-                throw new Error("Parsing failed: " + String(e));
+                throw new Error("Parsing failed: " + String(e), { cause: e });
             }
 
             for (const result of run.results) {
