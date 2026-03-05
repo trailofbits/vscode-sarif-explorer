@@ -13,3 +13,5 @@ src/test/sarif_files_dont_upload
 *.sarifexplorer
 
 sarif-explorer.vsix
+
+.devcontainer/
