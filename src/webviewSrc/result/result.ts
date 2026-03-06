@@ -98,7 +98,19 @@ export class Result {
     }
 
     public getDescription(): string {
-        return this.description;
+        if (this.description !== "") {
+            return this.description;
+        }
+
+        const rule = this.getRule();
+        if (rule.fullDescription !== "") {
+            return rule.fullDescription;
+        }
+        if (rule.shortDescription !== "") {
+            return rule.shortDescription;
+        }
+
+        return "";
     }
 
     public getSyntheticRuleName(): string {

@@ -188,4 +188,64 @@ suite("Extension Test Suite", () => {
         assert.strictEqual(result.getAuthor(), "importer");
         assert.strictEqual(result.getDescription(), "Imported finding.");
     });
+
+    test("Uses result description first, then rule fullDescription, then rule shortDescription", async () => {
+        const sarifFileClass = await loadSarifFileClass();
+        const sarifJson = {
+            version: "2.1.0",
+            runs: [
+                {
+                    tool: {
+                        driver: {
+                            name: "description-precedence-tool",
+                            rules: [
+                                {
+                                    id: "rule.full.short",
+                                    shortDescription: { text: "Short rule description" },
+                                    fullDescription: { text: "Full rule description" },
+                                },
+                                {
+                                    id: "rule.short.only",
+                                    shortDescription: { text: "Only short rule description" },
+                                },
+                                {
+                                    id: "rule.none",
+                                },
+                            ],
+                        },
+                    },
+                    results: [
+                        {
+                            ruleId: "rule.full.short",
+                            message: { text: "Result with explicit description" },
+                            properties: {
+                                description: "Result-level description",
+                            },
+                        },
+                        {
+                            ruleId: "rule.full.short",
+                            message: { text: "Result without explicit description" },
+                        },
+                        {
+                            ruleId: "rule.short.only",
+                            message: { text: "Result with short-only rule description" },
+                        },
+                        {
+                            ruleId: "rule.none",
+                            message: { text: "Result without any description metadata" },
+                        },
+                    ],
+                },
+            ],
+        };
+
+        const sarifFile = new sarifFileClass("/tmp/description-precedence.sarif", JSON.stringify(sarifJson), {}, [], "");
+        const results = sarifFile.getAllResults();
+
+        assert.strictEqual(results.length, 4);
+        assert.strictEqual(results[0].getDescription(), "Result-level description");
+        assert.strictEqual(results[1].getDescription(), "Full rule description");
+        assert.strictEqual(results[2].getDescription(), "Only short rule description");
+        assert.strictEqual(results[3].getDescription(), "");
+    });
 });
