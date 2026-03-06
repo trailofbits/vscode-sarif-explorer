@@ -342,11 +342,7 @@ export class SarifFile {
 
         // Tool extensions contain scan technique/skill metadata in Apollo-generated SARIF files
         const extensions: ToolExtension[] = [];
-        const toolExtensionsRaw = Array.isArray(tool.extensions)
-            ? tool.extensions
-            : Array.isArray(toolDriver.extensions)
-              ? toolDriver.extensions
-              : [];
+        const toolExtensionsRaw = Array.isArray(tool.extensions) ? tool.extensions : Array.isArray(toolDriver.extensions) ? toolDriver.extensions : [];
         for (const extension of toolExtensionsRaw) {
             const extensionToolComponent = extension?.driver ?? extension ?? {};
             const extensionName = this.parseText(extensionToolComponent.name);

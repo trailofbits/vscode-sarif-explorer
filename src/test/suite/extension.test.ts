@@ -43,47 +43,47 @@ suite("Extension Test Suite", () => {
                 {
                     tool: {
                         driver: {
-                            name: "benchmarker",
+                            name: "sample-runner",
                             version: "1.2.3",
                         },
                         extensions: [
                             {
-                                name: "claude_skills_runner",
+                                name: "sample-extension-runner",
                                 version: "0.2.0",
                                 properties: {
-                                    role: "technique",
+                                    role: "integration",
                                     parameters: {
-                                        model: "opus",
+                                        model: "generic-model",
                                         temperature: 0,
                                     },
                                 },
                             },
                             {
                                 driver: {
-                                    name: "solidity-auditor",
+                                    name: "generic-auditor",
                                     version: "0.3.1",
                                 },
                                 properties: {
-                                    role: "skill",
+                                    role: "module",
                                 },
                             },
                         ],
                     },
                     automationDetails: {
-                        id: "llm-run-2026-02-09",
+                        id: "run-2026-02-09",
                     },
                     versionControlProvenance: [
                         {
-                            repositoryUri: "https://github.com/trailofbits/audit-cap-2025",
-                            revisionId: "d35eb79e752c376b105aa095428f1b41289dd2fd",
+                            repositoryUri: "https://example.com/org/sample-repo",
+                            revisionId: "redacted-revision-id",
                         },
                     ],
                     results: [
                         {
                             message: { text: "Unchecked external call" },
                             properties: {
-                                apolloResultId: "90b1f1ed0b30f6cb",
-                                author: "llm",
+                                apolloResultId: "shared-result-id",
+                                author: "analyst",
                                 description: "Detailed finding description.",
                             },
                             locations: [
@@ -98,8 +98,8 @@ suite("Extension Test Suite", () => {
                         {
                             message: { text: "Unchecked external call" },
                             properties: {
-                                apolloResultId: "90b1f1ed0b30f6cb",
-                                author: "llm",
+                                apolloResultId: "shared-result-id",
+                                author: "analyst",
                                 description: "Another finding description.",
                             },
                             locations: [
@@ -126,32 +126,32 @@ suite("Extension Test Suite", () => {
         assert.ok(firstResult.getRuleId().includes("__no_rule__:"));
 
         assert.strictEqual(firstResult.getRule().name, "Unchecked external call");
-        assert.strictEqual(firstResult.getAuthor(), "llm");
+        assert.strictEqual(firstResult.getAuthor(), "analyst");
         assert.strictEqual(firstResult.getDescription(), "Detailed finding description.");
 
         const runTool = sarifFile.getRunTool(0);
-        assert.strictEqual(runTool.name, "benchmarker");
+        assert.strictEqual(runTool.name, "sample-runner");
         assert.strictEqual(runTool.version, "1.2.3");
         assert.strictEqual(runTool.extensions.length, 2);
-        assert.strictEqual(runTool.extensions[0].name, "claude_skills_runner");
+        assert.strictEqual(runTool.extensions[0].name, "sample-extension-runner");
         assert.deepStrictEqual(runTool.extensions[0].properties, {
-            role: "technique",
+            role: "integration",
             parameters: {
-                model: "opus",
+                model: "generic-model",
                 temperature: 0,
             },
         });
-        assert.strictEqual(runTool.extensions[1].name, "solidity-auditor");
+        assert.strictEqual(runTool.extensions[1].name, "generic-auditor");
         assert.strictEqual(runTool.extensions[1].version, "0.3.1");
         assert.deepStrictEqual(runTool.extensions[1].properties, {
-            role: "skill",
+            role: "module",
         });
 
-        assert.strictEqual(sarifFile.getRunAutomationDetailsId(0), "llm-run-2026-02-09");
+        assert.strictEqual(sarifFile.getRunAutomationDetailsId(0), "run-2026-02-09");
         assert.deepStrictEqual(sarifFile.getRunVersionControlProvenance(0), [
             {
-                repositoryUri: "https://github.com/trailofbits/audit-cap-2025",
-                revisionId: "d35eb79e752c376b105aa095428f1b41289dd2fd",
+                repositoryUri: "https://example.com/org/sample-repo",
+                revisionId: "redacted-revision-id",
             },
         ]);
     });
