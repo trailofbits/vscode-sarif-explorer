@@ -509,12 +509,18 @@ export class ResultsTableWidget {
             const divSpace = document.createElement("span");
             divSpace.innerHTML = "&nbsp;";
 
+            const isSyntheticRule = rule.id.startsWith("__no_rule__:");
+
             const div1 = document.createElement("div");
-            div1.classList.add("ellipsis-beginning");
+            if (isSyntheticRule) {
+                div1.classList.add("ellipsis");
+            } else {
+                div1.classList.add("ellipsis-beginning");
+            }
             div1.innerText = rule.name;
 
             const div2 = document.createElement("div");
-            if (rule.name !== rule.id) {
+            if (rule.name !== rule.id && !isSyntheticRule) {
                 div2.classList.add("secondaryText");
                 div2.classList.add("ellipsis");
                 div2.innerText = rule.id;

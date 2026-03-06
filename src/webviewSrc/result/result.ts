@@ -15,6 +15,9 @@ export class Result {
     private level: ResultLevel;
     private ruleId: string;
     private message: string;
+    private author: string;
+    private description: string;
+    private syntheticRuleName: string;
     private locations: ResultLocation[];
     private relatedLocations: Map<number, LabeledLocation>;
     private dataFlow: DataFlowElement[] = [];
@@ -28,6 +31,9 @@ export class Result {
         level: ResultLevel,
         ruleId: string,
         message: string,
+        author: string,
+        description: string,
+        syntheticRuleName: string,
         locations: ResultLocation[],
         relatedLocations: Map<number, LabeledLocation>,
         dataFlow: DataFlowElement[],
@@ -40,6 +46,9 @@ export class Result {
         this.level = level;
         this.ruleId = ruleId;
         this.message = message;
+        this.author = author;
+        this.description = description;
+        this.syntheticRuleName = syntheticRuleName;
 
         this.note = {
             status: status,
@@ -82,6 +91,30 @@ export class Result {
 
     public getMessage(): string {
         return this.message;
+    }
+
+    public getAuthor(): string {
+        return this.author;
+    }
+
+    public getDescription(): string {
+        if (this.description !== "") {
+            return this.description;
+        }
+
+        const rule = this.getRule();
+        if (rule.fullDescription !== "") {
+            return rule.fullDescription;
+        }
+        if (rule.shortDescription !== "") {
+            return rule.shortDescription;
+        }
+
+        return "";
+    }
+
+    public getSyntheticRuleName(): string {
+        return this.syntheticRuleName;
     }
 
     public getResultId(): string {

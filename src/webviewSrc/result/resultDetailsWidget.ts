@@ -139,6 +139,68 @@ export class ResultDetailsWidget {
             cellValue.style.paddingTop = "0";
         };
 
+        const isRecord = (value: unknown): value is Record<string, unknown> => {
+            return typeof value === "object" && value !== null && !Array.isArray(value);
+        };
+
+        const formatToolComponent = (name: string, version: string): string => {
+            const trimmedName = name.trim();
+            const trimmedVersion = version.trim();
+            if (trimmedName !== "" && trimmedVersion !== "") {
+                return `${trimmedName} v${trimmedVersion}`;
+            }
+            if (trimmedName !== "") {
+                return trimmedName;
+            }
+            if (trimmedVersion !== "") {
+                return `v${trimmedVersion}`;
+            }
+            return "";
+        };
+
+        const formatParameterValue = (value: unknown): string => {
+            if (value === null) {
+                return "null";
+            }
+            if (typeof value === "string") {
+                return value;
+            }
+            if (typeof value === "number" || typeof value === "boolean") {
+                return value.toString();
+            }
+            try {
+                const serializedValue = JSON.stringify(value);
+                return serializedValue === undefined ? "" : serializedValue;
+            } catch {
+                return "[unserializable]";
+            }
+        };
+
+        const formatParameters = (value: unknown): string => {
+            if (!isRecord(value)) {
+                return "";
+            }
+            const entries = Object.entries(value);
+            if (entries.length === 0) {
+                return "";
+            }
+            return entries.map(([key, parameterValue]): string => `${key}: ${formatParameterValue(parameterValue)}`).join(", ");
+        };
+
+        const getToolExtensionRole = (value: unknown): string => {
+            if (!isRecord(value) || typeof value.role !== "string") {
+                return "";
+            }
+            return value.role.trim().toLowerCase();
+        };
+
+        const getToolExtensionParameters = (value: unknown): string => {
+            if (!isRecord(value)) {
+                return "";
+            }
+            return formatParameters(value.parameters);
+        };
+
         // Editable comment
         {
             const editableNodeTextArea = document.createElement("textarea");
@@ -154,9 +216,18 @@ export class ResultDetailsWidget {
             appendRowToTable("Comment:", editableNodeTextArea);
         }
 
+        const rule = result.getRule();
+
+        // Author
+        {
+            const author = result.getAuthor();
+            if (author !== "") {
+                appendRowToTable("Author:", author);
+            }
+        }
+
         // Rule
         {
-            const rule = result.getRule();
             const ruleDiv = document.createElement("div");
             ruleDiv.classList.add("detailValueContainer");
 
@@ -178,16 +249,15 @@ export class ResultDetailsWidget {
             appendRowToTable("Rule:", ruleDiv);
         }
 
-        // Rule description
-        const rule = result.getRule();
-        const ruleDescription = rule.fullDescription || rule.shortDescription || "";
+        // Result description
+        const resultDescription = result.getDescription();
         {
-            if (ruleDescription && ruleDescription !== result.getMessage()) {
-                const ruleDescriptionDiv = document.createElement("div");
-                for (const el of result.messageToHTML(ruleDescription, false)) {
-                    ruleDescriptionDiv.appendChild(el);
+            if (resultDescription !== "") {
+                const resultDescriptionDiv = document.createElement("div");
+                for (const el of result.messageToHTML(resultDescription, false)) {
+                    resultDescriptionDiv.appendChild(el);
                 }
-                appendRowToTable("Description:", ruleDescriptionDiv);
+                appendRowToTable("Description:", resultDescriptionDiv);
             }
         }
 
@@ -233,7 +303,7 @@ export class ResultDetailsWidget {
         {
             let ruleHelp = rule.help;
 
-            if (ruleHelp === ruleDescription || ruleHelp === result.getMessage()) {
+            if (ruleHelp === resultDescription || ruleHelp === result.getMessage()) {
                 ruleHelp = "";
             }
 
@@ -267,6 +337,53 @@ export class ResultDetailsWidget {
                     });
                 }
                 appendNavigationTableToTable("Related Locations:", relatedLocationsRows);
+            }
+        }
+
+        // Tool
+        {
+            const tool = result.getTool();
+            const toolLines: string[] = [];
+
+            const hasToolDriver = !(tool.name === "unknown" && tool.version === "");
+            if (hasToolDriver) {
+                const toolDriverLine = formatToolComponent(tool.name, tool.version);
+                if (toolDriverLine !== "") {
+                    toolLines.push(toolDriverLine);
+                }
+            }
+
+            for (const extension of tool.extensions) {
+                const role = getToolExtensionRole(extension.properties);
+                if (role === "") {
+                    continue;
+                }
+
+                const extensionLine = `${role}: ${formatToolComponent(extension.name, extension.version)}`;
+                const parameters = getToolExtensionParameters(extension.properties);
+                if (parameters !== "") {
+                    toolLines.push(`${extensionLine} (${parameters})`);
+                } else {
+                    toolLines.push(extensionLine);
+                }
+            }
+
+            if (toolLines.length > 0) {
+                const toolDiv = document.createElement("div");
+                for (const toolLine of toolLines) {
+                    const toolLineDiv = document.createElement("div");
+                    toolLineDiv.innerText = toolLine;
+                    toolDiv.appendChild(toolLineDiv);
+                }
+                appendRowToTable("Tool:", toolDiv);
+            }
+        }
+
+        // Run automation ID
+        {
+            const automationDetailsId = result.getAssociatedSarifFile().getRunAutomationDetailsId(result.getAssociatedRunIndex());
+            if (automationDetailsId !== "") {
+                appendRowToTable("Automation ID:", automationDetailsId);
             }
         }
     }

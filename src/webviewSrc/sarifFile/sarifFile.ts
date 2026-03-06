@@ -14,14 +14,29 @@ import { apiSetResultsBaseFolder } from "../extensionApi";
 
 export type Tool = {
     name: string;
+    version: string;
     informationUri: string;
     rules: Map<string, Rule>;
+    extensions: ToolExtension[];
+};
+
+export type ToolExtension = {
+    name: string;
+    version: string;
+    properties: unknown;
+};
+
+export type VersionControlProvenance = {
+    repositoryUri: string;
+    revisionId: string;
 };
 
 export type Run = {
     runNumber: number;
     tool: Tool;
     results: Result[];
+    automationDetailsId: string;
+    versionControlProvenance: VersionControlProvenance[];
 };
 
 export class SarifFile {
@@ -60,8 +75,10 @@ export class SarifFile {
 
                 run = {
                     runNumber: runIndex,
-                    tool: this.parseTool(rawRun.tool, hiddenRules, runIndex),
-                    results: this.parseResults(rawRun.results, runIndex, resultNotes),
+                    tool: this.parseTool(rawRun.tool || {}, hiddenRules, runIndex),
+                    results: this.parseResults(rawRun.results || [], runIndex, resultNotes),
+                    automationDetailsId: this.parseText(rawRun.automationDetails?.id),
+                    versionControlProvenance: this.parseVersionControlProvenance(rawRun.versionControlProvenance),
                 };
             } catch (e) {
                 console.error((e as Error).stack);
@@ -75,7 +92,7 @@ export class SarifFile {
                     // If the rule is not specified, we just create one
                     const rule: Rule = {
                         id: result.getRuleId(),
-                        name: result.getRuleId(),
+                        name: result.getSyntheticRuleName() || result.getRuleId(),
                         level: result.getLevel(),
                         shortDescription: "",
                         fullDescription: "",
@@ -143,9 +160,14 @@ export class SarifFile {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private parseResults(dataResults: any[], runIndex: number, resultNotes: ResultNotes): Result[] {
         const parsedResults: Result[] = [];
+        if (!Array.isArray(dataResults)) {
+            return parsedResults;
+        }
+
         const resultIdSet: Set<string> = new Set();
         for (let i = 0; i < dataResults.length; i++) {
             const result = dataResults[i];
+            const resultMessage = this.parseMessage(result.message);
 
             // Parse all the locations associated with the result
             const locations: ResultLocation[] = [];
@@ -237,7 +259,10 @@ export class SarifFile {
             }
             resultIdSet.add(resultId);
 
-            const ruleId = this.computeRuleId(runIndex, result.ruleId);
+            const ruleId = this.computeResultRuleId(runIndex, result, i, resultMessage);
+            const resultAuthor = this.parseText(result.properties?.author);
+            const resultDescription = this.parseText(result.properties?.description);
+            const syntheticRuleName = this.parseText(result.ruleId).trim() === "" ? this.getSyntheticRuleName(resultMessage) : "";
 
             const status = resultNotes[resultId]?.status || DEFAULT_NOTES_STATUS;
             const comment = resultNotes[resultId]?.comment || DEFAULT_NOTES_COMMENT;
@@ -247,7 +272,10 @@ export class SarifFile {
                 runIndex,
                 resLevel,
                 ruleId,
-                result.message.text,
+                resultMessage,
+                resultAuthor,
+                resultDescription,
+                syntheticRuleName,
                 locations,
                 relatedLocations,
                 dataFlow,
@@ -262,34 +290,41 @@ export class SarifFile {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private parseTool(tool: any, hiddenRules: string[], runIndex: number): Tool {
-        const toolDriver = tool.driver ?? tool;
+        const toolDriver = tool?.driver ?? tool ?? {};
 
         // A toolComponent object SHALL contain a property named name whose value is (...) the name of the tool component.
-        const toolName: string = toolDriver.name;
+        const toolName: string = this.parseText(toolDriver.name) || "unknown";
+
+        // A toolComponent object MAY contain a property named version
+        const toolVersion: string = this.parseText(toolDriver.version || toolDriver.semanticVersion);
 
         // A toolComponent object MAY contain a property named informationUri | downloadUri
-        const informationUri: string = toolDriver.informationUri || toolDriver.downloadUri || "";
+        const informationUri: string = this.parseText(toolDriver.informationUri || toolDriver.downloadUri);
 
         // A toolComponent object MAY contain a property named rules
         const rules: Map<string, Rule> = new Map();
-        if (toolDriver.rules) {
+        if (Array.isArray(toolDriver.rules)) {
             for (const rule of toolDriver.rules) {
                 // A reportingDescriptor object SHALL contain a property named id
-                const ruleId = this.computeRuleId(runIndex, rule.id);
+                const originalRuleId = this.parseText(rule.id);
+                if (originalRuleId === "") {
+                    continue;
+                }
+                const ruleId = this.computeRuleId(runIndex, originalRuleId);
 
                 // A reportingDescriptor object MAY contain a property named name
-                const ruleName = rule.name || rule.id || "";
+                const ruleName = this.parseText(rule.name) || originalRuleId;
 
                 // Either the shortDescription property (§3.49.9) or the fullDescription property (§3.49.10) or both SHOULD be present.
-                const shortDescription = rule.shortDescription?.text || "";
-                const fullDescription = rule.fullDescription?.text || "";
+                const shortDescription = this.parseText(rule.shortDescription?.text);
+                const fullDescription = this.parseText(rule.fullDescription?.text);
 
                 // A reportingDescriptor object MAY contain a property named help whose value is a localizable multiformatMessageString object (§3.12, §3.12.2) which provides the primary documentation for the reporting item.
-                const help = rule.help?.text || "";
-                const helpURI = rule.helpUri || "";
+                const help = this.parseText(rule.help?.text);
+                const helpURI = this.parseText(rule.helpUri);
 
                 // This level may be updated according to the level of a result with this rule
-                const level: ResultLevel = this.parseLevel(rule.defaultConfiguration?.level || "");
+                const level: ResultLevel = this.parseLevel(this.parseText(rule.defaultConfiguration?.level));
                 const ruleObject: Rule = {
                     id: ruleId,
                     name: ruleName,
@@ -305,14 +340,37 @@ export class SarifFile {
             }
         }
 
+        // Tool extensions contain scan technique/skill metadata in Apollo-generated SARIF files
+        const extensions: ToolExtension[] = [];
+        const toolExtensionsRaw = Array.isArray(tool.extensions) ? tool.extensions : Array.isArray(toolDriver.extensions) ? toolDriver.extensions : [];
+        for (const extension of toolExtensionsRaw) {
+            const extensionToolComponent = extension?.driver ?? extension ?? {};
+            const extensionName = this.parseText(extensionToolComponent.name);
+            if (extensionName === "") {
+                continue;
+            }
+            const extensionProperties = extension?.properties ?? extensionToolComponent.properties;
+            extensions.push({
+                name: extensionName,
+                version: this.parseText(extensionToolComponent.version || extensionToolComponent.semanticVersion),
+                properties: extensionProperties,
+            });
+        }
+
         return {
             name: toolName,
+            version: toolVersion,
             informationUri: informationUri,
             rules: rules,
+            extensions: extensions,
         };
     }
 
     private parseLevel(level: string): ResultLevel {
+        if (level === "") {
+            return ResultLevel.default;
+        }
+
         level = level.toLowerCase();
         if (Object.values(ResultLevel).includes(level)) {
             // Go from the string value to the enum value
@@ -322,6 +380,52 @@ export class SarifFile {
 
             return ResultLevel.default;
         }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private parseVersionControlProvenance(rawVersionControlProvenance: any): VersionControlProvenance[] {
+        const parsedVersionControlProvenance: VersionControlProvenance[] = [];
+        if (!Array.isArray(rawVersionControlProvenance)) {
+            return parsedVersionControlProvenance;
+        }
+
+        for (const provenanceEntry of rawVersionControlProvenance) {
+            const repositoryUri = this.parseText(provenanceEntry?.repositoryUri);
+            const revisionId = this.parseText(provenanceEntry?.revisionId);
+            if (repositoryUri === "" && revisionId === "") {
+                continue;
+            }
+            parsedVersionControlProvenance.push({
+                repositoryUri: repositoryUri,
+                revisionId: revisionId,
+            });
+        }
+
+        return parsedVersionControlProvenance;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private parseMessage(message: any): string {
+        if (message === undefined || message === null) {
+            return "";
+        }
+
+        const text = this.parseText(message.text);
+        if (text !== "") {
+            return text;
+        }
+
+        return this.parseText(message.markdown);
+    }
+
+    private parseText(value: unknown): string {
+        if (typeof value === "string") {
+            return value;
+        }
+        if (typeof value === "number" || typeof value === "boolean") {
+            return value.toString();
+        }
+        return "";
     }
 
     // The result id is used when fetching notes (i.e., comment and status) from the .sarifexplorer file.
@@ -342,6 +446,51 @@ export class SarifFile {
         } else {
             return origRuleId + "(run " + runIndex + ")";
         }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private computeResultRuleId(runIndex: number, result: any, resultIndex: number, resultMessage: string): string {
+        const originalRuleId = this.parseText(result.ruleId).trim();
+        if (originalRuleId !== "") {
+            return this.computeRuleId(runIndex, originalRuleId);
+        }
+
+        const apolloResultId = this.parseText(result.properties?.apolloResultId).trim();
+        return this.computeSyntheticRuleId(runIndex, resultMessage, apolloResultId, resultIndex);
+    }
+
+    private computeSyntheticRuleId(runIndex: number, resultMessage: string, apolloResultId: string, resultIndex: number): string {
+        const normalizedMessage = this.normalizeRuleIdentityComponent(resultMessage || "unnamed-result");
+        const normalizedApolloResultId = this.normalizeRuleIdentityComponent(apolloResultId);
+
+        let syntheticId = "__no_rule__:" + normalizedMessage;
+        if (normalizedApolloResultId !== "") {
+            syntheticId += "|apolloResultId:" + normalizedApolloResultId;
+        }
+        // Keep every rule-less result isolated under its own synthetic rule
+        syntheticId += "|resultIndex:" + resultIndex.toString();
+
+        return this.computeRuleId(runIndex, syntheticId);
+    }
+
+    private getSyntheticRuleName(resultMessage: string): string {
+        const message = resultMessage.trim();
+        if (message === "") {
+            return "Unnamed result";
+        }
+        return message;
+    }
+
+    private normalizeRuleIdentityComponent(rawComponent: string): string {
+        const normalizedComponent = rawComponent
+            .trim()
+            .replace(/[\r\n\t]/g, " ")
+            .replace(/[|\s]+/g, "_")
+            .slice(0, 120);
+        if (normalizedComponent === "") {
+            return "empty";
+        }
+        return normalizedComponent;
     }
     // ====================
     // Public methods
@@ -369,6 +518,14 @@ export class SarifFile {
 
     public getRunTool(runIndex: number): Tool {
         return this.runs[runIndex].tool;
+    }
+
+    public getRunAutomationDetailsId(runIndex: number): string {
+        return this.runs[runIndex].automationDetailsId;
+    }
+
+    public getRunVersionControlProvenance(runIndex: number): VersionControlProvenance[] {
+        return this.runs[runIndex].versionControlProvenance;
     }
 
     public getRunRule(id: string, runIndex: number): Rule | undefined {
