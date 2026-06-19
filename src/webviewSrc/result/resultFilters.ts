@@ -1,6 +1,7 @@
 import { Result } from "./result";
 import { ResultLevel, ResultStatus } from "../../shared/resultTypes";
 import { FilterData } from "../../shared/filterData";
+import { normalizePath } from "../../shared/file";
 import { apiSetFilterData } from "../extensionApi";
 
 export class ResultsTableFilters {
@@ -70,10 +71,35 @@ export class ResultsTableFilters {
             return true;
         }
 
-        const resPath = result.getResultNormalizedPath();
+        const pathsToCheck: Set<string> = new Set();
+
+        const baseFolder = result.getAssociatedSarifFile().getResultsBaseFolder();
+
+        for (const loc of result.getLocations()) {
+            if (loc.path) {
+                pathsToCheck.add(normalizePath(loc.path, baseFolder));
+            }
+        }
+
+        for (const related of result.getRelatedLocations().values()) {
+            if (related.location && related.location.path) {
+                pathsToCheck.add(normalizePath(related.location.path, baseFolder));
+            }
+        }
+
+        for (const df of result.getDataFlow()) {
+            if (df.location && df.location.path) {
+                pathsToCheck.add(normalizePath(df.location.path, baseFolder));
+            }
+        }
+
         for (const p of this.includePathsAsSet) {
-            if (resPath.includes(p)) {
-                return true;
+            const searchPattern = p.toLowerCase();
+
+            for (const path of pathsToCheck) {
+                if (path.toLowerCase().includes(searchPattern)) {
+                    return true;
+                }
             }
         }
         return false;
