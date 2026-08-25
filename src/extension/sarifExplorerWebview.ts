@@ -167,6 +167,10 @@ export class SarifExplorerWebview {
 
     // To ensure the file is actually opened, you need to call `.show`
     public addSarifToToOpenList(sarifFilePath: string, baseFolder = ""): void {
+        if (baseFolder === "") {
+            // Reopening without an explicit base folder (e.g. refreshing the .sarif file) must not discard a known base folder
+            baseFolder = this._filesToOpen.get(sarifFilePath)?.baseFolder || this._openedSarifFiles.get(sarifFilePath)?.getBaseFolder() || "";
+        }
         this._filesToOpen.set(sarifFilePath, { baseFolder: baseFolder });
     }
 
@@ -507,6 +511,14 @@ export class SarifExplorerWebview {
     }
 
     public openSarifFileAndSendToWebview(sarifFilePath: string, sarifFileWorkspaceData: SarifFileWorkspaceData): void {
+        // An empty base folder should not clobber a known one
+        if (sarifFileWorkspaceData.baseFolder === "") {
+            const previousMetadata = this._openedSarifFiles.get(sarifFilePath);
+            if (previousMetadata) {
+                sarifFileWorkspaceData = previousMetadata.getWorkspaceMetadata();
+            }
+        }
+
         // Open and send the SARIF file to the webview
         let res;
         try {
