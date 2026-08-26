@@ -147,7 +147,7 @@ function resultToExportedResult(result: Result): ExportedResult {
         locations: result.getLocations(),
         dataFlow: result.getDataFlow(),
         note: result.getNote(),
-    } as ExportedResult;
+    };
 }
 
 export function apiExportGitHubIssue(bugs: Result[]): void {

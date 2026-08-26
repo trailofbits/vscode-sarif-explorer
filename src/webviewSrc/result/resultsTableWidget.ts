@@ -214,6 +214,7 @@ export class ResultsTableWidget {
         const tableHeaders = this.tableElement.getElementsByTagName("th");
         for (let i = 0; i < tableHeaders.length; i++) {
             const th = tableHeaders[i];
+            const headerIndex: TableHeaders = i;
 
             // Hide the status icon of each header on init
             const statusIcon = th.getElementsByClassName("resultsTableStatusIcon")[0];
@@ -223,13 +224,13 @@ export class ResultsTableWidget {
             th.setAttribute(this.TABLE_HEADER_INDEX, i.toString());
 
             // These are fake headers that are not sortable, etc
-            if (i === (TableHeaders.FakeHeaderDropdownSymbol as number)) {
+            if (headerIndex === TableHeaders.FakeHeaderDropdownSymbol) {
                 continue;
             }
 
             // Sanity check that the header is one of the expected ones
-            if (i !== (TableHeaders.StatusSymbol as number)) {
-                const expectedHeaderText = TableHeaders[i];
+            if (headerIndex !== TableHeaders.StatusSymbol) {
+                const expectedHeaderText = TableHeaders[headerIndex];
                 const realHeaderText = th.getElementsByTagName("span")[0].innerText;
                 if (expectedHeaderText !== realHeaderText) {
                     throw new Error(`Unexpected header text: ${realHeaderText}`);
@@ -238,7 +239,7 @@ export class ResultsTableWidget {
 
             // Sort the table on click
             th.onclick = (): void => {
-                const header = parseInt(th.getAttribute(this.TABLE_HEADER_INDEX)!) as TableHeaders;
+                const header: TableHeaders = parseInt(th.getAttribute(this.TABLE_HEADER_INDEX)!);
                 this.resultsTable.sortByHeader(header);
                 this.render();
             };
@@ -1092,7 +1093,7 @@ export class ResultsTableWidget {
             const statusIcon = th.getElementsByClassName("resultsTableStatusIcon")[0] as HTMLDivElement;
             statusIcon.classList.add("codicon");
 
-            const headerId = parseInt(th.getAttribute(this.TABLE_HEADER_INDEX)!) as TableHeaders;
+            const headerId: TableHeaders = parseInt(th.getAttribute(this.TABLE_HEADER_INDEX)!);
 
             if (headerId === sortStatus.mainHeader) {
                 // Set the status icon on the main header we are sorting by
