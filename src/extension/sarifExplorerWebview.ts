@@ -165,9 +165,25 @@ export class SarifExplorerWebview {
         return [path.dirname(sarifFilePath), ...Array.from(allOpenedBaseFolders)];
     }
 
+    // An empty base folder means "unknown", not "reset", so we recover any base folder we already
+    // know for this file. This happens when reopening a file without an explicit base folder (e.g.
+    // when refreshing the .sarif file, or opening it through the dialog)
+    private resolveKnownBaseFolder(sarifFilePath: string, baseFolder: string): string {
+        if (baseFolder !== "") {
+            return baseFolder;
+        }
+
+        return (
+            this._filesToOpen.get(sarifFilePath)?.baseFolder ||
+            this._openedSarifFiles.get(sarifFilePath)?.getBaseFolder() ||
+            this.getWorkspaceOpenedSarifFiles()[sarifFilePath]?.baseFolder ||
+            ""
+        );
+    }
+
     // To ensure the file is actually opened, you need to call `.show`
     public addSarifToToOpenList(sarifFilePath: string, baseFolder = ""): void {
-        this._filesToOpen.set(sarifFilePath, { baseFolder: baseFolder });
+        this._filesToOpen.set(sarifFilePath, { baseFolder: this.resolveKnownBaseFolder(sarifFilePath, baseFolder) });
     }
 
     // Function that shows the webview panel
@@ -507,6 +523,8 @@ export class SarifExplorerWebview {
     }
 
     public openSarifFileAndSendToWebview(sarifFilePath: string, sarifFileWorkspaceData: SarifFileWorkspaceData): void {
+        const baseFolder = this.resolveKnownBaseFolder(sarifFilePath, sarifFileWorkspaceData.baseFolder);
+
         // Open and send the SARIF file to the webview
         let res;
         try {
@@ -518,7 +536,7 @@ export class SarifExplorerWebview {
         }
 
         // Mark the file as opened
-        const sarifFileMetadata = new SarifFileMetadata(sarifFilePath, sarifFileWorkspaceData);
+        const sarifFileMetadata = new SarifFileMetadata(sarifFilePath, { ...sarifFileWorkspaceData, baseFolder: baseFolder });
         this._openedSarifFiles.set(sarifFilePath, sarifFileMetadata);
         // Update the data in the workspace storage
         void this.updateWorkspaceOpenedSarifFiles();
