@@ -97,7 +97,7 @@
         "@stylistic/eslint-plugin": "^5.10.0",
         "@types/mocha": "^10.0.1",
         "@types/node": "^24.13.3",
-        "@types/vscode": "^1.120.0",
+        "@types/vscode": "^1.134.0",
         "@types/webpack": "^5.28.0",
         "@typescript-eslint/eslint-plugin": "8.67.0",
         "@typescript-eslint/parser": "8.67.0",
