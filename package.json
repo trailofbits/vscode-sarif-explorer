@@ -27,7 +27,7 @@
         "auditing"
     ],
     "engines": {
-        "vscode": "^1.78.0"
+        "vscode": "^1.120.0"
     },
     "activationEvents": [
         "onLanguage:json",
@@ -98,11 +98,11 @@
         "@types/glob": "^8.0.0",
         "@types/mocha": "^10.0.1",
         "@types/node": "^24.0.0",
-        "@types/vscode": "^1.74.0",
+        "@types/vscode": "^1.120.0",
         "@types/webpack": "^5.28.0",
         "@typescript-eslint/eslint-plugin": "8.56.1",
         "@typescript-eslint/parser": "8.56.1",
-        "@vscode/test-electron": "^2.2.1",
+        "@vscode/test-electron": "^3.1.0",
         "@vscode/vsce": "^3.0.0",
         "css-loader": "^7.1.4",
         "eslint": "10.0.2",
