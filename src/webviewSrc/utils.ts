@@ -19,7 +19,7 @@ export function setEllipsisBeginningText(element: HTMLElement, text: string): vo
     span.dir = "ltr";
     span.textContent = text;
     element.replaceChildren(span);
-}  
+}
 
 // Removes the whitespace prefix shared by all non-blank lines of a code snippet, as well as its trailing blank lines.
 // SARIF snippets include the indentation the code has in the original file, which wastes horizontal space when rendered.
