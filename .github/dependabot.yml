@@ -21,6 +21,13 @@ updates:
       - dependency-name: "@types/node"
         update-types:
           - "version-update:semver-major"
+      # @types/vscode must not exceed engines.vscode, or we compile against API
+      # that is missing at runtime on the oldest VS Code we claim to support.
+      # Raise this together with engines.vscode, deliberately.
+      - dependency-name: "@types/vscode"
+        update-types:
+          - "version-update:semver-minor"
+          - "version-update:semver-major"
     open-pull-requests-limit: 10
 
   - package-ecosystem: github-actions
