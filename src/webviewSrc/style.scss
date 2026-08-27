@@ -41,6 +41,10 @@ textarea {
     overflow: hidden;
 }
 
+// `direction: rtl` is only here to move the ellipsis to the start of the text, so that the
+// end of a long path or rule name stays visible. Because it also flips the base bidi
+// direction, punctuation at the edges of the text would be moved to the opposite side, so
+// set the text with `setEllipsisBeginningText` to keep it in its original order.
 .ellipsis-beginning {
     text-overflow: ellipsis;
     white-space: nowrap;

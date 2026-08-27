@@ -64,6 +64,34 @@
             "text": "openCodeRegion is deprecated"
           },
           "ruleId": "src.test.open-code-region"
+        },
+        {
+          "fingerprints": {
+            "matchBasedId/v1": "0000000000000000000000000000000000000000000000000000000000000000_0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".env.test",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "endColumn": 24,
+                  "endLine": 3,
+                  "snippet": {
+                    "text": "SECRET_KEY=not-a-secret"
+                  },
+                  "startColumn": 1,
+                  "startLine": 3
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Secret checked into a dotfile"
+          },
+          "ruleId": "src.test.secret-in-dotfile()"
         }
       ],
       "tool": {
@@ -85,6 +113,23 @@
               },
               "shortDescription": {
                 "text": "openCodeRegion is deprecated"
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "fullDescription": {
+                "text": "Secrets must not be committed, not even in test files"
+              },
+              "id": "src.test.secret-in-dotfile()",
+              "name": "Secret in a dotfile, found by scan()",
+              "properties": {
+                "precision": "very-high",
+                "tags": []
+              },
+              "shortDescription": {
+                "text": "Secret checked into a dotfile"
               }
             }
           ],
