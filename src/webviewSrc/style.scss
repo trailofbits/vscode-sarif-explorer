@@ -462,6 +462,27 @@ table {
     resize: vertical;
 }
 
+.detailCodeSnippet {
+    // top | right | bottom | left
+    margin: 0 0 4px 0;
+    padding: 4px 6px;
+    border-radius: 3px;
+
+    background-color: var(--vscode-textCodeBlock-background);
+    font-family: var(--vscode-editor-font-family);
+    font-size: var(--vscode-editor-font-size);
+
+    // The details table has a fixed layout, so a snippet scrolls instead of widening the panel
+    white-space: pre;
+    overflow-x: auto;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.detailCodeSnippetLabel {
+    font-size: 0.9em;
+}
+
 #resultDetailsPanel {
     .rowButtons {
         display: flex;
