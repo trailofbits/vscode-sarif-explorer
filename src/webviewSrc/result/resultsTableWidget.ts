@@ -2,7 +2,7 @@ import { getPathLeaf } from "../../shared/file";
 import { ResultLevel, ResultLocation, ResultStatus, Rule, VSCodeConfig, defaultVSCodeConfig } from "../../shared/resultTypes";
 import { apiExportGitHubIssue, apiLaunchOpenSarifFileDialog, apiSendBugsToWeAudit, apiSetHiddenRule } from "../extensionApi";
 import { SarifFile } from "../sarifFile/sarifFile";
-import { getElementByIdOrThrow, scrollToRow } from "../utils";
+import { getElementByIdOrThrow, scrollToRow, setEllipsisBeginningText } from "../utils";
 import { Result, ResultAndRow } from "./result";
 import { ResultDetailsWidget } from "./resultDetailsWidget";
 import { setToStringInParts, splitStringInParts } from "./resultFilters";
@@ -515,10 +515,11 @@ export class ResultsTableWidget {
             const div1 = document.createElement("div");
             if (isSyntheticRule) {
                 div1.classList.add("ellipsis");
+                div1.innerText = rule.name;
             } else {
                 div1.classList.add("ellipsis-beginning");
+                setEllipsisBeginningText(div1, rule.name);
             }
-            div1.innerText = rule.name;
 
             const div2 = document.createElement("div");
             if (rule.name !== rule.id && !isSyntheticRule) {
@@ -683,7 +684,7 @@ export class ResultsTableWidget {
         {
             const cell = row.insertCell();
             cell.classList.add("resultPathCell");
-            cell.innerText = displayPathAndLine;
+            setEllipsisBeginningText(cell, displayPathAndLine);
         }
 
         // Add the message column
@@ -982,7 +983,7 @@ export class ResultsTableWidget {
 
         // Update the file path
         const pathCell = row.getElementsByClassName("resultPathCell")[0] as HTMLTableCellElement;
-        pathCell.innerText = this.getResultDisplayPathAndLine(result);
+        setEllipsisBeginningText(pathCell, this.getResultDisplayPathAndLine(result));
     }
 
     // Adds the results of a whole sarifFile to the table
