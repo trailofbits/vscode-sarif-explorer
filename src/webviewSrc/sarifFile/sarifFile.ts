@@ -145,7 +145,7 @@ export class SarifFile {
             path = "";
         }
 
-        return {
+        const parsedLocation: ResultLocation = {
             path: path,
             region: {
                 startLine: loc.physicalLocation?.region?.startLine || 1,
@@ -154,6 +154,14 @@ export class SarifFile {
                 endColumn: loc.physicalLocation?.region?.endColumn || loc.physicalLocation?.region?.startColumn + 1 || 10000,
             },
         };
+
+        // A region MAY contain a property named snippet whose value is an artifactContent object with the code at this region
+        const snippet = this.parseText(loc.physicalLocation?.region?.snippet?.text);
+        if (snippet !== "") {
+            parsedLocation.snippet = snippet;
+        }
+
+        return parsedLocation;
     }
 
     // Parse a list of json results and return a list of Result objects

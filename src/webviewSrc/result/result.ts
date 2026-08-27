@@ -190,7 +190,11 @@ export class Result {
     }
 
     public getResultNormalizedPath(): string {
-        return normalizePath(this.getResultPath(), this.sarifFile.getResultsBaseFolder());
+        return this.getLocationNormalizedPath(this.getResultPrimaryLocation());
+    }
+
+    public getLocationNormalizedPath(location: ResultLocation): string {
+        return normalizePath(location.path, this.sarifFile.getResultsBaseFolder());
     }
 
     public getRelatedLocations(): Map<number, LabeledLocation> {

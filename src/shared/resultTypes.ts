@@ -31,6 +31,9 @@ export type LabeledLocation = {
 export type ResultLocation = {
     path: string;
     region: ResultRegion;
+
+    // The source code at this location, when the SARIF file provides it in `region.snippet.text`
+    snippet?: string;
 };
 
 export type ResultRegion = {
