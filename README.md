@@ -25,7 +25,7 @@ Install the extension by searching for [SARIF Explorer](https://marketplace.visu
 ## Features
 
   - [**Open Multiple SARIF Files**](#open-multiple-sarif-files): Open and browse the results of multiple SARIF files simultaneously.
-  - [**Browse Results**](#browse-results): Browse results by clicking on them, which will open their associated location in VSCode. You can also browse a result's dataflow steps, if present.
+  - [**Browse Results**](#browse-results): Browse results by clicking on them, which will open their associated location in VSCode. You can also browse a result's dataflow steps and read the code snippets it points to, if present.
   - [**Classify Results**](#classify-results): Add metadata to each result by classifying them as a `Bug`, `False Positive`, or `Todo`, and adding a custom text comment.
   - [**Filter Results**](#filter-results): Filter results by keyword, path (to include or exclude), level (`error`, `warning`, `note`, or `none`), and status (`Bug`, `False Positive`, or `Todo`). You can also hide all results from a specific SARIF file or from a specific rule.
   - [**Copy GitHub Permalinks**](#copy-github-permalinks): Copy a GitHub permalink to the location associated with a result. Requires having [weAudit](https://github.com/trailofbits/vscode-weaudit) installed.

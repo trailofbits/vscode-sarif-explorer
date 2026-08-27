@@ -1,6 +1,6 @@
 import { ResultAndRow } from "./result";
 import { ResultsTableWidget } from "./resultsTableWidget";
-import { getElementByIdOrThrow } from "../utils";
+import { dedentSnippet, getElementByIdOrThrow } from "../utils";
 import { ResultLocation } from "../../shared/resultTypes";
 
 export class ResultDetailsWidget {
@@ -280,6 +280,39 @@ export class ResultDetailsWidget {
                 result.openPrimaryCodeRegion();
             };
             appendRowToTable("Path:", pathElement);
+        }
+
+        // Snippet
+        {
+            const snippets: { location: ResultLocation; snippet: string }[] = [];
+            for (const location of result.getLocations()) {
+                if (location.snippet !== undefined) {
+                    snippets.push({ location: location, snippet: location.snippet });
+                }
+            }
+
+            if (snippets.length > 0) {
+                const snippetsDiv = document.createElement("div");
+
+                for (const { location, snippet } of snippets) {
+                    // With a single snippet, a label would just repeat the "Path:" row above it
+                    if (snippets.length > 1) {
+                        const labelDiv = document.createElement("div");
+                        labelDiv.classList.add("secondaryText");
+                        labelDiv.classList.add("detailCodeSnippetLabel");
+                        labelDiv.innerText = result.getLocationNormalizedPath(location) + ":" + location.region.startLine.toString();
+                        snippetsDiv.appendChild(labelDiv);
+                    }
+
+                    const snippetElement = document.createElement("pre");
+                    snippetElement.classList.add("detailCodeSnippet");
+                    // A snippet is untrusted tool output, so we set it as text and never as HTML
+                    snippetElement.textContent = dedentSnippet(snippet);
+                    snippetsDiv.appendChild(snippetElement);
+                }
+
+                appendRowToTable("Snippet:", snippetsDiv);
+            }
         }
 
         // Data Flow
