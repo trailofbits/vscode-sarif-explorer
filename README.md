@@ -170,3 +170,7 @@ The extension has two parts: the extension--the privileged part that can read fi
 ### SARIF Explorer file format
 
 The SARIF explorer file format is detailed in [sarif_explorer_spec.md](./docs/sarif_explorer_spec.md).
+
+### Releasing
+
+The release process is detailed in [releasing.md](./docs/releasing.md).
