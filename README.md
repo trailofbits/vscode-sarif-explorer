@@ -79,6 +79,31 @@ In the detailed view of the SARIF file, you can see its full path, the number of
 
 Opening a file with the `.sarif` extension in VSCode will also trigger SARIF Explorer to open it and show its results.
 
+The `sarif-explorer.openSarifFile` command can also be run with the path of a SARIF file, and optionally its [Base Folder](#concepts), as arguments, for example from a task or a keybinding. A relative path is resolved against the workspace folders. Running it again with the same path reloads the file. For example, a task that opens a report it has just generated:
+
+```jsonc
+// .vscode/tasks.json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Open the report",
+            "type": "shell",
+            "command": "echo",
+            "args": ["${input:openReport}"]
+        }
+    ],
+    "inputs": [
+        {
+            "id": "openReport",
+            "type": "command",
+            "command": "sarif-explorer.openSarifFile",
+            "args": "build/report.sarif"
+        }
+    ]
+}
+```
+
 
 ### Browse Results
 
