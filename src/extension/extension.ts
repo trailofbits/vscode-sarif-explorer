@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { SarifExplorerWebview } from "./sarifExplorerWebview";
+import { resolveWorkspacePath } from "./operations/openSarifFile";
 
 // This method is called when your extension is activated
 export function activate(context: vscode.ExtensionContext): void {
@@ -12,9 +13,16 @@ export function activate(context: vscode.ExtensionContext): void {
     );
 
     context.subscriptions.push(
-        vscode.commands.registerCommand("sarif-explorer.openSarifFile", (sarifPath: string, baseFolder: string): void => {
+        vscode.commands.registerCommand("sarif-explorer.openSarifFile", (sarifPath?: string, baseFolder?: string): void => {
             if (sarifPath) {
-                sarifExplorer.addSarifToToOpenList(sarifPath, baseFolder);
+                // Relative paths are relative to the workspace (see resolveWorkspacePath)
+                const workspaceFolders = (vscode.workspace.workspaceFolders ?? [])
+                    .filter((workspaceFolder) => workspaceFolder.uri.scheme === "file")
+                    .map((workspaceFolder) => workspaceFolder.uri.fsPath);
+                sarifExplorer.addSarifToToOpenList(
+                    resolveWorkspacePath(sarifPath, workspaceFolders),
+                    baseFolder ? resolveWorkspacePath(baseFolder, workspaceFolders) : undefined,
+                );
                 void sarifExplorer.show();
             } else {
                 void sarifExplorer.show();
